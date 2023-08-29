@@ -12,11 +12,11 @@
     "seed": "knex seed:run",
     "reset-db": "npm run rollback && npm run migrate && npm run seed",
 
-    "migrateh": "heroku run knex migrate:latest -a node-web-app",
-    "rollbackh": "heroku run knex migrate:rollback -a node-web-app",
-    "seedh": "heroku run knex seed:run -a node-web-app",
+    "migrateh": "heroku run knex migrate:latest -a postgresql-project",
+    "rollbackh": "heroku run knex migrate:rollback -a postgresql-project",
+    "seedh": "heroku run knex seed:run -a postgresql-project",
     "reset-dbh": "npm run rollbackh && npm run migrateh && npm run seedh",
-    "databaseh": "heroku pg:psql -a node-web-app",
+    "databaseh": "heroku pg:psql -a postgresql-project",
     
     
     "deploy": "git add . && git commit -m 'deploy' && git push heroku main && git push"

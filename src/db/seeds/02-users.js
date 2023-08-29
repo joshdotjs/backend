@@ -8,7 +8,7 @@ exports.seed = function (knex) {
   
   const users = [
     {
-      email: 'josh@josh.com',
+      email: 'TESTjosh@josh.com',
       password: hash('josh'),
       is_admin: true,
     },
