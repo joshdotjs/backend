@@ -15,18 +15,6 @@ server.use(cors());
 const usersRouter = require('./users/routes');
 server.use('/api/users', usersRouter);
 
-const productsRouter = require('./products/routes');
-server.use('/api/products', productsRouter);
-
-const checkoutRouter = require('./checkout/routes');
-server.use('/api/checkout', checkoutRouter);
-
-const authRouter = require('./auth/routes');
-server.use('/api/auth', authRouter);
-
-const ordersRouter = require('./orders/routes');
-server.use('/api/orders', ordersRouter);
-
 // ==============================================
 
 // Catch-All Endpoint

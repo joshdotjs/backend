@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../../db/db-config');
+const db = require('../../db/db');
 
-const authMiddleware = require('../auth/middleware');
+// const authMiddleware = require('../auth/middleware');
 const usersModel = require('./model');
 
 // ==============================================
@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
 // ==============================================
 
 router.get('/:id', 
-  authMiddleware.restricted,
+  // authMiddleware.restricted,
   // authMiddleware.admin,
   async (req, res) => {
 
