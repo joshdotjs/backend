@@ -46,6 +46,14 @@ async function insertUser(user) {
 
 // ==============================================
 
+// TODO: Update User
+
+// ==============================================
+
+// TODO: Detete User
+
+// ==============================================
+
 module.exports = {
   getAllUsers,
   getUserByEmail,

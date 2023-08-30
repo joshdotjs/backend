@@ -45,17 +45,13 @@ describe('HTTP', () => {
     // const users = await getAllUsers();
     const res = await request(server).get('/api/users');
     expect(res.status).toBe(201);
-  })
-});
+  });
 
-// ==============================================
-
-describe('[POST] endpoint', () => {
   it('[POST] endpoint', async () => {
     const res = await request(server).post('/api/users').send({
       email: 'steve jobs',
       password: 'apple'
     });
     expect(res.status).toBe(201);
-  })
+  });
 });

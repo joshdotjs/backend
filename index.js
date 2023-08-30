@@ -1,6 +1,3 @@
-require('./src/util/path');
-require('./src/util/console');
-
 const server = require('./src/api/server');
 
 const port = process.env.PORT;
