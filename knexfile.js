@@ -1,8 +1,28 @@
 require('dotenv').config(); // this file runs outside of index.js when we run migrations
-console.log('knexfile.js - process.env.DEV_DATABASE_URL: ', process.env.DEV_DATABASE_URL);
+require('./src/util/console');
+console.magenta('knexfile.js');
+
+// ==============================================
+
+const NODE_ENV = process.env.NODE_ENV ?? 'development';
+console.log('NODE_ENV: ', NODE_ENV);
+
+// ==============================================
+
+let DB_URL; 
+if (NODE_ENV === 'production') {
+  DB_URL = process.env.DATABASE_URL; // heroku
+} else if (NODE_ENV === 'testing') {
+  DB_URL = process.env.TESTING_DATABASE_URL; // .env
+} else {
+  DB_URL = process.env.DEV_DATABASE_URL; // .env
+}
+
+console.log('DB_URL: ', DB_URL);
+
+// ==============================================
 
 /*
-
   .env:
     PORT=9000
     NODE_ENV=development
@@ -23,12 +43,13 @@ console.log('knexfile.js - process.env.DEV_DATABASE_URL: ', process.env.DEV_DATA
     "seedh": "heroku run knex seed:run -a <HEROKU-PROJECT-NAME>",
     "databaseh": "heroku pg:psql -a <HEROKU-PROJECT-NAME>",
 */
-const pg = require('pg')
+
 
 // ==============================================
 
-if (process.env.DATABASE_URL) {
-  pg.defaults.ssl = { rejectUnauthorized: false }
+const pg = require('pg');
+if (NODE_ENV === 'production') {
+  pg.defaults.ssl = { rejectUnauthorized: false };
 }
 
 // ==============================================
@@ -37,22 +58,16 @@ const sharedConfig = {
   client: 'pg',
   migrations: { directory: './src/db/migrations' },
   seeds: { directory: './src/db/seeds' },
-}
+  connection: DB_URL, 
+};
 
 // ==============================================
 
 module.exports = {
-  development: {
-    ...sharedConfig,
-    connection: process.env.DEV_DATABASE_URL, // .env
-  },
-  testing: {
-    ...sharedConfig,
-    connection: process.env.TESTING_DATABASE_URL, // .env
-  },
+  development: sharedConfig,
+  testing: sharedConfig,
   production: {
     ...sharedConfig,
-    connection: process.env.DATABASE_URL, // heroku
     pool: { min: 2, max: 10 },
   },
-}
+};

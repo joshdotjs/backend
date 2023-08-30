@@ -20,7 +20,7 @@ server.use('/api/users', usersRouter);
 // Catch-All Endpoint
 server.use('*', (req, res) => {
   res.status(404).json({
-    message: 'eCommerce-node: Route not found 😃',
+    message: '404 - Route not found 😔',
   });
 });
 
@@ -29,7 +29,7 @@ server.use('*', (req, res) => {
 // error-handling middleware
 server.use((err, req, res, next) => {
   console.log('err (in error-handling middleware [server.js]): ', err);
-  res.status(err.status || 500).json({ message: err.message });
+  res.status(err.status ?? 500).json({ message: err.message });
 });
 
 // ==============================================

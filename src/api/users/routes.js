@@ -15,7 +15,6 @@ router.get('/',
   console.log('[GET] /api/users ');
 
   async function getAllUsers() { return db('users') };
-
   const users = await getAllUsers();
 
   res.status(201).json({ users })
@@ -26,11 +25,12 @@ router.get('/',
 router.post('/', async (req, res) => {
 
   console.log('[POST] /api/users ');
+  console.log('req.body: ', req.body);
 
   async function insertUser(user) {
     // WITH POSTGRES WE CAN PASS A "RETURNING ARRAY" AS 2ND ARGUMENT TO knex.insert/update
     // AND OBTAIN WHATEVER COLUMNS WE NEED FROM THE NEWLY CREATED/UPDATED RECORD
-    const [newUserObject] = await db('users').insert(user, ['user_id', 'username', 'password'])
+    const [newUserObject] = await db('users').insert(user, ['id', 'email', 'password'])
     return newUserObject // { user_id: 7, username: 'foo', password: 'xxxxxxx' }
   }
 
