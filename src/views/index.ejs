@@ -2,46 +2,23 @@
 
   <%- include('includes/nav.ejs') %>
 
-  <main class="container">
-    <h1 id="title" style="margin-top: 100px;">/views/index.ejs</h1>
-    <h2 id="sub-title"><p>sub-title</p></h2>
+  <main class="container" style="padding-top: 100px;">
 
     <!-- ================================================ -->
 
-    <form action="" id="new-user-form" class="mb-4">
-      <input type="text" name="email"     placeholder="email"    required></input>
-      <input type="text" name="password"  placeholder="password" required></input>
-
-      <fieldset style="display: inline-block;">
-        <span>Admin?</span>
-        <label>Yes <input type="radio" name="is-admin" value="yes"         /></label>
-        <label>No  <input type="radio" name="is-admin" value="no"  checked /></label>
-      </fieldset>
-
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-        <label class="form-check-label" for="flexCheckDefault">
-          Admin?
-        </label>
-      </div>
-      
-      <button type="submit" class="btn btn-success">Submit</button>
-    </form>
-
-
-    <form class="card p-4 mb-4">
+    <form class="card p-4 mb-4" id="new-user-form">
       <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        <label for="input-email" class="form-label">Email address</label>
+        <input id="input-email"  class="form-control" type="email" name="email">
+        <div class="form-text">We'll never share your email with anyone else.</div>
       </div>
       <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
+        <label for="input-password" class="form-label">Password</label>
+        <input id="input-password"  class="form-control" type="password" name="password" >
       </div>
       <div class="mb-3 form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Admin?</label>
+        <label for="input-is-admin" class="form-check-label">Admin?</label>
+        <input id="input-is-admin"  class="form-check-input" type="checkbox">
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>

@@ -1,3 +1,10 @@
+function truncateStringFront({ str, len=6 }) {
+  if (str.length > len) {
+    return "..." + str.substring(str.length - len, str.length);
+  } else {
+    return str;
+  }
+}
 // ==============================================
 
 // Submit 'new user' form data to  [POST]  /api/users  endpoint
@@ -11,19 +18,19 @@
   const password = form.querySelector('input[name="password"]');
   if (!password) return;
 
-  // const create_button = form.querySelector('button[type="submit"]');
-  // if (!create_button) return;
+  const is_admin = form.querySelector('#input-is-admin');
+  if (!is_admin) return;
 
   // --------------------------------------------
 
-  const radios = document.getElementsByName('is-admin');
-  const getRadioVal = () => {
-    let radio_val = '';
-    radios.forEach((radio) => {
-      if (radio.checked) radio_val = radio.value;
-    });
-    return radio_val;
-  } // getRadioVal()
+  // const radios = document.getElementsByName('is-admin');
+  // const getRadioVal = () => {
+  //   let radio_val = '';
+  //   radios.forEach((radio) => {
+  //     if (radio.checked) radio_val = radio.value;
+  //   });
+  //   return radio_val;
+  // } // getRadioVal()
 
   // --------------------------------------------
 
@@ -120,7 +127,7 @@
         const tds_to_update = document.querySelectorAll(query);
         tds_to_update[1].textContent = data.email;
         tds_to_update[2].textContent = data.is_admin;
-        tds_to_update[3].textContent = data.password; 
+        tds_to_update[3].textContent = data.password;
       });
     }); // delete_button.addEventListener('click', async (e) => { ... })
 
@@ -142,7 +149,7 @@
       const user = {
         email: email.value,
         password: password.value,
-        is_admin: getRadioVal(),
+        is_admin: is_admin.checked,
       };
   
       const resp = await fetch('/api/users', {
@@ -160,7 +167,8 @@
   
       const createTD = (name) => {
         const td = document.createElement('td');
-        td.innerText = data[name];
+        if (name === 'password') td.innerText = truncateStringFront({ str: data[name] });
+        else td.innerText = data[name];
         table_row.appendChild(td);
       };
   
