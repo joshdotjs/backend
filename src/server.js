@@ -56,11 +56,6 @@ server.use('/api/users', usersRouter);
 
 // ==============================================
 
-const sigsRouter = require('./api/sigs/routes');
-server.use('/api/sigs', sigsRouter);
-
-// ==============================================
-
 // Serve HTML pages 
 const pagesRouter = require('./pages/routes');
 server.use('/', pagesRouter);

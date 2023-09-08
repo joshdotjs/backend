@@ -12,16 +12,6 @@ exports.up = async (knex) => {
 
   // --------------------------------------------
 
-  await knex.schema.createTable('sigs', (tbl) => {
-    tbl.increments('id');
-    tbl.string('email', 200);
-    tbl.string('first_name', 200);
-    tbl.string('last_name', 200);
-    tbl.timestamps(false, true);
-  });
-
-  // --------------------------------------------
-
 };
 
 // ==============================================
