@@ -12,9 +12,22 @@ console.log('NODE_ENV: ', NODE_ENV);
 let DB_URL; 
 if (NODE_ENV === 'production') {
   DB_URL = process.env.DATABASE_URL; // heroku
-} else if (NODE_ENV === 'testing') {
-  DB_URL = process.env.TESTING_DATABASE_URL; // .env
-} else {
+} 
+
+// TODO: Enable Testing DB HERE
+// TODO: Enable Testing DB HERE
+// TODO: Enable Testing DB HERE
+// TODO: Enable Testing DB HERE
+// TODO: Enable Testing DB HERE
+// TODO: Enable Testing DB HERE
+// TODO: Enable Testing DB HERE
+// TODO: Enable Testing DB HERE
+// TODO: Enable Testing DB HERE
+
+// else if (NODE_ENV === 'testing') {
+//   DB_URL = process.env.TESTING_DATABASE_URL; // .env
+// } 
+else {
   DB_URL = process.env.DEV_DATABASE_URL; // .env
 }
 

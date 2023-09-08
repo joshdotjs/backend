@@ -12,3 +12,13 @@ npm run dev
 
 NOTE: 
   -Must use at least Node version 18 because fetch is used in backend code.
+
+=================================================
+
+npx knex migrate:make init_migrations
+
+=================================================
+
+How to display demo & code on portfolio with project evolution:
+  - Code: Different branch
+  - Demo: Only have demo for current version

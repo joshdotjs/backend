@@ -1,27 +1,20 @@
-const { hash } = require('../../util/hash');
-
 // ==============================================
 
 exports.seed = function (knex) {
   
   // --------------------------------------------
   
-  const users = [
+  const sigs = [
     {
       email: 'TESTjosh@josh.com',
-      password: hash('josh'),
-      is_admin: true,
-    },
-    {
-      email: 'steve@steve.com',
-      password: hash('steve'),
-      is_admin: false,
+      first_name: 'josh',
+      last_name: 'holloway',
     }
   ];
 
   // --------------------------------------------
 
-  return knex('users').insert(users);
+  return knex('sigs').insert(sigs);
 
   // --------------------------------------------
 };

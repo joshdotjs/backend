@@ -1,62 +1,77 @@
-const db = require('../../db/db');
+// const db = require('../../db/db');
+const db = required('db/db');
+const { truncateStringFront } = required('util/string');
 
 // ==============================================
 
-function getAllUsers() {
-  return db('users');
+async function getAll() {
+
+  const users = await db('users');
+
+  const mapped = users.map((user) => ({
+    ...user,
+    password: truncateStringFront({ str: user.password }),
+  }));
+
+  return mapped;
 }
 
 // ==============================================
 
-function getUserByEmail(email) {
-  // -returns an array with 0th element containing user object:
-  // [
-  //   {
-  //     user_id: 1,
-  //     is_admin: ???,
-  //     email: 'josh@josh.com',
-  //     password: '$2a$08$ooXR4yG7Fp5oYcKgzw2jU.MkYwpQTI5jrDrcrqB6vpBKaX5aZKP0S',
-  //     created_at: 2022-01-29T22:46:29.671Z,
-  //     updated_at: 2022-01-29T22:46:29.671Z
-  //   }
-  // ]
+function getByEmail(email) {
   return db('users').where('email', email);
 }
 
 // ==============================================
 
-function getUserById(id) {
+function getById(id) {
   return db('users').where('id', id);
 }
 
 // ==============================================
 
-async function insertUser(user) {
-  // WITH POSTGRES WE CAN PASS A "RETURNING ARRAY" AS 2ND ARGUMENT TO knex.insert/update
-  // AND OBTAIN WHATEVER COLUMNS WE NEED FROM THE NEWLY CREATED/UPDATED RECORD
-  // UNLIKE SQLITE WHICH FORCES US DO DO A 2ND DB CALL
+async function insert(user) {
   const [newUserObject] = await db('users').insert(user, [
     'id',
     'email',
     'password',
     'is_admin',
   ]);
-  return newUserObject; // { id: 7, email: 'foo', password: 'xxxxxxx', admin: false }
+  return newUserObject;
 }
 
 // ==============================================
 
-// TODO: Update User
+async function remove(id) {
+  console.log('remove()');
+  const to_be_deleted = await getById(+id);
+  console.log('users Model --> to_be_deleted: ', to_be_deleted);
+  await db('users').where('id', +id).del();
+  return to_be_deleted;
+}
 
 // ==============================================
 
-// TODO: Detete User
+async function update(user) {
+
+  console.log('model :: update() -- user: ', user);
+
+  const num_rows_updated = await db('users')
+    .where('id', +user.id)
+    .update(user);
+
+  const [updated_user] = await getById(+user.id);
+
+  return updated_user;
+}
 
 // ==============================================
 
 module.exports = {
-  getAllUsers,
-  getUserByEmail,
-  getUserById,
-  insertUser,
+  getAll,
+  getByEmail,
+  getById,
+  insert,
+  remove,
+  update,
 };

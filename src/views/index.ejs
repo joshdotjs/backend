@@ -1,0 +1,118 @@
+<%- include('includes/head.ejs') %>
+
+  <%- include('includes/nav.ejs') %>
+
+  <main class="container">
+    <h1 id="title" style="margin-top: 100px;">/views/index.ejs</h1>
+    <h2 id="sub-title"><p>sub-title</p></h2>
+
+    <!-- ================================================ -->
+
+    <form action="" id="new-user-form" class="mb-4">
+      <input type="text" name="email"     placeholder="email"    required></input>
+      <input type="text" name="password"  placeholder="password" required></input>
+
+      <fieldset style="display: inline-block;">
+        <span>Admin?</span>
+        <label>Yes <input type="radio" name="is-admin" value="yes"         /></label>
+        <label>No  <input type="radio" name="is-admin" value="no"  checked /></label>
+      </fieldset>
+
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+          Admin?
+        </label>
+      </div>
+      
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+
+
+    <form class="card p-4 mb-4">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input type="password" class="form-control" id="exampleInputPassword1">
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Admin?</label>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <!-- ================================================ -->
+
+    <div class="card p-4">
+
+      <table id="users-table" class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">email</th>
+            <th scope="col">admin</th>
+            <th scope="col">password (hashed)</th>
+            <th scope="col">actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach((user) => { %>
+          <tr data-id="<%= user.id %>">
+            <td><%= user.id %></td>
+            <td><%= user.email %></td>
+            <td><%= user.is_admin %></td>
+            <td><%= user.password %></td>
+            <td>
+              <button class="update-user-button  btn btn-warning" data-id="<%= user.id %>"  data-bs-toggle="modal"  data-bs-target="#update-modal">Edit</button>
+              <button class="delete-user-button  btn btn-danger"  data-id="<%= user.id %>">Delete</button>
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="update-modal" tabindex="-1" aria-labelledby="update-modal-title" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="update-modal-title">Update User ID: <span></span></h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <div class="mb-3">
+            <label for="update-email" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="update-email" aria-describedby="emailHelp">
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+          </div>
+          <!-- <div class="mb-3">
+            <label for="update-password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="update-password">
+          </div> -->
+          <div class="mb-3 form-check">
+            <label class="form-check-label" for="update-admin-check">Admin</label>
+            <input type="checkbox" class="form-check-input" id="update-admin-check">
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary"   data-bs-dismiss="modal"  id="update-save-button">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script type="module" src="/js/home-page.js"></script>
+<%- include('includes/end.ejs') %>
