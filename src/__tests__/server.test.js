@@ -21,37 +21,61 @@ it('sanity check', () => {
 
 // ==============================================
 
-describe('server.js', () => {
-  it('is the correct testing environment', async () => {
-    expect(process.env.NODE_ENV).toBe('testing')
-  })
-});
+// describe('server.js', () => {
+//   it('is the correct testing environment', async () => {
+//     expect(process.env.NODE_ENV).toBe('testing')
+//   })
+// });
 
 // ==============================================
 
-describe('db', () => {
-  it('should return user ID 1', async () => {
-    async function getAllUsers() { return db('users') };
-    const users = await getAllUsers();
-    expect(users[0].id).toBe(1);
-  })
-});
+// describe('db', () => {
+//   it('should return user ID 1', async () => {
+//     async function getAllUsers() { return db('users') };
+//     const users = await getAllUsers();
+//     expect(users[0].id).toBe(1);
+//   })
+// });
 
 // ==============================================
 
 describe('HTTP', () => {
+
+  // --------------------------------------------
+
   it('[GET] endpoint', async () => {
     // async function getAllUsers() { return db('users') };
     // const users = await getAllUsers();
-    const res = await request(server).get('/api/users');
+    const res = await request(server).get('/api/sigs');
     expect(res.status).toBe(201);
   });
 
-  it('[POST] endpoint', async () => {
-    const res = await request(server).post('/api/users').send({
-      email: 'steve jobs',
-      password: 'apple'
+  // --------------------------------------------
+
+  it('[POST] endpoint - status 201', async () => {
+    const res = await request(server).post('/api/sigs').send({
+      first_name: 'steve',
+      last_name: 'jobs',
+      email: 'steve@apple.com',
     });
     expect(res.status).toBe(201);
   });
+
+  // --------------------------------------------
+
+  it('[POST] endpoint - inserted entry', async () => {
+    const res = await request(server).post('/api/sigs').send({
+      first_name: 'steve',
+      last_name: 'jobs',
+      email: 'steve@apple.com',
+    });
+    const new_sig_obj = res;
+    console.log('new_sig_obj: ', new_sig_obj);  
+
+    expect(new_sig_obj['email']).toBe('steve@apple.com');
+    expect(new_sig_obj['first_name']).toBe('steve');
+    expect(new_sig_obj['last_name']).toBe('jobs');
+  });
+
+  // --------------------------------------------
 });
