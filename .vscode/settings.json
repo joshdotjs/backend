@@ -1,0 +1,6 @@
+{
+  "files.exclude": {
+    "**/*.ts": true,
+    "tsconfig.json": true
+  }
+}
