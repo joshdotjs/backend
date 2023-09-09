@@ -169,6 +169,7 @@ function truncateStringFront({ str, len=6 }) {
         const td = document.createElement('td');
         if (name === 'password') td.innerText = truncateStringFront({ str: data[name] });
         else td.innerText = data[name];
+        if (name === 'id' || name === 'password') td.classList.add('j-hide-up-to-md');
         table_row.appendChild(td);
       };
   
