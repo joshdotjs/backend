@@ -189,6 +189,7 @@ function truncateStringFront({ str, len=6 }) {
             btn.className = 'btn  btn-warning  edit-user-button';
             btn.dataset.bsToggle = "modal";
             btn.dataset.bsTarget = "#update-modal"
+            btn.style.marginRight = '4px';
             updateUserListener(btn);
           }
           if (text === 'Delete') {          
@@ -198,7 +199,6 @@ function truncateStringFront({ str, len=6 }) {
   
           td4.appendChild(btn);
         };
-        createButton('Edit');
         createButton('Edit');
         createButton('Delete');
         table_row.appendChild(td4);
