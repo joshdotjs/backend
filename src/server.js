@@ -39,7 +39,8 @@ server.use(express.static( filePath('../public') ));
 const compression = require('compression');
 server.use(compression()); // image files are not compressed
 
-// const morgan = require('morgan');
+const morgan = require('morgan');
+// server.use(morgan());
 // const fs = require('fs');
 // const access_log_stream = fs.createWriteStream(filePath('../access.log', { flags: 'a' })); // append to file
 // server.use(morgan('combined', { stream: access_log_stream }));

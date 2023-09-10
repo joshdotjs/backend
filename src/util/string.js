@@ -9,7 +9,6 @@ function truncateString({ str, len = 6 }) {
 }
 // ==============================================
 function truncateStringFront({ str, len = 6 }) {
-    console.log('str: ', str);
     if (str.length > len) {
         return "..." + str.substring(str.length - len, str.length);
     }
