@@ -22,3 +22,21 @@ npx knex migrate:make init_migrations
 How to display demo & code on portfolio with project evolution:
   - Code: Different branch
   - Demo: Only have demo for current version
+
+=================================================
+
+Error Handling:
+
+Edge cases to handle via Error Handling:
+  - Edit:
+    -- user with id not found
+      --- 
+
+==============================================
+
+Validation:
+
+  - Frontend
+    -- library: ???
+  - Backend
+    -- library: ??? [node.js]

@@ -5,6 +5,17 @@ class HttpError extends Error {
   }
 }
 
+// ==============================================
+
+class ValidationError extends Error {
+  constructor(message, status) {
+    super(message);
+  }
+}
+
+// ==============================================
+
 module.exports = {
-  HttpError
+  HttpError,
+  ValidationError
 };
