@@ -30,7 +30,7 @@ function getById(id) {
 
 // ==============================================
 
-async function insert(user) {
+async function create(user) {
   const [newUserObject] = await db('users').insert(user, [
     'id',
     'email',
@@ -44,10 +44,12 @@ async function insert(user) {
 
 async function remove(id) {
   console.log('remove()');
-  const to_be_deleted = await getById(+id);
-  console.log('users Model --> to_be_deleted.length: ', to_be_deleted.length);
-  await db('users').where('id', +id).del();
-  return to_be_deleted;
+  const num_rows_deleted = await db('users').where('id', +id).del();
+  return num_rows_deleted;
+
+  // TODO: adjust the logic in the backend UI code to handle
+  //       not returning deleted_user
+
 }
 
 // ==============================================
@@ -60,6 +62,11 @@ async function update(user) {
     .where('id', +user.id)
     .update(user);
 
+  // TODO: return num_rows_updated
+  // TODO: apply error handling based on if .length === 0
+  // TODO: adjust the logic in the backend UI code to handle
+  //       not returning updated_user
+
   const [updated_user] = await getById(+user.id);
 
   return updated_user;
@@ -71,7 +78,7 @@ module.exports = {
   getAll,
   getByEmail,
   getById,
-  insert,
+  create,
   remove,
   update,
 };

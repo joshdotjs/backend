@@ -9,19 +9,19 @@ const Controller = require('./controller');
 router.get('/', 
   // authMiddleware.restricted,
   // authMiddleware.admin,
-  Controller.getUsers
+  Controller.get
 );
 
 // ==============================================
 
-router.post('/', Controller.insertUser);
+router.post('/', Controller.create);
 
 // ==============================================
 
 router.get('/:id', 
   // authMiddleware.restricted,
   // authMiddleware.admin,
-  Controller.getUserByID
+  Controller.getByID
 );
 
 // ==============================================

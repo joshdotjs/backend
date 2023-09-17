@@ -9,7 +9,7 @@ const { HttpError } = required('util/error');
 
 // ==============================================
 
-exports.getUsers = async (req, res) => {
+exports.get = async (req, res) => {
 
   console.log('[GET] /api/users ');
 
@@ -21,7 +21,7 @@ exports.getUsers = async (req, res) => {
 };
 // ==============================================
 
-exports.insertUser = async (req, res, next) => {
+exports.create = async (req, res, next) => {
   console.log('[POST] /api/users ');
   console.log('req.body: ', req.body);
 
@@ -35,20 +35,20 @@ exports.insertUser = async (req, res, next) => {
     // error.status = 422;
     // next(error);
     next(new HttpError(error_message, 422));
-    return;
+    return; // is this needed???????
   }
 
-  const inserted = await Model.insert({
+  const created_user = await Model.create({
     email,
     is_admin,
     password: hash(password),
   });
-  res.status(201).json( inserted );
+  res.status(201).json( created_user );
 };
 
 // ==============================================
 
-exports.getUserByID = async (req, res) => {
+exports.getByID = async (req, res) => {
 
   const id = req.params.id;
 
@@ -91,13 +91,12 @@ exports.deleteByID = async (req, res, next) => {
   const str = `[DELETE] /api/users/:id -- user_id: ${id}`;
   console.red(str);
 
-  const deleted = await Model.remove(id);
-  if (deleted.length === 0) {
+  const num_rows_deleted = await Model.remove(id);
+  if (num_rows_deleted === 0) {
     next(new HttpError('user does not exist in database', 404));
-  } else {
-    console.log('deleted: ', deleted);
-    res.status(200).json( deleted );
-  }
+    return; // is this needed???????
+  } 
+  res.status(200).json( num_rows_deleted );
 };
 
 // ==============================================

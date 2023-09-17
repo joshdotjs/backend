@@ -27,16 +27,28 @@ How to display demo & code on portfolio with project evolution:
 
 Error Handling:
 
+POST: Write out all cases
+  - With description of what happens in each case.
+
 Edge cases to handle via Error Handling:
-  - Edit:
-    -- user with id not found
-      --- 
+  - Edit / Delete:
+    -- [DONE] user with id not found
+      --- num_rows_updated OR num_rows_deleted === 0 => ID not found
+  - Create:
+    -- [TODO] if user already exists in DB then do not create
+      --- Need to first look up the user by email, then, if user is already in DB then throw error
 
 ==============================================
 
-Validation:
+Validation
+
+POST: Write out all cases
+  - With description of what happens in each case.
 
   - Frontend
     -- library: ???
   - Backend
     -- library: ??? [node.js]
+      --- Create:
+        --- [DONE] fields cannot be empty
+        --- password cannot be less than 4-characters
