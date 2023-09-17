@@ -46,10 +46,6 @@ async function remove(id) {
   console.log('remove()');
   const num_rows_deleted = await db('users').where('id', +id).del();
   return num_rows_deleted;
-
-  // TODO: adjust the logic in the backend UI code to handle
-  //       not returning deleted_user
-
 }
 
 // ==============================================

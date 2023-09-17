@@ -80,12 +80,6 @@ exports.getByID = async (req, res) => {
 // ==============================================
 
 exports.deleteByID = async (req, res, next) => {
-
-  // TO HANDLE:
-  //  - user_id does not exist in database
-  //  - user_id is not a number
-  //  - user_id is not an integer
-  //  - user_id is not positive
   
   const id = req.params.id;
   const str = `[DELETE] /api/users/:id -- user_id: ${id}`;
