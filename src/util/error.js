@@ -8,7 +8,7 @@ class HttpError extends Error {
 // ==============================================
 
 class ValidationError extends Error {
-  constructor(message, status) {
+  constructor(message) {
     super(message);
   }
 }

@@ -79,7 +79,7 @@ exports.getUserByID = async (req, res) => {
 
 // ==============================================
 
-exports.deleteByID = async (req, res) => {
+exports.deleteByID = async (req, res, next) => {
 
   // TO HANDLE:
   //  - user_id does not exist in database
@@ -92,8 +92,12 @@ exports.deleteByID = async (req, res) => {
   console.red(str);
 
   const deleted = await Model.remove(id);
-  console.log('deleted: ', deleted);
-  res.status(200).json( deleted );
+  if (deleted.length === 0) {
+    next(new HttpError('user does not exist in database', 404));
+  } else {
+    console.log('deleted: ', deleted);
+    res.status(200).json( deleted );
+  }
 };
 
 // ==============================================
