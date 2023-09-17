@@ -28,6 +28,10 @@ const required = (str) => {
 
 // ==============================================
 
+global.required = required;
+
+// ==============================================
+
 module.exports = {
   filePath,
   required,

@@ -45,7 +45,7 @@ async function insert(user) {
 async function remove(id) {
   console.log('remove()');
   const to_be_deleted = await getById(+id);
-  console.log('users Model --> to_be_deleted: ', to_be_deleted);
+  console.log('users Model --> to_be_deleted.length: ', to_be_deleted.length);
   await db('users').where('id', +id).del();
   return to_be_deleted;
 }

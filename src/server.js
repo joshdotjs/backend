@@ -5,6 +5,7 @@ const cors = require('cors');
 const body_parser = require('body-parser');
 const path = require('path');
 const { filePath } = required('util/path');
+const { HttpError, ValidationError } = required('util/error');
 
 // ==============================================
 
@@ -86,7 +87,18 @@ server.use('*', (req, res) => {
 // error-handling middleware
 server.use((err, req, res, next) => {
   console.magenta('err (in error-handling middleware)  [server.js]');
-  console.magenta(err);
+  console.cyan(err);
+
+  if (err instanceof ValidationError) {
+    console.yellow('Error Type: Validation');
+  } else if (err instanceof HttpError) {
+    console.yellow('Error Type: HTTP');
+  } else if (err instanceof TypeError) {
+    console.yellow('Error Type: Type');
+  } else { // e instanceof Error or any other derived class not listed
+    console.yellow('Error Type: General');
+  }
+
   const status = err.status ?? 500;
   res.status(status).json({ 
     status,
