@@ -1,5 +1,11 @@
 const Model = require('./model');
 const { hash } = required('util/hash');
+const { HttpError } = required('util/error');
+
+// 422: Unprocessable Entity
+//  -The request structure is correct but the data 
+//   itself is invalid due to missing required fields 
+//   like email or password.
 
 // ==============================================
 
@@ -15,13 +21,28 @@ exports.getUsers = async (req, res) => {
 };
 // ==============================================
 
-exports.insertUser = async (req, res) => {
+exports.insertUser = async (req, res, next) => {
   console.log('[POST] /api/users ');
   console.log('req.body: ', req.body);
 
-  const user = req.body;
-  user.password = hash(user.password);
-  const inserted = await Model.insert( user );
+  const { email, password, is_admin } = req.body;
+
+  if ( !email || !password || is_admin === undefined ) {
+    const error_message = 'username, password, and is_admin are required';
+    console.magenta(error_message);
+    console.blue('throwing error...');
+    // const error = new Error(error_message);
+    // error.status = 422;
+    // next(error);
+    next(new HttpError(error_message, 422));
+    return;
+  }
+
+  const inserted = await Model.insert({
+    email,
+    is_admin,
+    password: hash(password),
+  });
   res.status(201).json( inserted );
 };
 
@@ -60,6 +81,12 @@ exports.getUserByID = async (req, res) => {
 
 exports.deleteByID = async (req, res) => {
 
+  // TO HANDLE:
+  //  - user_id does not exist in database
+  //  - user_id is not a number
+  //  - user_id is not an integer
+  //  - user_id is not positive
+  
   const id = req.params.id;
   const str = `[DELETE] /api/users/:id -- user_id: ${id}`;
   console.red(str);
@@ -83,3 +110,5 @@ exports.update = async (req, res) => {
 
   res.status(200).json( updated_user );
 };
+
+// ==============================================

@@ -104,7 +104,7 @@ function truncateStringFront({ str, len=6 }) {
         const user = {
           id: +id,
           email: modal_email.value,
-          password: tds[3].textContent, // currently just set password to previous password - don't hash on backend
+          password: tds[3].textContent, // currently just set password to previous password - don't hash on backend yet
           is_admin: modal_checkbox.checked,
         };
 
