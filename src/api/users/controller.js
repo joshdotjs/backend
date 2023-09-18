@@ -34,8 +34,7 @@ exports.create = async (req, res, next) => {
     // const error = new Error(error_message);
     // error.status = 422;
     // next(error);
-    next(new HttpError(error_message, 422));
-    return; // is this needed???????
+    return next(new HttpError(error_message, 422));
   }
 
   const created_user = await Model.create({
@@ -87,8 +86,7 @@ exports.deleteByID = async (req, res, next) => {
 
   const num_rows_deleted = await Model.remove(id);
   if (num_rows_deleted === 0) {
-    next(new HttpError('user does not exist in database', 404));
-    return; // is this needed???????
+    return next(new HttpError('user does not exist in database', 404));
   } 
   res.status(200).json( num_rows_deleted );
 };
@@ -102,9 +100,10 @@ exports.update = async (req, res) => {
   const user = req.body;
   console.log('user: ', user);
 
-  const updated_user = await Model.update(user);
-  console.log('controller :: updated_user: ', updated_user);
-
+  const num_rows_updated = await Model.update(user);
+  if (num_rows_updated === 0) {
+    return next(new HttpError('user does not exist in database', 404));
+  } 
   res.status(200).json( updated_user );
 };
 

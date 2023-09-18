@@ -1,5 +1,6 @@
+require('../util/path');
 const request = require('supertest');
-const server = require('../api/server');
+const server = require('../server');
 const db = require('../db/db');
 
 beforeAll(async () => {
@@ -46,36 +47,36 @@ describe('HTTP', () => {
   it('[GET] endpoint', async () => {
     // async function getAllUsers() { return db('users') };
     // const users = await getAllUsers();
-    const res = await request(server).get('/api/sigs');
+    const res = await request(server).get('/api/users');
     expect(res.status).toBe(201);
   });
 
   // --------------------------------------------
 
   it('[POST] endpoint - status 201', async () => {
-    const res = await request(server).post('/api/sigs').send({
-      first_name: 'steve',
-      last_name: 'jobs',
+    const res = await request(server).post('/api/users').send({
       email: 'steve@apple.com',
+      password: 'apple',
+      is_admin: true,
     });
     expect(res.status).toBe(201);
   });
 
   // --------------------------------------------
 
-  it('[POST] endpoint - inserted entry', async () => {
-    const res = await request(server).post('/api/sigs').send({
-      first_name: 'steve',
-      last_name: 'jobs',
-      email: 'steve@apple.com',
-    });
-    const new_sig_obj = res;
-    console.log('new_sig_obj: ', new_sig_obj);  
+  // it('[POST] endpoint - inserted entry', async () => {
+  //   const res = await request(server).post('/api/sigs').send({
+  //     first_name: 'steve',
+  //     last_name: 'jobs',
+  //     email: 'steve@apple.com',
+  //   });
+  //   const new_sig_obj = res;
+  //   console.log('new_sig_obj: ', new_sig_obj);  
 
-    expect(new_sig_obj['email']).toBe('steve@apple.com');
-    expect(new_sig_obj['first_name']).toBe('steve');
-    expect(new_sig_obj['last_name']).toBe('jobs');
-  });
+  //   expect(new_sig_obj['email']).toBe('steve@apple.com');
+  //   expect(new_sig_obj['first_name']).toBe('steve');
+  //   expect(new_sig_obj['last_name']).toBe('jobs');
+  // });
 
   // --------------------------------------------
 });

@@ -63,9 +63,9 @@ async function update(user) {
   // TODO: adjust the logic in the backend UI code to handle
   //       not returning updated_user
 
-  const [updated_user] = await getById(+user.id);
+  // const [updated_user] = await getById(+user.id);
 
-  return updated_user;
+  return num_rows_updated;
 }
 
 // ==============================================

@@ -40,7 +40,7 @@ server.use(express.static( filePath('../public') ));
 const compression = require('compression');
 server.use(compression()); // image files are not compressed
 
-const morgan = require('morgan');
+// const morgan = require('morgan');
 // server.use(morgan());
 // const fs = require('fs');
 // const access_log_stream = fs.createWriteStream(filePath('../access.log', { flags: 'a' })); // append to file
@@ -65,21 +65,10 @@ server.use('/', pagesRouter);
 // ==============================================
 
 // Catch-All Endpoint
-server.use('*', (req, res) => {
-  res.status(404).json({
-    message: '404 - Route not found 😔',
-  });
-
-  // const file_path = path.join(__dirname, '..', 'views', '404.html');
-  // console.log(file_path);
-  // res.status(404).sendFile(file_path);
-
-  //res.status(404).render('404', { page_title: 'Page Not Found FROM JS' });
-  // NOTE: 
-  // -You probably don't want to send back a rendered page for a 404 error.
-  // -The HTML pages are for the admin.
-  // -The API is for the user.
-  // -Therefore, more likely that the user will get a 404 error via a wrong REST endpoint.
+server.use('*', (req, res, next) => {
+  next(new HttpError(
+    'Route not found 😔', 404
+  ));
 });
 
 // ==============================================
@@ -91,18 +80,23 @@ server.use((err, req, res, next) => {
 
   if (err instanceof ValidationError) {
     console.yellow('Error Type: Validation');
+    // TODO: form an error message stating validation error
   } else if (err instanceof HttpError) {
     console.yellow('Error Type: HTTP');
+    // TODO: form an error message stating HTTP error
   } else if (err instanceof TypeError) {
     console.yellow('Error Type: Type');
+    // TODO: form an error message stating Type error
   } else { // e instanceof Error or any other derived class not listed
     console.yellow('Error Type: General');
+    // TODO: form an error message stating General error
   }
 
-  const status = err.status ?? 500;
+  const status = err?.status ?? 500;
+  const message = err?.message ?? 'Server Error';
   res.status(status).json({ 
     status,
-    message: err.message, 
+    message, 
   });
 });
 

@@ -52,3 +52,7 @@ POST: Write out all cases
       --- Create:
         --- [DONE] fields cannot be empty
         --- password cannot be less than 4-characters
+
+
+TODO: Mon
+  1. get by ID errors
