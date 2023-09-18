@@ -50,12 +50,12 @@ async function remove(id) {
 
 // ==============================================
 
-async function update(user) {
+async function update(user, id) {
 
   console.log('model :: update() -- user: ', user);
 
   const num_rows_updated = await db('users')
-    .where('id', +user.id)
+    .where('id', +id)
     .update(user);
 
   // TODO: return num_rows_updated

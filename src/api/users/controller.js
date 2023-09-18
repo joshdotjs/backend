@@ -93,18 +93,20 @@ exports.deleteByID = async (req, res, next) => {
 
 // ==============================================
 
-exports.update = async (req, res) => {
+exports.update = async (req, res, next) => {
 
-  console.log('[PUT]  /api/products/:id');
+  const id = req.params.id;
+  const str = `[PUT]  /api/users/:${id}`;
+  console.log(str);
 
   const user = req.body;
   console.log('user: ', user);
 
-  const num_rows_updated = await Model.update(user);
+  const num_rows_updated = await Model.update(user, id);
   if (num_rows_updated === 0) {
     return next(new HttpError('user does not exist in database', 404));
   } 
-  res.status(200).json( updated_user );
+  res.status(200).json( num_rows_updated );
 };
 
 // ==============================================
