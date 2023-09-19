@@ -58,22 +58,22 @@ exports.getByID = async (req, res) => {
   //  => compare user_id to the user-id encoded in the JWT.
   // console.log('res.locals.decoded_token: ', res.locals.decoded_token);
 
-  if ( id == res.locals.decoded_token.id ) {
-    try {
-      const user = await Model.getById(id);
-      if (user.length > 0) {
-        res.status(200).json({ user: user[0] });
-      } else {
-        // next(new HttpError('user does not exist in database', 400));
-        res.status(401).json({ message: 'ERROR 400: user does not exist in database'});
-      }
-    } catch (err) {
-      // next(new HttpError('error looking up user by user_id', 400));
-      res.status(400).json({ message: 'ERROR 400: Bad request'});
+  // if ( id == res.locals.decoded_token.id ) {
+  try {
+    const user = await Model.getById(id);
+    if (user.length > 0) {
+      res.status(200).json({ user: user[0] });
+    } else {
+      // res.status(401).json({ message: 'ERROR 400: user does not exist in database'});
+      return next(new HttpError('user does not exist in database', 400));
     }
-  } else {
-    res.status(401).json({ message: 'ERROR 401: Unauthorized. Users can only access their own account. You are trying to access a user account different than your own.'});
+  } catch (err) {
+    // res.status(400).json({ message: 'ERROR 400: Bad request'});
+    return next(new HttpError('error looking up user by user_id', 400));
   }
+  // } else {
+  //   res.status(401).json({ message: 'ERROR 401: Unauthorized. Users can only access their own account. You are trying to access a user account different than your own.'});
+  // }
 };
 
 // ==============================================
