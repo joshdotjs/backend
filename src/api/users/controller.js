@@ -1,6 +1,7 @@
 const Model = require('./model');
 const { hash } = required('util/hash');
 const { asynch } = required('util/async');
+const { truncateStringFront } = required('util/string');
 const { HttpError, DatabaseError } = required('util/error');
 
 // 422: Unprocessable Entity
@@ -11,12 +12,15 @@ const { HttpError, DatabaseError } = required('util/error');
 // ==============================================
 
 exports.get = async (req, res) => {
+  // console.log('[GET] /api/users ');
+  const promise = Model.getAll();
+  const [data, error] = await asynch(promise);
+  if (error) return next(new DatabaseError(error, '/src/api/users/controller.js -- Model.getAll()'));
 
-  console.log('[GET] /api/users ');
-
-  // async function getAllUsers() { return db('users') };
-  // const users = await getAllUsers();
-  const users = await Model.getAll();
+  const users = data.map((user) => ({
+    ...user,
+    password: truncateStringFront({ str: user.password }),
+  }));
 
   res.status(200).json( users )
 };

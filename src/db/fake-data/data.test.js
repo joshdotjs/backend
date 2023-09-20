@@ -93,8 +93,6 @@ describe('generate fake data', () => {
 
   test('order totals', () => {
     orders.forEach((order, idx) => calculateTotal({ order, products, order_2_product, order_id: idx2id(idx) }));
-    console.log('orders: ', orders);
-
     expect(orders[0].total).toBe(300);
     expect(orders[1].total).toBe(600);
   });

@@ -1,7 +1,7 @@
 require('../util/path');
 const request = require('supertest');
 const server = require('../server');
-const db = require('../db/db');
+const db = required('db/db');
 
 beforeAll(async () => {
   await db.migrate.rollback();
@@ -22,34 +22,54 @@ it('sanity check', () => {
 
 // ==============================================
 
-// describe('server.js', () => {
-//   it('is the correct testing environment', async () => {
-//     expect(process.env.NODE_ENV).toBe('testing')
-//   })
-// });
+describe('server.js', () => {
+  it('is the correct testing environment', async () => {
+    expect(process.env.NODE_ENV).toBe('testing')
+  })
+});
 
 // ==============================================
-
-// describe('db', () => {
-//   it('should return user ID 1', async () => {
-//     async function getAllUsers() { return db('users') };
-//     const users = await getAllUsers();
-//     expect(users[0].id).toBe(1);
-//   })
-// });
-
+// ==============================================
+// ==============================================
 // ==============================================
 
-describe('HTTP', () => {
+describe('HTTP - /api/users', () => {
+
+  // ============================================
+
+  it('[GET] /api/users -- should have status 200', async () => {
+    const res = await request(server).get('/api/orders');
+    expect(res.status).toBe(200);
+  });
+
+  // ============================================
+
+  it('[GET] /api/users --  should return user ID 1', async () => {
+    async function getAllUsers() { return db('users') };
+    const users = await getAllUsers();
+    expect(users[0].id).toBe(1);
+  })
+
+  // ============================================
+
+
+});
+
+
+// ==============================================
+// ==============================================
+// ==============================================
+// ==============================================
+
+
+describe('HTTP - /api/orders', () => {
 
   // --------------------------------------------
 
-  // it('[GET] endpoint', async () => {
-  //   // async function getAllUsers() { return db('users') };
-  //   // const users = await getAllUsers();
-  //   const res = await request(server).get('/api/users');
-  //   expect(res.status).toBe(201);
-  // });
+  it('[GET] endpoint', async () => {
+    const res = await request(server).get('/api/orders');
+    expect(res.status).toBe(200);
+  });
 
   // --------------------------------------------
 

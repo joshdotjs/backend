@@ -1,19 +1,10 @@
 // const db = require('../../db/db');
 const db = required('db/db');
-const { truncateStringFront } = required('util/string');
 
 // ==============================================
 
 async function getAll() {
-
-  const users = await db('users');
-
-  const mapped = users.map((user) => ({
-    ...user,
-    password: truncateStringFront({ str: user.password }),
-  }));
-
-  return mapped;
+  return db('users');
 }
 
 // ==============================================
