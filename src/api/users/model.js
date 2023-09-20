@@ -31,13 +31,19 @@ function getById(id) {
 // ==============================================
 
 async function create(user) {
-  const [newUserObject] = await db('users').insert(user, [
+  // const [newUserObject] = await db('users').insert(user, [
+  //   'id',
+  //   'email',
+  //   'password',
+  //   'is_admin',
+  // ]);
+  // return newUserObject;
+  return db('users').insert(user, [
     'id',
     'email',
     'password',
     'is_admin',
   ]);
-  return newUserObject;
 }
 
 // ==============================================

@@ -1,26 +1,21 @@
 const path = require('path');
 
-// const path_obj = path.parse(__dirname);
-// const dir = path_obj.dir;
-// const required = (x) => require(`${dir}/${x}`);
-// console.required = required;
+// ==============================================
+
+const __ROOT_PATH__ = path.join(__dirname, '..', '..'); // Path of /     =>  /Users/josh/dev/PostgreSQL
+const __SRC_PATH__  = path.join(__dirname, '..');        // Path of /src  =>  /Users/josh/dev/PostgreSQL/src
 
 // ==============================================
 
-const root_dir = path.dirname( // returns directory name of a path
-  //process.mainModule.filename, // process.mainModule refers to the main module that started the application
-  require.main.filename, // process.mainModule is deprecated => use require.main and can safely assume they refer to the same module
-);
-
-// ==============================================
-
+// This is the path relative to the /src directory
 const filePath = (str) => {
   // Ex:  filePath('db/db')  =>   /src/db/db.js
-  return path.join(root_dir, 'src', str);
+  return path.join(__SRC_PATH__, str);
 };
 
 // ==============================================
 
+// This includes the file relative to the /src directory
 const required = (str) => {
   // Ex:  required('db/db')  =>   require('../../db/db.js');
   return require( filePath(str) );
@@ -28,6 +23,7 @@ const required = (str) => {
 
 // ==============================================
 
+global.__ROOT_PATH__ = __ROOT_PATH__;
 global.required = required;
 
 // ==============================================

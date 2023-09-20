@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
 
   const Users_Model = required('api/users/model');
   const users = await Users_Model.getAll();
-  console.log('users2: ', users);
+  console.log('/src/pages/router.js -- users: ', users);
 
   res.status(201).render('index', { 
     page_title: 'CRUD Ops',

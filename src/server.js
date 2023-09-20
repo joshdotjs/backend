@@ -5,7 +5,7 @@ const cors = require('cors');
 const body_parser = require('body-parser');
 const path = require('path');
 const { filePath } = required('util/path');
-const { HttpError, ValidationError } = required('util/error');
+const { HttpError, ValidationError, DatabaseError } = required('util/error');
 
 // ==============================================
 
@@ -67,7 +67,8 @@ server.use('/', pagesRouter);
 // Catch-All Endpoint
 server.use('*', (req, res, next) => {
   next(new HttpError(
-    'Route not found 😔', 404
+    'Route not found 😔', 404,
+    'attempted route: ' + req.originalUrl,
   ));
 });
 
@@ -80,23 +81,33 @@ server.use((err, req, res, next) => {
 
   if (err instanceof ValidationError) {
     console.yellow('Error Type: Validation');
-    // TODO: form an error message stating validation error
   } else if (err instanceof HttpError) {
     console.yellow('Error Type: HTTP');
-    // TODO: form an error message stating HTTP error
-  } else if (err instanceof TypeError) {
+  } else if (err instanceof DatabaseError) {
+    console.yellow('Error Type: Database');
+  } else if (err instanceof TypeError) { // Native
     console.yellow('Error Type: Type');
-    // TODO: form an error message stating Type error
-  } else { // e instanceof Error or any other derived class not listed
+  } else if (err instanceof RangeError) { // Native
+    console.yellow('Error Type: Range');
+  } else if (err instanceof ReferenceError) { // Native
+    console.yellow('Error Type: Reference');
+  } else if (err instanceof SyntaxError) { // Native
+    console.yellow('Error Type: Syntax');
+  } else if (err instanceof URIError) { // Native
+    console.yellow('Error Type: URI');
+  }
+  
+  else { // e instanceof Error or any other derived class not listed
     console.yellow('Error Type: General');
-    // TODO: form an error message stating General error
   }
 
   const status = err?.status ?? 500;
   const message = err?.message ?? 'Server Error';
+  const info = err?.info ?? 'none';
   res.status(status).json({ 
     status,
     message, 
+    info,
   });
 });
 

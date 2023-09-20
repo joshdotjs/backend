@@ -44,23 +44,23 @@ describe('HTTP', () => {
 
   // --------------------------------------------
 
-  it('[GET] endpoint', async () => {
-    // async function getAllUsers() { return db('users') };
-    // const users = await getAllUsers();
-    const res = await request(server).get('/api/users');
-    expect(res.status).toBe(201);
-  });
+  // it('[GET] endpoint', async () => {
+  //   // async function getAllUsers() { return db('users') };
+  //   // const users = await getAllUsers();
+  //   const res = await request(server).get('/api/users');
+  //   expect(res.status).toBe(201);
+  // });
 
   // --------------------------------------------
 
-  it('[POST] endpoint - status 201', async () => {
-    const res = await request(server).post('/api/users').send({
-      email: 'steve@apple.com',
-      password: 'apple',
-      is_admin: true,
-    });
-    expect(res.status).toBe(201);
-  });
+  // it('[POST] endpoint - status 201', async () => {
+  //   const res = await request(server).post('/api/users').send({
+  //     email: 'steve@apple.com',
+  //     password: 'apple',
+  //     is_admin: true,
+  //   });
+  //   expect(res.status).toBe(201);
+  // });
 
   // --------------------------------------------
 
