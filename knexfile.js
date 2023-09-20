@@ -5,7 +5,7 @@ console.magenta('knexfile.js');
 // ==============================================
 
 const NODE_ENV = process.env.NODE_ENV ?? 'development';
-console.log('NODE_ENV: ', NODE_ENV);
+// console.log('NODE_ENV: ', NODE_ENV);
 
 // ==============================================
 
@@ -31,7 +31,7 @@ else {
   DB_URL = process.env.DEV_DATABASE_URL; // .env
 }
 
-console.log('DB_URL: ', DB_URL);
+// console.log('DB_URL: ', DB_URL);
 
 // ==============================================
 
