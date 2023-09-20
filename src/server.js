@@ -53,14 +53,9 @@ server.use(cors());
 
 // ==============================================
 
-const usersRouter = require('./api/users/routes');
-server.use('/api/users', usersRouter);
-
-// ==============================================
-
-// Serve HTML pages 
-const pagesRouter = require('./pages/routes');
-server.use('/', pagesRouter);
+server.use('/',           require('./pages/routes'));
+server.use('/api/users',  require('./api/users/routes'));
+server.use('/api/orders', require('./api/orders/routes'));
 
 // ==============================================
 
