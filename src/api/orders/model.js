@@ -8,6 +8,19 @@ async function getAll() {
 
 // ==============================================
 
+async function create(order) {
+  return db('orders').insert(order, [
+    'id',
+    'uuid',
+    'user_id',
+    'total',
+    'status',
+  ]);
+}
+
+// ==============================================
+
 module.exports = {
   getAll,
+  create,
 };

@@ -1,7 +1,8 @@
 {
   "scripts": {
     "dev": "nodemon index.js",
-    "tsc": "tsc --watch",
+    "ts": "tsc",
+    "ts:watch": "tsc --watch",
     "start": "node index.js",
     "e2e": "npx cypress open",
     "test": "cross-env NODE_ENV=testing jest --runInBand",

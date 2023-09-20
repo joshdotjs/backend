@@ -66,21 +66,86 @@ describe('HTTP - /api/orders', () => {
 
   // --------------------------------------------
 
-  it('[GET] endpoint', async () => {
-    const res = await request(server).get('/api/orders');
-    expect(res.status).toBe(200);
+  it('[GET] /api/orders -- should have status 200', async () => {
+    const resp = await request(server).get('/api/orders');
+    expect(resp.status).toBe(200);
   });
 
   // --------------------------------------------
 
-  // it('[POST] endpoint - status 201', async () => {
-  //   const res = await request(server).post('/api/users').send({
-  //     email: 'steve@apple.com',
-  //     password: 'apple',
-  //     is_admin: true,
-  //   });
-  //   expect(res.status).toBe(201);
-  // });
+  it('[POST] /api/users -- should fail if user_id is NOT provided', async () => {
+    const resp = await request(server).post('/api/orders').send({});
+    expect(resp.status).toBe(400);
+  });
+
+  // --------------------------------------------
+
+  it('[POST] /api/users -- should fail if order_items is NOT provided', async () => {
+    const resp = await request(server).post('/api/orders').send({ user_id: 1});
+    expect(resp.status).toBe(400);
+  });
+
+  // --------------------------------------------
+
+  it('[POST] /api/users -- should fail if order_items is an EMPTY array', async () => {
+    const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: []});
+    expect(resp.status).toBe(400);
+  });
+
+  // --------------------------------------------
+
+  it('[POST] /api/users -- should have status code 201', async () => {
+    const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
+      { product_id: 1, quantity: 1 },
+    ]});
+    expect(resp.status).toBe(201);
+  });
+
+  // --------------------------------------------
+
+  it('[POST] /api/users -- should have total === 100', async () => {
+    const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
+      { product_id: 1, quantity: 1 },
+    ]});
+    const body = resp.body;
+    const total = body.total;    
+    expect(total).toBe(100);
+  });
+
+  // --------------------------------------------
+
+  it('[POST] /api/users -- should have total === 200', async () => {
+    const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
+      { product_id: 1, quantity: 2 },
+    ]});
+    const body = resp.body;
+    const total = body.total;    
+    expect(total).toBe(200);
+  });
+
+  // --------------------------------------------
+
+  it('[POST] /api/users -- should have total === 300', async () => {
+    const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
+      { product_id: 1, quantity: 1 },
+      { product_id: 2, quantity: 1 },
+    ]});
+    const body = resp.body;
+    const total = body.total;    
+    expect(total).toBe(300);
+  });
+
+  // --------------------------------------------
+
+  it('[POST] /api/users -- should have total === 600', async () => {
+    const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
+      { product_id: 1, quantity: 2 },
+      { product_id: 2, quantity: 2 },
+    ]});
+    const body = resp.body;
+    const total = body.total;    
+    expect(total).toBe(600);
+  });
 
   // --------------------------------------------
 
