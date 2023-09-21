@@ -11,7 +11,7 @@ exports.get = async (req, res) => {
     const promise = Model.getAll();
     const [orders, error] = await asynch(promise);
     if (error)
-        return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.getAll()'));
+      return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.getAll()'));
     res.status(200).json(orders);
 };
 // ==============================================
@@ -41,7 +41,7 @@ exports.create = async (req, res, next) => {
       // ![]         || [].length === 0          =>   false || true              =>  true   =>  empty array                throws error
       // ![1]        || [1].length === 0         =>   false || false             =>  false  =>  non empty array            does NOT throw error
       return next(new HttpError('order_items required to be non-empty array', 400, '/src/api/orders/controller.js -- create()'));
-    }
+    } // if
 
     // calculate total from prices looked up for each product_id
     let total = 0;
@@ -54,69 +54,40 @@ exports.create = async (req, res, next) => {
 
       const [product] = data;
       total += product.price * quantity;
-    }
+    } // for i
 
     const promise = Model.create({
       uuid: uuid(),
       user_id,
       total,
       status: 1, // pending
-    });
+    }); // promise
     const [data, error] = await asynch(promise);
     if (error)
-        return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.create()'));
+      return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.create()'));
     const [created_order] = data;
 
+    // place product_id's in order_2_product table
+    for (let i = 0; i < order_items.length; i++) {
+      const product_id = order_items[i].product_id;
+      const quantity = order_items[i].quantity;
+      const promise = Model.createOrder2Product({
+        order_id: created_order.id,
+        product_id,
+        quantity,
+      }); // promise
+      const [data, error] = await asynch(promise);
+      if (error)
+        return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.createOrder2Product()'));
+    } // for i
 
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
-    // TODO: add order_items to order_2_product table
+    // TODO: Test here by returning created_order
+    //       and line_items by joining order_2_product and products.
+    const line_items = await asynch(Model.getProductsInOrderById(created_order.id));
+    console.log('line_items: ', line_items);
+
 
     res.status(201).json(created_order);
 };
+
 // ==============================================
