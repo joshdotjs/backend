@@ -46,7 +46,20 @@ const getProductsInOrderById = async (order_id) => {
   //   join order_2_product on products.id = order_2_product.product_id
   //   where order_2_product.order_id = ${order_id};
   // `);
-  const rows = await db('order_2_product as o2p')
+  // const rows = await db('order_2_product as o2p')
+  //   .join('products as p', 'p.id', 'o2p.product_id')
+  //   .select(
+  //     'o2p.order_id',
+  //     'o2p.product_id',
+  //     'p.title as product_name',
+  //     'p.price as product_price',
+  //     'p.category',
+  //     'o2p.quantity'
+  //   )
+  //   .where('o2p.order_id', order_id);
+  // // console.log('(model) getProductsInOrderById( order_id ), rows:  ', rows);
+  // return rows;
+  return db('order_2_product as o2p')
     .join('products as p', 'p.id', 'o2p.product_id')
     .select(
       'o2p.order_id',
@@ -57,10 +70,6 @@ const getProductsInOrderById = async (order_id) => {
       'o2p.quantity'
     )
     .where('o2p.order_id', order_id);
-
-  console.log('(model) getProductsInOrderById( order_id ), rows:  ', rows);
-
-  return rows;
 };
 
 // ==============================================

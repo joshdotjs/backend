@@ -32,6 +32,8 @@ exports.create = async (req, res, next) => {
     // 4. Calculate total from prices looked up from each product_id (so user cannot change price)
     // 4. Create order in orders table.  
     // 5. Place product_id's in order_2_product table.
+    // 6. Generate created line_items by joining order_2_product and products.
+    // 7. Send created order and line_items back to frontend.
 
     const { user_id, order_items } = req.body;
 
@@ -81,13 +83,13 @@ exports.create = async (req, res, next) => {
         return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.createOrder2Product()'));
     } // for i
 
-    // TODO: Test here by returning created_order
-    //       and line_items by joining order_2_product and products.
-    const line_items = await asynch(Model.getProductsInOrderById(created_order.id));
+    // generate created line_items by joining order_2_product and products.
+    const [line_items, error2] = await asynch(Model.getProductsInOrderById(created_order.id));
+    if (error2)
+      return next(new DatabaseError(error2, '/src/api/orders/controller.js -- Model.getProductsInOrderById()'));  
     console.log('line_items: ', line_items);
 
-
-    res.status(201).json(created_order);
+    res.status(201).json({ created_order, line_items });
 };
 
 // ==============================================

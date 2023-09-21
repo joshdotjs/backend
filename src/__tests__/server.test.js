@@ -108,7 +108,7 @@ describe('HTTP - /api/orders', () => {
       { product_id: 1, quantity: 1 },
     ]});
     const body = resp.body;
-    const total = body.total;    
+    const total = body.created_order.total;    
     expect(total).toBe(100);
   });
 
@@ -119,7 +119,7 @@ describe('HTTP - /api/orders', () => {
       { product_id: 1, quantity: 2 },
     ]});
     const body = resp.body;
-    const total = body.total;    
+    const total = body.created_order.total;    
     expect(total).toBe(200);
   });
 
@@ -131,7 +131,7 @@ describe('HTTP - /api/orders', () => {
       { product_id: 2, quantity: 1 },
     ]});
     const body = resp.body;
-    const total = body.total;    
+    const total = body.created_order.total;    
     expect(total).toBe(300);
   });
 
@@ -143,8 +143,56 @@ describe('HTTP - /api/orders', () => {
       { product_id: 2, quantity: 2 },
     ]});
     const body = resp.body;
-    const total = body.total;    
+    const total = body.created_order.total;    
     expect(total).toBe(600);
+  });
+
+  // --------------------------------------------
+
+  it('[POST] /api/users -- line_items row 1 should have product_id === 1', async () => {
+    const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
+      { product_id: 1, quantity: 2 },
+      { product_id: 2, quantity: 2 },
+    ]});
+    const body = resp.body;
+    const line_items = body.line_items;
+    expect(line_items[0].product_id).toBe(1);
+  });
+
+  // --------------------------------------------
+
+  it('[POST] /api/users -- line_items row 2 should have product_id === 2', async () => {
+    const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
+      { product_id: 1, quantity: 2 },
+      { product_id: 2, quantity: 2 },
+    ]});
+    const body = resp.body;
+    const line_items = body.line_items;
+    expect(line_items[1].product_id).toBe(2);
+  });
+
+  // --------------------------------------------
+
+  it('[POST] /api/users -- line_items row 1 should have quantity === 2', async () => {
+    const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
+      { product_id: 1, quantity: 2 },
+      { product_id: 2, quantity: 2 },
+    ]});
+    const body = resp.body;
+    const line_items = body.line_items;
+    expect(line_items[0].quantity).toBe(2);
+  });
+
+  // --------------------------------------------
+
+  it('[POST] /api/users -- line_items row 2 should have quantity === 2', async () => {
+    const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
+      { product_id: 1, quantity: 2 },
+      { product_id: 2, quantity: 2 },
+    ]});
+    const body = resp.body;
+    const line_items = body.line_items;
+    expect(line_items[1].quantity).toBe(2);
   });
 
   // --------------------------------------------
