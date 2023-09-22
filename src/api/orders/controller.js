@@ -87,7 +87,7 @@ exports.create = async (req, res, next) => {
     const [line_items, error2] = await asynch(Model.getProductsInOrderById(created_order.id));
     if (error2)
       return next(new DatabaseError(error2, '/src/api/orders/controller.js -- Model.getProductsInOrderById()'));  
-    console.log('line_items: ', line_items);
+    // console.log('line_items: ', line_items);
 
     res.status(201).json({ created_order, line_items });
 };

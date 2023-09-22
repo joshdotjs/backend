@@ -86,7 +86,7 @@ const products = [
     published: true,
     price: 400,
     units_in_stock: 100,
-    image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Street_food_in_Mexico_City.jpg/800px-Street_food_in_Mexico_City.jpg',
+    image_url: null,
     image_alt: 'A taco',
     details_route: '/products/taco',
   },
