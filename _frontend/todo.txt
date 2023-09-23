@@ -1,0 +1,38 @@
+- check if user already exists in DB
+  -- if so, then return error message
+
+- error handling for failed HTTP request
+
+
+
+=================================================
+
+Error Handling (Testing Post 3.)
+
+- Testing:
+  -- e2e + unit TDD
+    --- Cypress for entire flow
+    --- vitest for React
+    --- Jest for Node
+
+- Flow:
+  1. send request
+      async function f(): [data, error] {
+        try {
+          const data = await promise;
+          return [data, null];
+        } catch(error) {
+          console.error(error);
+          return [null, error];
+        }
+      }
+
+      const [data1, error1] = await f();
+      if (error1) handle(error1);
+
+      const [data2, error2] = await f();
+      if (error2) handle(error2);
+
+  2. handle request with try / catch Node flow (with catch all error handling and custom Error class)
+
+  3. based on response, show notification
