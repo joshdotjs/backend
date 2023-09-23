@@ -1,1 +1,8 @@
 - backend submodule?
+- frontend build:mv script (to not block vercel deployment)
+- add deploy script matching the flow from the shopify workflow
+- add more streamlined e2e flow => should not need to run dev:test script to run test-db
+
+
+Frontend:
+- Store local images
