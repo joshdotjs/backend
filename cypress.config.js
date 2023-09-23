@@ -47,6 +47,14 @@ module.exports = defineConfig({
           console.green('DB has been reset! 😊');
 
           return 'resetDB() complete';
+        },
+        // ======================================
+        async destroyDB() {
+          console.yellow('destroying DB...');
+          await db.destroy();
+          console.green('DB has been destroyed! 😊');
+
+          return 'destroyDB() complete';
         }
         // ======================================
       });

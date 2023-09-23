@@ -5,7 +5,7 @@ const { HttpError, DatabaseError } = required('util/error');
 
 // ==============================================
 
-exports.get = async (req, res) => {
+exports.get = async (req, res, next) => {
   // console.log('[GET] /api/products');
   const [products, error] = await asynch( Model.getAll() );
   if (error)
