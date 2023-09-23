@@ -19,7 +19,19 @@ describe('UI :: hidden text', () => {
     // cy.get('#display-text').should('have.class', 'hidden');
     // cy.get('#display-text').should('not.be.visible');
 
-    cy.task("connectDB").then(cy.log)
+    // cy.task("connectDB").then(cy.log)
+    cy.task("connectDB","SELECT NOW()").then(cy.log);
+    cy.task("connectDB","SELECT NOW()").then((response) => {
+      cy.log(response);
+    });
+
+    cy.task('connectDB', 'SELECT * FROM users').then((response) => {
+      cy.log(response[0].email);
+    });
+
+    cy.task('connectDB', 'SELECT * FROM users').then((rows) => {
+      cy.log(rows[0].email);
+    });
   });
 
   // -----------------------------------------------------
