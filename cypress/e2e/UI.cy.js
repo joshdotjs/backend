@@ -7,7 +7,7 @@
 
 // ========================================================
 
-describe('UI :: hidden text', () => {
+describe('UI', () => {
 
   // -----------------------------------------------------
 
@@ -33,8 +33,33 @@ describe('UI :: hidden text', () => {
 
   // -----------------------------------------------------
 
+  it('find element inside get', () => {
+    cy.get('header');//.find('img');
+    cy.get('header').find('img'); // Favicon SVG
+    // cy.get('header img'); // => also works!
+    // -Chaining get after get does not look inside the first get.
+    // -It instead searches from the top of the page.
+    // -Use find() to look inside the first get.
+  });
+
+  // -----------------------------------------------------
+
+  it('find element inside get', () => {
+    cy.get('header');//.find('img');
+    cy.get('header').find('img'); // Favicon SVG
+    // cy.get('header img'); // => also works!
+  });
+
+  // -----------------------------------------------------
+
+  it('should find the add to cart button', () => {
+    cy.get('#product-card-1').find('button').contains('Add to Cart');
+  });
+
+  // -----------------------------------------------------
+
   it('should add item to cart', () => {
-    
+    cy.get('#product-card-1').find('button').contains('Add to Cart').click();
   });
 
   // -----------------------------------------------------

@@ -1,8 +1,11 @@
-- backend submodule?
-- frontend build:mv script (to not block vercel deployment)
 - add deploy script matching the flow from the shopify workflow
 - add more streamlined e2e flow => should not need to run dev:test script to run test-db
 
+- PORT:
+  -- 1. /Users/josh/dev/web-app-backend-jade
+  -- 2. /Users/josh/dev/____node-web-app____to-port-auth-and-checkout
+  -- 3. /Users/josh/dev/eCommerce-node
+  -- 4. Deploy Script: /Users/josh/dev/_GEN...
 
 Frontend:
 - Store local images
