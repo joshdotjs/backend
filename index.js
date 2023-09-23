@@ -1,12 +1,8 @@
-require('./src/util/path');
-
-// const server = require('./src/api/server');
+require('./src/util/path'); // required() and rootPath()
 const server = required('server');
 
-const port = process.env.PORT;
-
-server.listen(port, () => {
+server.listen(process.env.PORT, () => {
   const add = require('./ts');
   // console.log('add(1, 2): ', add(1, 2));
-  console.cyan(`server.js: http://localhost:${port}`);
+  console.cyan(`server.js: http://localhost:${process.env.PORT}`);
 });
