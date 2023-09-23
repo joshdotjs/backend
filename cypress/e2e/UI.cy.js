@@ -32,6 +32,9 @@ describe('UI :: hidden text', () => {
     cy.task('connectDB', 'SELECT * FROM users').then((rows) => {
       cy.log(rows[0].email);
     });
+
+
+    cy.task('josh').then(cy.log);
   });
 
   // -----------------------------------------------------
