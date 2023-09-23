@@ -1,6 +1,6 @@
 require('dotenv').config(); // this file runs outside of index.js when we run migrations
 require('./src/util/console');
-console.magenta('knexfile.js');
+// console.magenta('knexfile.js');
 
 // ==============================================
 

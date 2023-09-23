@@ -56,6 +56,7 @@ server.use(cors());
 server.use('/',           require('./pages/routes'));
 server.use('/api/users',  require('./api/users/routes'));
 server.use('/api/orders', require('./api/orders/routes'));
+server.use('/api/products', require('./api/products/routes'));
 
 // ==============================================
 
@@ -71,13 +72,13 @@ server.use('*', (req, res, next) => {
 
 // error-handling middleware
 server.use((err, req, res, next) => {
-  console.magenta('err (in error-handling middleware)  [server.js]');
-  console.cyan(err);
+  // console.magenta('err (in error-handling middleware)  [server.js]');
+  // console.cyan(err);
 
   if (err instanceof ValidationError) {
     console.yellow('Error Type: Validation');
   } else if (err instanceof HttpError) {
-    console.yellow('Error Type: HTTP');
+    // console.yellow('Error Type: HTTP');
   } else if (err instanceof DatabaseError) {
     console.yellow('Error Type: Database');
   } else if (err instanceof TypeError) { // Native
