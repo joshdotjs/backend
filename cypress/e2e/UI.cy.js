@@ -63,6 +63,15 @@ describe('UI', () => {
   });
 
   // -----------------------------------------------------
+
+  it('should empty cart and close it', () => {
+      // open cart and empty it
+      cy.get('#open-cart-button').click();
+      cy.get('#cart-drawer').find('#empty-cart-button').click();
+      cy.get('#close-cart-button').click();
+  });
+
+  // -----------------------------------------------------
 });
 
 // ========================================================
