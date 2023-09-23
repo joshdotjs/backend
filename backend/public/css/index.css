@@ -1,9 +1,0 @@
-.hidden {
-  display: none;
-}
-
-.j-hide-up-to-md {
-  @media (max-width: 767px) {
-    display: none;
-  }
-}
