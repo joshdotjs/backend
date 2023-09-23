@@ -28,44 +28,6 @@ else {
   DB_URL = process.env.DEV_DATABASE_URL; // .env
 }
 
-
-
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-console.log('DB_URL: ', DB_URL);
-
 // ==============================================
 
 /*

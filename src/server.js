@@ -1,18 +1,15 @@
 require("dotenv").config();
 const express = require('express');
+const server = express();
 const helmet = require('helmet');
 const cors = require('cors');
 const body_parser = require('body-parser');
-const path = require('path');
-const { filePath } = required('util/path');
 const { HttpError, ValidationError, DatabaseError } = required('util/error');
+const path = require('path');
 
 // ==============================================
 
-const server = express();
-
-// server.set('views', path.join(__dirname, '..', 'views'));
-server.set('views', filePath('views')); //  /src/views
+server.set('views', rootPath('src/views')); //  /src/views
 server.set('view engine', 'ejs');
 
 // ==============================================
@@ -35,10 +32,10 @@ server.use(body_parser.urlencoded({ extended: false })); // handle URL-encoded d
 // -We can then extract the form data
 //  from the POST request via req.body
 
-server.use(express.static( filePath('../public') ));
+server.use(express.static( rootPath('public') ));
 
-const compression = require('compression');
-server.use(compression()); // image files are not compressed
+// const compression = require('compression');
+// server.use(compression()); // image files are not compressed
 
 // const morgan = require('morgan');
 // server.use(morgan());
@@ -53,10 +50,22 @@ server.use(cors());
 
 // ==============================================
 
-server.use('/',           require('./pages/routes'));
-server.use('/api/users',  require('./api/users/routes'));
-server.use('/api/orders', require('./api/orders/routes'));
+// admin facing non-SPA pages
+server.use('/admin',        require('./pages/routes'));
+
+// ==============================================
+
+// API
+server.use('/api/users',    require('./api/users/routes'));
+server.use('/api/orders',   require('./api/orders/routes'));
 server.use('/api/products', require('./api/products/routes'));
+
+// ==============================================
+
+// SPA pages
+server.get('*', (req, res, next) => {
+  res.sendFile(path.join(__dirname, '..', 'public', '_frontend-dist', 'index.html'));
+});
 
 // ==============================================
 
