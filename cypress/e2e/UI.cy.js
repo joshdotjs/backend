@@ -5,41 +5,34 @@
 // require('../../src/util/path');
 // const db = require('../../src/db/db');
 
-
-
 // ========================================================
 
 describe('UI :: hidden text', () => {
 
   // -----------------------------------------------------
 
+
+  beforeEach(() => {
+    cy.visit('http://localhost:9000/');
+    cy.task('resetDB').then(cy.log);
+  })
+
+  // -----------------------------------------------------
+
   it('should NOT display text when button is NOT clicked', () => {
     cy.visit('http://localhost:9000/');
-    // cy.get('#display-text-button').click(); // clicks center of element
-    // cy.get('#display-text').should('have.class', 'hidden');
-    // cy.get('#display-text').should('not.be.visible');
 
-    cy.task("connectDB").then(cy.log)
+    // cy.task("connectDB").then(cy.log)
+    // cy.task("connectDB","SELECT NOW()").then(cy.log);
+    // cy.task("connectDB","SELECT NOW()").then((response) => {
+    //   cy.log(response);
+    // });
+
+    cy.task('connectDB', 'SELECT * FROM users').then((rows) => {
+      rows.forEach(row => cy.log(row.email));
+    });
+
   });
-
-  // -----------------------------------------------------
-
-  // it('should display text when button is clicked', () => {
-  //   cy.visit('http://localhost:9000/');
-  //   cy.get('#display-text-button').click(); // clicks center of element
-  //   cy.get('#display-text').should('not.have.class', 'hidden');
-  //   cy.get('#display-text').should('be.visible');
-  // });
-
-  // -----------------------------------------------------
-
-  // it('should NOT display text when button is clicked twice', () => {
-  //   cy.visit('http://localhost:9000/');
-  //   cy.get('#display-text-button').click(); // clicks center of element
-  //   cy.get('#display-text-button').click(); // clicks center of element
-  //   cy.get('#display-text').should('have.class', 'hidden');
-  //   cy.get('#display-text').should('not.be.visible');
-  // });
 
   // -----------------------------------------------------
 });
