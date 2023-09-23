@@ -4,7 +4,7 @@
     "ts": "tsc",
     "ts:watch": "tsc --watch",
     "start": "node index.js",
-    "e2e": "npx cypress open",
+    "e2e": "npx cypress open --e2e --browser=chrome",
     "test": "cross-env NODE_ENV=testing jest --runInBand",
     "test:verbose": "cross-env NODE_ENV=testing jest --verbose --runInBand",
     "test:watch": "cross-env NODE_ENV=testing jest --watchAll --runInBand",
