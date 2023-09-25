@@ -73,28 +73,28 @@ describe('HTTP - /api/orders', () => {
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- should fail if user_id is NOT provided', async () => {
+  it('[POST] /api/orders -- should fail if user_id is NOT provided', async () => {
     const resp = await request(server).post('/api/orders').send({});
     expect(resp.status).toBe(400);
   });
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- should fail if order_items is NOT provided', async () => {
+  it('[POST] /api/orders -- should fail if order_items is NOT provided', async () => {
     const resp = await request(server).post('/api/orders').send({ user_id: 1});
     expect(resp.status).toBe(400);
   });
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- should fail if order_items is an EMPTY array', async () => {
+  it('[POST] /api/orders -- should fail if order_items is an EMPTY array', async () => {
     const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: []});
     expect(resp.status).toBe(400);
   });
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- should have status code 201', async () => {
+  it('[POST] /api/orders -- should have status code 201', async () => {
     const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
       { product_id: 1, quantity: 1 },
     ]});
@@ -103,7 +103,7 @@ describe('HTTP - /api/orders', () => {
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- should have total === 100', async () => {
+  it('[POST] /api/orders -- should have total === 100', async () => {
     const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
       { product_id: 1, quantity: 1 },
     ]});
@@ -114,7 +114,7 @@ describe('HTTP - /api/orders', () => {
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- should have total === 200', async () => {
+  it('[POST] /api/orders -- should have total === 200', async () => {
     const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
       { product_id: 1, quantity: 2 },
     ]});
@@ -125,7 +125,7 @@ describe('HTTP - /api/orders', () => {
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- should have total === 300', async () => {
+  it('[POST] /api/orders -- should have total === 300', async () => {
     const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
       { product_id: 1, quantity: 1 },
       { product_id: 2, quantity: 1 },
@@ -137,7 +137,7 @@ describe('HTTP - /api/orders', () => {
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- should have total === 600', async () => {
+  it('[POST] /api/orders -- should have total === 600', async () => {
     const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
       { product_id: 1, quantity: 2 },
       { product_id: 2, quantity: 2 },
@@ -149,7 +149,7 @@ describe('HTTP - /api/orders', () => {
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- line_items row 1 should have product_id === 1', async () => {
+  it('[POST] /api/orders -- line_items row 1 should have product_id === 1', async () => {
     const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
       { product_id: 1, quantity: 2 },
       { product_id: 2, quantity: 2 },
@@ -161,7 +161,7 @@ describe('HTTP - /api/orders', () => {
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- line_items row 2 should have product_id === 2', async () => {
+  it('[POST] /api/orders -- line_items row 2 should have product_id === 2', async () => {
     const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
       { product_id: 1, quantity: 2 },
       { product_id: 2, quantity: 2 },
@@ -173,7 +173,7 @@ describe('HTTP - /api/orders', () => {
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- line_items row 1 should have quantity === 2', async () => {
+  it('[POST] /api/orders -- line_items row 1 should have quantity === 2', async () => {
     const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
       { product_id: 1, quantity: 2 },
       { product_id: 2, quantity: 2 },
@@ -185,7 +185,7 @@ describe('HTTP - /api/orders', () => {
 
   // --------------------------------------------
 
-  it('[POST] /api/users -- line_items row 2 should have quantity === 2', async () => {
+  it('[POST] /api/orders -- line_items row 2 should have quantity === 2', async () => {
     const resp = await request(server).post('/api/orders').send({ user_id: 1, order_items: [
       { product_id: 1, quantity: 2 },
       { product_id: 2, quantity: 2 },

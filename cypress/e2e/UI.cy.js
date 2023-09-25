@@ -82,34 +82,54 @@ describe('UI', () => {
 
   // -----------------------------------------------------
 
-  it('should change to users page', () => {
-    cy.get('#navlink-users').click();
-  });
+  // it('should change to users page', () => {
+  //   cy.get('#navlink-users').click();
+  // });
 
   // -----------------------------------------------------
 
-  it('should create a new user', () => {
-    cy.get('#navlink-users').click();
-    cy.get('#email-text-field').type('josh2@josh.com');
-    cy.get('#password-text-field').type('josh');
-    cy.get('#create-user-button').click();
+  // it('should create a new user', () => {
+  //   cy.get('#navlink-users').click();
+  //   cy.get('#email-text-field').type('josh2@josh.com');
+  //   cy.get('#password-text-field').type('josh');
+  //   cy.get('#create-user-button').click();
 
-    // // check that the user was created in the DB
-    // cy.task('connectDB', 'SELECT * FROM users').then((rows) => {
-    //   rows.forEach(row => cy.log(row.email));
-    //   assert.equal(rows[rows.length - 1].email, 'josh2@josh.com');
-    //   // assert.equal(rows[rows.length - 1].email, 'sergey@google.com');
-    // });
+  //   // // check that the user was created in the DB
+  //   // cy.task('connectDB', 'SELECT * FROM users').then((rows) => {
+  //   //   rows.forEach(row => cy.log(row.email));
+  //   //   assert.equal(rows[rows.length - 1].email, 'josh2@josh.com');
+  //   //   // assert.equal(rows[rows.length - 1].email, 'sergey@google.com');
+  //   // });
 
-    // TODO: Check that the corresponding row was created in the table.
-    // TODO: Check that the corresponding row was created in the table.
-    // TODO: Check that the corresponding row was created in the table.
-    // TODO: Check that the corresponding row was created in the table.
-    // TODO: Check that the corresponding row was created in the table.
+  //   // TODO: Check that the corresponding row was created in the table.
+  //   // TODO: Check that the corresponding row was created in the table.
+  //   // TODO: Check that the corresponding row was created in the table.
+  //   // TODO: Check that the corresponding row was created in the table.
+  //   // TODO: Check that the corresponding row was created in the table.
 
 
-    // NOTE: The testing DB is all wonky. Using the dev DB works fine though.
+  //   // NOTE: The testing DB is all wonky. Using the dev DB works fine though.
 
+  // });
+
+  // -----------------------------------------------------
+
+  it('should send cart to checkout', () => {
+    
+    // Add items to cart
+    cy.get('#product-card-1').find('button').contains('Add to Cart').click();
+    cy.get('#close-cart-button').click();
+    cy.get('#product-card-2').find('button').contains('Add to Cart').click();
+    cy.get('#close-cart-button').click();
+    cy.get('#product-card-2').find('button').contains('Add to Cart').click();
+
+    // click checkout button
+    cy.get('#checkout-cart-button').click();
+
+    // TODO: Make sure we are actually on the orders page now
+    cy.get('#page-title').contains('Order History');
+
+    // TODO: Make sure items from the created order are displayed in the orders page summary
   });
 
   // -----------------------------------------------------

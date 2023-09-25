@@ -16,8 +16,17 @@ exports.get = async (req, res) => {
 };
 // ==============================================
 exports.create = async (req, res, next) => {
-    // console.log('[POST] /api/orders ');
-    // console.log('req.body: ', req.body);
+    console.log('[POST] /api/orders ');
+    console.log('req.body: ', req.body);
+
+    // ******** expected input ********
+    // req.body: { 
+    //  user_id: 1, 
+    //  order_items: [
+    //   { product_id: 1, quantity: 2 },
+    //   { product_id: 2, quantity: 2 },
+    //  ] // order_items
+    // } // req.body
 
     // Flow:
     // 1. User clicks add checkout button.
