@@ -154,12 +154,68 @@ const doStripe = async (line_items, next, res) => {
     console.log('error: ', error);
     return next(new Error(error));
   }
-  console.log('session: ', session);
+  // console.log('session: ', session);
 
   // Step 3: Get stripe payment intent id
-  const payment_intent_id = session.payment_intent;
+  // const payment_intent_id = session.payment_intent;
   // console.log('payment_intent_id: ', payment_intent_id);
 
   // Step 4: Return the stripe payment URL to frontend
   return session.url;
 };
+
+// ==============================================
+
+exports.webhook = (request, response) => {
+  const payload = request.body;
+  const { type } = payload;
+
+  
+  // payload type:  payment_intent.created
+  // payload type:  customer.created
+  // payload type:  payment_intent.succeeded
+  // payload type:  charge.succeeded
+  // payload type:  checkout.session.completed
+
+  // if (type === 'payment_intent.created') {
+  //   console.yellow('Stage 1');
+  // }  else if (type === 'customer.created') {
+  //   console.green('Stage 2');
+  // } else
+   if (type === 'payment_intent.succeeded') {
+    console.log("***********************************");
+    console.magenta('Stage 3');
+    console.log('payload: ', payload);
+        
+    // NOTE: This is only payment_intent ID for type === payment_intent.created & payment_intent.succeeded
+    const payment_intent_id = payload.data.object.id;
+    console.log('payment_intent_id: ', payment_intent_id);
+   
+    
+    const card = payload.data.object.charges.data[0].payment_method_details.card;
+    const { brand, exp_month, exp_year, last4 } = card;
+    console.log('brand', brand);
+    console.log('exp_month', exp_month);
+    console.log('exp_year', exp_year);
+    console.log('last4', last4);
+    // updateOrderStatus({ 
+    //   status: 3,
+    //   payment_intent_id,
+    //   card_brand: brand,
+    //   card_exp_month: exp_month,
+    //   card_exp_year: exp_year,
+    //   card_last4: last4,
+    // });
+    console.log("***********************************");
+  } 
+  else if (type === 'charge.succeeded') {
+    console.yellow('Stage 4');
+    console.log('payload: ', payload);
+  } 
+  else if (type === 'checkout.session.completed') {
+    console.cyan('Stage 5');
+    console.log('payload: ', payload);
+  }
+
+  response.status(200).end(); // https://stackoverflow.com/a/68440790 -- "Client.Timeout exceeded while awaiting headers"
+}

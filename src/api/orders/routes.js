@@ -10,6 +10,14 @@ router.post('/', Controller.create);
 
 // ==============================================
 
+const bodyParser = require('body-parser');
+router.post('/webhook', 
+  bodyParser.raw({type: 'application/json'}), // Use body-parser to retrieve the raw body as a buffer
+  Controller.webhook
+);
+
+// ==============================================
+
 // error-handling middleware
 router.use('/', (err, req, res, next) => {
   // console.yellow('err (in error-handling middleware) [api/orders/routes.js]');

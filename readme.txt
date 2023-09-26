@@ -5,7 +5,10 @@ Kill all node processes:
 
 =================================================
 
-stripe listen --forward-to localhost:9000/api/checkout/webhook
+
+Stripe Webooks: https://stripe.com/docs/payments/handling-payment-events
+stripe login --api-key STRIPE_PRIVATE_KEY
+stripe listen --forward-to localhost:9000/api/orders/webhook
 npm run dev
 
 =================================================
