@@ -112,14 +112,16 @@ exports.create = async (req, res, next) => {
     console.log('line_items: ', line_items);
 
     // send to stripe
-    await doStripe(line_items, next);
+    const url = await doStripe(line_items, next);
+    console.log('url: ', url);
 
-    res.status(201).json({ created_order, line_items });
+    // res.status(201).json({ created_order, line_items });
+    res.status(201).json({ url });
 };
 
 // ==============================================
 
-const doStripe = async (line_items, next) => {
+const doStripe = async (line_items, next, res) => {
   // Step 1: Normalize line_items for stripe
   const normalized_line_items = line_items.map(({product_name, product_price, quantity}) => {
     return {
@@ -156,5 +158,8 @@ const doStripe = async (line_items, next) => {
 
   // Step 3: Get stripe payment intent id
   const payment_intent_id = session.payment_intent;
-  console.log('payment_intent_id: ', payment_intent_id);
+  // console.log('payment_intent_id: ', payment_intent_id);
+
+  // Step 4: Return the stripe payment URL to frontend
+  return session.url;
 };
