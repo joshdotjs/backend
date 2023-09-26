@@ -36,6 +36,11 @@ global.rootPath = rootPath;
 
 // ==============================================
 
+const env = required('util/env');
+global.env = env;
+
+// ==============================================
+
 module.exports = {
   rootPath,
 }; 

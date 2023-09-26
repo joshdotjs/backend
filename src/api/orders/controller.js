@@ -1,4 +1,6 @@
 const { v4: uuid } = require('uuid');
+const stripe = require("stripe")(env('STRIPE_PRIVATE_KEY'));
+
 const Model = require('./model');
 const ProductModel = require('../products/model');
 
@@ -6,6 +8,7 @@ const { asynch } = required('util/async');
 const { HttpError, DatabaseError } = required('util/error');
 
 // ==============================================
+
 exports.get = async (req, res) => {
     // console.log('[GET] /api/orders');
     const promise = Model.getAll();
@@ -14,7 +17,9 @@ exports.get = async (req, res) => {
       return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.getAll()'));
     res.status(200).json(orders);
 };
+
 // ==============================================
+
 exports.create = async (req, res, next) => {
     console.log('[POST] /api/orders ');
     console.log('req.body: ', req.body);
@@ -93,12 +98,41 @@ exports.create = async (req, res, next) => {
     } // for i
 
     // generate created line_items by joining order_2_product and products.
+    // line_items: [ { 
+    //   order_id: 26,
+    //   product_id: 1,
+    //   product_name: 'Hamburger',
+    //   product_price: 100,
+    //   category: 'food',
+    //   quantity: 1,
+    // }, ]
     const [line_items, error2] = await asynch(Model.getProductsInOrderById(created_order.id));
     if (error2)
       return next(new DatabaseError(error2, '/src/api/orders/controller.js -- Model.getProductsInOrderById()'));  
-    // console.log('line_items: ', line_items);
+    console.log('line_items: ', line_items);
+
+    // send to stripe
+    await doStripe(line_items);
 
     res.status(201).json({ created_order, line_items });
 };
 
 // ==============================================
+
+const doStripe = async (line_items) => {
+//   const line_items = cart.map(({product: { title, price}, qty}) => {
+  const normalized_line_items = line_items.map(({product_name, product_price, quantity}) => {
+    return {
+      price_data: {
+        currency: "usd",
+        product_data: {
+          name: product_name,
+        },
+        unit_amount: product_price,
+      },
+      quantity,
+    }
+  });
+
+  console.log('nomalized_line_items: ', normalized_line_items);
+};

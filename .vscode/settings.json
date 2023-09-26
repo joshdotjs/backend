@@ -1,7 +1,18 @@
 {
   "files.exclude": {
+    // ".env": true,
     // "**/*.ts": true,
-    // "tsconfig.json": true
+    // "tsconfig.json": true,
+    "package-lock.json": true,
+    ".gitignore": true,
+    "node_modules": true,
+    ".eslintrc.json": true,
+    "jest.config.js": true,
+    "tsconfig.json": true,
+    "ts.js": true,
+    "ts.ts": true,
+    "cypress/fixtures": true,
+    "cypress/support": true,
   },
   "cSpell.words": [
     "asynch",
