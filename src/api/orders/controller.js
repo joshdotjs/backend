@@ -120,7 +120,7 @@ exports.create = async (req, res, next) => {
 // ==============================================
 
 const doStripe = async (line_items, next) => {
-//   const line_items = cart.map(({product: { title, price}, qty}) => {
+  // Step 1: Normalize line_items for stripe
   const normalized_line_items = line_items.map(({product_name, product_price, quantity}) => {
     return {
       price_data: {
@@ -134,6 +134,7 @@ const doStripe = async (line_items, next) => {
     }
   });
 
+  // Step 2: Create stripe session
   const FRONTEND_URL = env('FRONTEND_URL');
   const promise = stripe.checkout.sessions.create({
     // payment_method_types: ["card", "afterpay_clearpay", "klarna"],
@@ -153,5 +154,7 @@ const doStripe = async (line_items, next) => {
   }
   console.log('session: ', session);
 
-
+  // Step 3: Get stripe payment intent id
+  const payment_intent_id = session.payment_intent;
+  console.log('payment_intent_id: ', payment_intent_id);
 };
