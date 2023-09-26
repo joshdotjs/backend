@@ -106,20 +106,20 @@ exports.create = async (req, res, next) => {
     //   category: 'food',
     //   quantity: 1,
     // }, ]
-    const [line_items, error2] = await asynch(Model.getProductsInOrderById(created_order.id));
+    const [line_items, error2] = await asynch( Model.getProductsInOrderById(created_order.id ));
     if (error2)
       return next(new DatabaseError(error2, '/src/api/orders/controller.js -- Model.getProductsInOrderById()'));  
     console.log('line_items: ', line_items);
 
     // send to stripe
-    await doStripe(line_items);
+    await doStripe(line_items, next);
 
     res.status(201).json({ created_order, line_items });
 };
 
 // ==============================================
 
-const doStripe = async (line_items) => {
+const doStripe = async (line_items, next) => {
 //   const line_items = cart.map(({product: { title, price}, qty}) => {
   const normalized_line_items = line_items.map(({product_name, product_price, quantity}) => {
     return {
@@ -134,5 +134,24 @@ const doStripe = async (line_items) => {
     }
   });
 
+  const FRONTEND_URL = env('FRONTEND_URL');
+  const promise = stripe.checkout.sessions.create({
+    // payment_method_types: ["card", "afterpay_clearpay", "klarna"],
+    payment_method_types: ["card", "klarna"],
+    mode: "payment",
+    line_items: normalized_line_items,
+    success_url: `${FRONTEND_URL}/checkout-success`,
+    cancel_url: `${FRONTEND_URL}/checkout-fail`,
+    currency: 'USD',
+  });
   console.log('nomalized_line_items: ', normalized_line_items);
+
+  const [session, error] = await asynch( promise );
+  if (error) {
+    console.log('error: ', error);
+    return next(new Error(error));
+  }
+  console.log('session: ', session);
+
+
 };
