@@ -71,3 +71,10 @@ exports.getProductsInOrderById = async (order_id) => {
     )
     .where('o2p.order_id', order_id);
 };
+// ==============================================
+
+exports.getByUuid = async (uuid) => {
+  console.log('model  --  getOrderByUuid( uuid ) ');
+  return db('orders')
+    .where('uuid', uuid);
+};
