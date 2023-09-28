@@ -7,6 +7,7 @@ const Controller = require('./controller');
 
 router.get('/', Controller.get);
 router.post('/', Controller.create);
+// router.get('/:uuid', Controller.getByUuid);
 
 // ==============================================
 

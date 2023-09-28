@@ -2,13 +2,13 @@ const db = required('db/db');
 
 // ==============================================
 
-async function getAll() {
+exports.getAll = async () => {
   return db('orders');
 }
 
 // ==============================================
 
-async function create(order) {
+exports.create = async (order) => {
   return db('orders').insert(order, [
     'id',
     'uuid',
@@ -20,7 +20,7 @@ async function create(order) {
 
 // ==============================================
 
-async function createOrder2Product(order) {
+exports.createOrder2Product = async (order) => {
   return db('order_2_product').insert(order, [
     'id',
     'order_id',
@@ -31,7 +31,7 @@ async function createOrder2Product(order) {
 
 // ==============================================
 
-const getProductsInOrderById = async (order_id) => {
+exports.getProductsInOrderById = async (order_id) => {
   // console.log('(model) getProductsInOrderById( order_id ) ');
 
   // const { rows } = await db.raw(`
@@ -70,13 +70,4 @@ const getProductsInOrderById = async (order_id) => {
       'o2p.quantity'
     )
     .where('o2p.order_id', order_id);
-};
-
-// ==============================================
-
-module.exports = {
-  getAll,
-  create,
-  createOrder2Product,
-  getProductsInOrderById,
 };

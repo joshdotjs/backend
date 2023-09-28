@@ -122,6 +122,18 @@ exports.create = async (req, res, next) => {
 
 // ==============================================
 
+// exports.getByUuid = async (req, res, next) => {
+//   const { uuid } = req.params;
+//   console.log('[GET] /api/orders/:uuid, uuid: ', uuid);
+
+//   const [line_items, error2] = await asynch( Model.getProductsInOrderById(created_order.id ));
+//   if (error2)
+//     return next(new DatabaseError(error2, '/src/api/orders/controller.js -- Model.getProductsInOrderById()'));  
+//   console.log('line_items: ', line_items);
+// };
+
+// ==============================================
+
 const doStripe = async (line_items, order_uuid, next) => {
   // Step 1: Normalize line_items for stripe
   const normalized_line_items = line_items.map(({product_name, product_price, quantity}) => {
