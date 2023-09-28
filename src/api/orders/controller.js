@@ -82,6 +82,7 @@ exports.create = async (req, res, next) => {
     if (error)
       return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.create()'));
     const [created_order] = data;
+    console.log('created_order: ', created_order);
 
     // place product_id's in order_2_product table
     for (let i = 0; i < order_items.length; i++) {
@@ -112,7 +113,7 @@ exports.create = async (req, res, next) => {
     console.log('line_items: ', line_items);
 
     // send to stripe
-    const url = await doStripe(line_items, next);
+    const url = await doStripe(line_items, created_order.uuid, next);
     console.log('url: ', url);
 
     // res.status(201).json({ created_order, line_items });
@@ -121,7 +122,7 @@ exports.create = async (req, res, next) => {
 
 // ==============================================
 
-const doStripe = async (line_items, next, res) => {
+const doStripe = async (line_items, order_uuid, next) => {
   // Step 1: Normalize line_items for stripe
   const normalized_line_items = line_items.map(({product_name, product_price, quantity}) => {
     return {
@@ -143,7 +144,7 @@ const doStripe = async (line_items, next, res) => {
     payment_method_types: ["card", "klarna"],
     mode: "payment",
     line_items: normalized_line_items,
-    success_url: `${FRONTEND_URL}/checkout-success`,
+    success_url: `${FRONTEND_URL}/checkout-success?order_uuid=${order_uuid}`,
     cancel_url: `${FRONTEND_URL}/checkout-fail`,
     currency: 'USD',
   });
