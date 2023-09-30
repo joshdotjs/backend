@@ -54,6 +54,8 @@
     "jest": "27.4.7",
     "nodemon": "2.0.15",
     "supertest": "6.2.2",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0"
   }
 }
