@@ -1,4 +1,5 @@
-const { v4: uuid } = require('uuid');
+// const { v4: uuid } = require('uuid');
+const { uuid } = required('util/uuid');
 const stripe = require("stripe")(env('STRIPE_PRIVATE_KEY'));
 
 const Model = require('./model');

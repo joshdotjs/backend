@@ -1,5 +1,5 @@
 const { hash } = require('../../util/hash');
-const { v4: uuid } = require('uuid');
+const { uuid } = require('../../util/uuid');
 
 const users = [
   {

@@ -5,7 +5,6 @@ Kill all node processes:
 
 =================================================
 
-
 Stripe Webooks: https://stripe.com/docs/payments/handling-payment-events
 stripe login --api-key STRIPE_PRIVATE_KEY
 [mac]       stripe listen --forward-to localhost:9000/api/orders/webhook
