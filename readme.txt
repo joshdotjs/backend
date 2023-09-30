@@ -8,7 +8,8 @@ Kill all node processes:
 
 Stripe Webooks: https://stripe.com/docs/payments/handling-payment-events
 stripe login --api-key STRIPE_PRIVATE_KEY
-stripe listen --forward-to localhost:9000/api/orders/webhook
+[mac]       stripe listen --forward-to localhost:9000/api/orders/webhook
+[windows]   C:/stripe listen --forward-to localhost:9000/api/orders/webhook
 npm run dev
 
 =================================================
