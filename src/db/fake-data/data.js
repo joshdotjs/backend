@@ -38,68 +38,72 @@ const users = [
 // ==============================================
 // ==============================================
 
-const products = readCSV();
-products.forEach((product) => {
-  return {
-    ...product,
-    uuid: uuid(),
-  };
-});
+// let products;
+// (async () => {
+//   const products = await readCSV();
+//   products.forEach((product) => {
+//     return {
+//       ...product,
+//       uuid: uuid(),
+//     };
+//   });
+//   console.log('products: ', products);
+// })();
 
-// const products = [
-//   {
-//     uuid: uuid(),
-//     title: 'Hamburger',
-//     description: 'A hamburger is a sandwich consisting of one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.',
-//     category: 'food',
-//     status: 'available',
-//     published: true,
-//     price: 100,
-//     units_in_stock: 100,
-//     image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/800px-RedDot_Burger.jpg', 
-//     image_alt: 'A hamburger',
-//     details_route: '/products/hamburger',
-//   },
-//   {
-//     uuid: uuid(),
-//     title: 'Pizza',
-//     description: 'Pizza is a savory dish of Italian origin consisting of a usually round, flattened base of leavened wheat-based dough topped with tomatoes, cheese, and often various other ingredients (such as anchovies, mushrooms, onions, olives, pineapple, meat, etc.) which is then baked at a high temperature, traditionally in a wood-fired oven.',
-//     category: 'food',
-//     status: 'available',
-//     published: true,
-//     price: 200,
-//     units_in_stock: 100,
-//     image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/800px-Eq_it-na_pizza-margherita_sep2005_sml.jpg',
-//     image_alt: 'A pizza',
-//     details_route: '/products/pizza',  
-//   },
-//   {
-//     uuid: uuid(),
-//     title: 'Hot Dog',
-//     description: 'A hot dog (also spelled hotdog) is a food consisting of a grilled or steamed sausage served in the slit of a partially sliced bun. It can also refer to the sausage itself. The sausage used is the wiener (Vienna sausage) or frankfurter (Frankfurter Würstchen, also just called frank).',
-//     category: 'food',
-//     status: 'available',
-//     published: true,
-//     price: 300,
-//     units_in_stock: 100,
-//     image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Hotdog_-_Evan_Swigart.jpg/800px-Hotdog_-_Evan_Swigart.jpg',
-//     image_alt: 'A hot dog',
-//     details_route: '/products/hot-dog',
-//   },
-//   {
-//     uuid: uuid(),
-//     title: 'Taco',
-//     description: 'A taco is a traditional Mexican dish consisting of a small hand-sized corn or wheat tortilla topped with a filling. The tortilla is then folded around the filling and eaten by hand.',
-//     category: 'food',
-//     status: 'available',
-//     published: true,
-//     price: 400,
-//     units_in_stock: 100,
-//     image_url: null,
-//     image_alt: 'A taco',
-//     details_route: '/products/taco',
-//   },
-// ];
+const products = [
+  {
+    uuid: uuid(),
+    title: 'Hamburger',
+    description: 'A hamburger is a sandwich consisting of one or more cooked patties of ground meat, usually beef, placed inside a sliced bread roll or bun.',
+    category: 'food',
+    status: 'available',
+    published: true,
+    price: 100,
+    units_in_stock: 100,
+    image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/RedDot_Burger.jpg/800px-RedDot_Burger.jpg', 
+    image_alt: 'A hamburger',
+    details_route: '/products/hamburger',
+  },
+  {
+    uuid: uuid(),
+    title: 'Pizza',
+    description: 'Pizza is a savory dish of Italian origin consisting of a usually round, flattened base of leavened wheat-based dough topped with tomatoes, cheese, and often various other ingredients (such as anchovies, mushrooms, onions, olives, pineapple, meat, etc.) which is then baked at a high temperature, traditionally in a wood-fired oven.',
+    category: 'food',
+    status: 'available',
+    published: true,
+    price: 200,
+    units_in_stock: 100,
+    image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Eq_it-na_pizza-margherita_sep2005_sml.jpg/800px-Eq_it-na_pizza-margherita_sep2005_sml.jpg',
+    image_alt: 'A pizza',
+    details_route: '/products/pizza',  
+  },
+  {
+    uuid: uuid(),
+    title: 'Hot Dog',
+    description: 'A hot dog (also spelled hotdog) is a food consisting of a grilled or steamed sausage served in the slit of a partially sliced bun. It can also refer to the sausage itself. The sausage used is the wiener (Vienna sausage) or frankfurter (Frankfurter Würstchen, also just called frank).',
+    category: 'food',
+    status: 'available',
+    published: true,
+    price: 300,
+    units_in_stock: 100,
+    image_url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Hotdog_-_Evan_Swigart.jpg/800px-Hotdog_-_Evan_Swigart.jpg',
+    image_alt: 'A hot dog',
+    details_route: '/products/hot-dog',
+  },
+  {
+    uuid: uuid(),
+    title: 'Taco',
+    description: 'A taco is a traditional Mexican dish consisting of a small hand-sized corn or wheat tortilla topped with a filling. The tortilla is then folded around the filling and eaten by hand.',
+    category: 'food',
+    status: 'available',
+    published: true,
+    price: 400,
+    units_in_stock: 100,
+    image_url: null,
+    image_alt: 'A taco',
+    details_route: '/products/taco',
+  },
+];
 
 // ==============================================
 // ==============================================
