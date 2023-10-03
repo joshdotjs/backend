@@ -3,7 +3,7 @@ const db = required('db/db');
 
 // ==============================================
 
-async function getAll() {
+exports.getAll = () => {
   return db('users');
 }
 
