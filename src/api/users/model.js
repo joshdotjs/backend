@@ -9,19 +9,19 @@ async function getAll() {
 
 // ==============================================
 
-function getByEmail(email) {
+exports.getByEmail = async (email) => {
   return db('users').where('email', email);
 }
 
 // ==============================================
 
-function getById(id) {
+exports.getById = async (id) => {
   return db('users').where('id', id);
 }
 
 // ==============================================
 
-async function create(user) {
+exports.create = async (user) => {
   // const [newUserObject] = await db('users').insert(user, [
   //   'id',
   //   'email',
@@ -39,7 +39,7 @@ async function create(user) {
 
 // ==============================================
 
-async function remove(id) {
+exports.remove = async (id) => {
   console.log('remove()');
   const num_rows_deleted = await db('users').where('id', +id).del();
   return num_rows_deleted;
@@ -47,7 +47,7 @@ async function remove(id) {
 
 // ==============================================
 
-async function update(user, id) {
+exports.update = async (user, id) => {
 
   console.log('model :: update() -- user: ', user);
 
@@ -67,11 +67,10 @@ async function update(user, id) {
 
 // ==============================================
 
-module.exports = {
-  getAll,
-  getByEmail,
-  getById,
-  create,
-  remove,
-  update,
+exports.getByEmail = async (email) => {
+  console.log('model  --  getUserByEmail( email ) ');
+  return db('users')
+    .where('email', email);
 };
+
+// ==============================================

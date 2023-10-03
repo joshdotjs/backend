@@ -24,6 +24,7 @@ exports.get = async (req, res) => {
 
   res.status(200).json( users )
 };
+
 // ==============================================
 
 exports.create = async (req, res, next) => {

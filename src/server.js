@@ -51,14 +51,15 @@ server.use(cors());
 // ==============================================
 
 // admin facing non-SPA pages
-server.use('/admin',        require('./pages/routes'));
+server.use('/admin',        required('pages/routes'));
 
 // ==============================================
 
 // API
-server.use('/api/users',    require('./api/users/routes'));
-server.use('/api/orders',   require('./api/orders/routes'));
-server.use('/api/products', require('./api/products/routes'));
+server.use('/api/users',    required('api/users/routes'));
+server.use('/api/orders',   required('api/orders/routes'));
+server.use('/api/products', required('api/products/routes'));
+server.use('/api/auth',     required('api/auth/routes'));
 
 // ==============================================
 
