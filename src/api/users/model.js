@@ -1,4 +1,3 @@
-// const db = require('../../db/db');
 const db = required('db/db');
 
 // ==============================================

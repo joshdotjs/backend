@@ -1,11 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
+const authMiddleware = required('api/auth/middleware');
+// const authMiddleware = required('../auth/middleware');
 const Controller = require('./controller');
 
 // ==============================================
 
-router.get('/', Controller.get);
+router.get('/', 
+  authMiddleware.restricted,
+  authMiddleware.admin,
+  Controller.get
+);
 router.post('/', Controller.create);
 router.get('/:uuid', Controller.getByUuid);
 

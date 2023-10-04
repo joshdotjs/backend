@@ -70,5 +70,5 @@ exports.checkAuthPayload = (req, res, next) => {
 
 // ==============================================
 
-module.exports =  { checkAuthPayload, restricted, admin };
+// module.exports =  { checkAuthPayload, restricted, admin };
 // export default { checkAuthPayload, restricted, admin_only };

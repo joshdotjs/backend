@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 
 const UsersModel = require('../users/model');
 
+const { HttpError, DatabaseError } = required('util/error');
+
 // ==============================================
 
 exports.register = async (req, res, next) => {
@@ -77,11 +79,12 @@ exports.login = async (req, res, next) => {
         token,
       });
     } else {
-      //next(new HttpError('Invalid Credentials', 401));
-      res.status(401).json({ message: 'ERROR 401: Unauthorized'});
+      return next(new HttpError('Invalid Credentials', 401));
+      //res.status(401).json({ message: 'ERROR 401: Unauthorized'});
     }
   } catch (err) {
-    res.status(400).json({ message: 'ERROR 400: Bad request'});
+    //res.status(400).json({ message: 'ERROR 400: Bad request'});
+    return next(new HttpError('Bad request', 400));
   }
 };
 
