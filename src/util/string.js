@@ -17,7 +17,15 @@ function truncateStringFront({ str, len = 6 }) {
     }
 }
 // ==============================================
+function zeroPad(n, width = 2) {
+    // padZero(7)    =>   "07"
+    // padZero(7, 2) =>   "07"
+    // padZero(7, 3) =>  "007
+    return String(n).padStart(width, '0');
+}
+// ==============================================
 module.exports = {
     truncateString,
     truncateStringFront,
+    zeroPad
 };

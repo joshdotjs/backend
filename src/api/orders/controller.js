@@ -21,9 +21,30 @@ const { HttpError, DatabaseError } = required('util/error');
 
 // ==============================================
 
-exports.get = async (req, res) => {
+exports.get = async (req, res, next) => {
   console.log('[GET] /api/orders');
-  const promise = Model.getAll();
+
+  const date_time_lo = { 
+    year: 2023, 
+    month: 10, 
+    day: 4, 
+    hour: 19, 
+    minute: 39, 
+    second: 27.707315, // Fractional seconds (in this case, microseconds)
+    time_zone_offset: -5, // 5 hours behind Coordinated Universal Time (UTC). In the context of the United States, this corresponds to Central Time (CT) during Daylight Saving Time.
+  };
+  
+  const date_time_hi = { 
+    year: 2023, 
+    month: 10, 
+    day: 5, 
+    hour: 19, 
+    minute: 39, 
+    second: 27.707315, // Fractional seconds (in this case, microseconds)
+    time_zone_offset: -5, // 5 hours behind Coordinated Universal Time (UTC). In the context of the United States, this corresponds to Central Time (CT) during Daylight Saving Time.
+  };
+
+  const promise = Model.getAll({ date_time_lo, date_time_hi });
   const [orders, error] = await asynch(promise);
   if (error)
     return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.getAll()'));
