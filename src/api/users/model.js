@@ -8,19 +8,19 @@ exports.getAll = () => {
 
 // ==============================================
 
-exports.getByEmail = async (email) => {
+exports.getByEmail = (email) => {
   return db('users').where('email', email);
 }
 
 // ==============================================
 
-exports.getById = async (id) => {
+exports.getById = (id) => {
   return db('users').where('id', id);
 }
 
 // ==============================================
 
-exports.create = async (user) => {
+exports.create = (user) => {
   // const [newUserObject] = await db('users').insert(user, [
   //   'id',
   //   'email',
@@ -66,7 +66,7 @@ exports.update = async (user, id) => {
 
 // ==============================================
 
-exports.getByEmail = async (email) => {
+exports.getByEmail = (email) => {
   console.log('model  --  getUserByEmail( email ) ');
   return db('users')
     .where('email', email);

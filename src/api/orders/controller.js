@@ -10,13 +10,45 @@ const { HttpError, DatabaseError } = required('util/error');
 
 // ==============================================
 
+// exports.get = async (req, res) => {
+//     // console.log('[GET] /api/orders');
+//     const promise = Model.getAll();
+//     const [orders, error] = await asynch(promise);
+//     if (error)
+//       return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.getAll()'));
+//     res.status(200).json(orders);
+// };
+
+// ==============================================
+
 exports.get = async (req, res) => {
-    // console.log('[GET] /api/orders');
-    const promise = Model.getAll();
-    const [orders, error] = await asynch(promise);
-    if (error)
-      return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.getAll()'));
-    res.status(200).json(orders);
+  console.log('[GET] /api/orders');
+  const promise = Model.getAll();
+  const [orders, error] = await asynch(promise);
+  if (error)
+    return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.getAll()'));
+
+  // console.log('orders: ', orders);
+  // console.log('orders.length: ', orders.length);
+
+  let orders_line_items = [];
+  for (let i = 0; i < orders.length; ++i) {
+    const uuid = orders[i].uuid;
+    const [ orders_products, error1 ] = await asynch( Model.getByUuid(uuid) );
+    const order = orders_products[0];
+    if (error1)
+      return next(new DatabaseError(error1, '/src/api/orders/controller.js -- Model.getByUuid()'));
+    // console.log('order: ', order);
+
+    const [line_items, error2] = await asynch( Model.getProductsInOrderById( order.id ));
+    if (error2)
+      return next(new DatabaseError(error2, '/src/api/orders/controller.js -- Model.getProductsInOrderById()'));  
+    // console.log('line_items: ', line_items);
+
+    orders_line_items.push({ order, line_items });
+  }
+
+  res.status(201).json(orders_line_items);
 };
 
 // ==============================================
@@ -128,8 +160,8 @@ exports.getByUuid = async (req, res, next) => {
   console.log('[GET] /api/orders/:uuid, uuid: ', uuid);
 
   // step 1: Get order by uuid
-  const [ orders, error1 ] = await asynch( Model.getByUuid(uuid) );
-  const order = orders[0];
+  const [ orders_products, error1 ] = await asynch( Model.getByUuid(uuid) );
+  const order = orders_products[0];
   if (error1)
     return next(new DatabaseError(error1, '/src/api/orders/controller.js -- Model.getByUuid()'));
   console.log('order: ', order);
