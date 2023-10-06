@@ -24,9 +24,9 @@ exports.get = async (req, res) => {
 exports.getFiltered = async (req, res, next) => {
   console.blue('[POST] /api/orders/get-filtered');
 
-  const { date_time_lo, date_time_hi } = req.body;
+  const { date_time_lo, date_time_hi, status } = req.body;
 
-  const promise = Model.getFiltered({ date_time_lo, date_time_hi });
+  const promise = Model.getFiltered({ date_time_lo, date_time_hi, status });
   const [orders, error] = await asynch(promise);
   if (error)
     return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.getFiltered()'));

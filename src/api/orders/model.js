@@ -7,9 +7,9 @@ exports.getAll = () => db('orders');
 
 // ==============================================
 
-exports.getFiltered = ({ date_time_lo, date_time_hi }) => {
-
-  // 2023-10-04 19:39:27.707315-05
+exports.getFiltered = ({ date_time_lo, date_time_hi, status }) => {
+  // status: number[]
+  // date_time: '2023-10-04 19:39:27.707315-05'
   //  -> ISO 8601 date-time format with timezone offset and fractional seconds
   //  -> https://www.postgresql.org/docs/current/datatype-datetime.html
   //  -> 2023-10-04: This is the date portion.
@@ -24,9 +24,12 @@ exports.getFiltered = ({ date_time_lo, date_time_hi }) => {
   //       -05: This represents the time zone offset, indicating that the time is 5 hours behind Coordinated Universal Time (UTC). In the context of the United States, this corresponds to Central Time (CT) during Daylight Saving Time.
   // => "4th of October 2023, 7:39:27.707315 PM, Central Time (with Daylight Saving Time)"
   
+  console.log('status: ', status);
+
   return db('orders')
     .where('created_at', '>',  date_time_lo)
-    .where('created_at', '<=', date_time_hi);
+    .where('created_at', '<=', date_time_hi)
+    .whereIn('status', status);
 }
 
 // ==============================================
