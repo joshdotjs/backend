@@ -12,6 +12,11 @@ router.get('/',
   authMiddleware.admin,
   Controller.get
 );
+router.post('/get-filtered', 
+  authMiddleware.restricted,
+  authMiddleware.admin,
+  Controller.getFiltered
+);
 router.post('/', Controller.create);
 router.get('/:uuid', Controller.getByUuid);
 
