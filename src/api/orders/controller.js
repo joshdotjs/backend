@@ -25,6 +25,9 @@ exports.getFiltered = async (req, res, next) => {
   console.blue('[POST] /api/orders/get-filtered');
 
   const { date_time_lo, date_time_hi, status } = req.body;
+  // console.log(' date_time_lo: ', date_time_lo);
+  // console.log(' date_time_hi: ', date_time_hi);
+  // console.log(' status: ', status);
 
   const promise = Model.getFiltered({ date_time_lo, date_time_hi, status });
   const [orders, error] = await asynch(promise);
@@ -169,15 +172,30 @@ exports.getByUuid = async (req, res, next) => {
   const order = orders_products[0];
   if (error1)
     return next(new DatabaseError(error1, '/src/api/orders/controller.js -- Model.getByUuid()'));
-  console.log('order: ', order);
+  // console.log('order: ', order);
 
   // step 2: Get products in order by order_id
   const [line_items, error2] = await asynch( Model.getProductsInOrderById( order.id ));
   if (error2)
     return next(new DatabaseError(error2, '/src/api/orders/controller.js -- Model.getProductsInOrderById()'));  
-  console.log('line_items: ', line_items);
+  // console.log('line_items: ', line_items);
 
   res.status(201).json({ order, line_items });
+};
+
+// ==============================================
+
+exports.updateStatus = async (req, res, next) => {
+  console.blue('[POST] /api/orders/update-status');
+  const { id, status } = req.body; // number, number
+
+  const promise = Model.updateStatus(id, status);
+  const [rows_updated, error] = await asynch(promise);
+  if (error)
+    return next(new DatabaseError(error, '/src/api/orders/controller.js -- updateStatus() -- Model.updateStatus()'));
+  console.log('rows_updated: ', rows_updated);
+
+  res.status(201).json({ rows_updated });
 };
 
 // ==============================================
@@ -207,6 +225,7 @@ const doStripe = async (line_items, order_uuid, next) => {
     success_url: `${FRONTEND_URL}/checkout-success?order_uuid=${order_uuid}`,
     cancel_url: `${FRONTEND_URL}/checkout-fail`,
     currency: 'USD',
+    // josh: 'FUCK'
   });
   console.log('nomalized_line_items: ', normalized_line_items);
 

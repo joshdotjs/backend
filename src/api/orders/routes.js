@@ -19,6 +19,11 @@ router.post('/get-filtered',
 );
 router.post('/', Controller.create);
 router.get('/:uuid', Controller.getByUuid);
+router.post('/update-status', 
+  // authMiddleware.restricted,
+  // authMiddleware.admin, // the user updates their status via the stripe webhook
+  Controller.updateStatus
+); 
 
 // ==============================================
 

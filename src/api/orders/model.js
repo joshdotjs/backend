@@ -24,12 +24,11 @@ exports.getFiltered = ({ date_time_lo, date_time_hi, status }) => {
   //       -05: This represents the time zone offset, indicating that the time is 5 hours behind Coordinated Universal Time (UTC). In the context of the United States, this corresponds to Central Time (CT) during Daylight Saving Time.
   // => "4th of October 2023, 7:39:27.707315 PM, Central Time (with Daylight Saving Time)"
   
-  console.log('status: ', status);
-
   return db('orders')
     .where('created_at', '>',  date_time_lo)
     .where('created_at', '<=', date_time_hi)
-    .whereIn('status', status);
+    .whereIn('status', status)
+    .orderBy('created_at', 'asc');
 }
 
 // ==============================================
@@ -105,3 +104,15 @@ exports.getByUuid = async (uuid) => {
   return db('orders')
     .where('uuid', uuid);
 };
+
+// ==============================================
+
+exports.updateStatus = (id, status) => {
+  // id:      number
+  // status:  0 | 1 | 2 | 3 | 4
+  // return:  promise that resolves to number of rows updated
+
+  return db('orders')
+    .where('id', id)
+    .update({ status });
+}
