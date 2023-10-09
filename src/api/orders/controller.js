@@ -154,7 +154,7 @@ exports.create = async (req, res, next) => {
     console.log('line_items: ', line_items);
 
     // send to stripe
-    const url = await doStripe(line_items, created_order.uuid, next);
+    const url = await doStripe(line_items, created_order.uuid, created_order.id, next);
     console.log('url: ', url);
 
     // res.status(201).json({ created_order, line_items });
@@ -200,7 +200,7 @@ exports.updateStatus = async (req, res, next) => {
 
 // ==============================================
 
-const doStripe = async (line_items, order_uuid, next) => {
+const doStripe = async (line_items, order_uuid, order_id, next) => {
   // Step 1: Normalize line_items for stripe
   const normalized_line_items = line_items.map(({product_name, product_price, quantity}) => {
     return {
@@ -225,7 +225,12 @@ const doStripe = async (line_items, order_uuid, next) => {
     success_url: `${FRONTEND_URL}/checkout-success?order_uuid=${order_uuid}`,
     cancel_url: `${FRONTEND_URL}/checkout-fail`,
     currency: 'USD',
-    // josh: 'FUCK'
+    // automatic_tax: {enabled: true},
+    metadata : {
+      // user: user,
+      // tokens: tokens,
+      order_id,
+    }
   });
   console.log('nomalized_line_items: ', normalized_line_items);
 
@@ -246,10 +251,9 @@ const doStripe = async (line_items, order_uuid, next) => {
 
 // ==============================================
 
-exports.webhook = (request, response) => {
+exports.webhook = async (request, response) => {
   const payload = request.body;
   const { type } = payload;
-
   
   // payload type:  payment_intent.created
   // payload type:  customer.created
@@ -265,7 +269,7 @@ exports.webhook = (request, response) => {
    if (type === 'payment_intent.succeeded') {
     console.log("***********************************");
     console.magenta('Stage 3');
-    console.log('payload: ', payload);
+    // console.log('payload: ', payload);
         
     // NOTE: This is only payment_intent ID for type === payment_intent.created & payment_intent.succeeded
     const payment_intent_id = payload.data.object.id;
@@ -294,8 +298,18 @@ exports.webhook = (request, response) => {
   } 
   else if (type === 'checkout.session.completed') {
     console.cyan('Stage 5');
-    console.log('payload: ', payload);
+    // console.log('payload: ', payload);
+    console.log('payload.data.object.metadata.order_id: ', payload.data.object.metadata.order_id);
+    const { order_id } = payload.data.object.metadata;
+    const promise = Model.updateStatus(order_id, 2); // 1 => pending, 2 => preparing
+    const [rows_updated, error] = await asynch(promise);
+    if (error)
+      return next(new DatabaseError(error, 'stripe webhook -- type === checkout.session.completed'));
+    console.log('rows_updated: ', rows_updated);
   }
 
+  // Respond to Stripe:
+  //   -Once you've successfully received and processed the event, send a 200 OK response back to Stripe. This tells Stripe you've successfully received the event, and they won't resend it.
+  //   -If Stripe doesn't get a success response (either no response or an error response), it will keep trying to send the event to your server for up to three days.
   response.status(200).end(); // https://stackoverflow.com/a/68440790 -- "Client.Timeout exceeded while awaiting headers"
 }
