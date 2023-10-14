@@ -65,7 +65,7 @@ server.use('/api/auth',     required('api/auth/routes'));
 
 // SPA pages
 server.get('*', (req, res, next) => {
-  res.sendFile(path.join(__dirname, '..', 'public', '_frontend-dist', 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'public', '_frontend-dist', 'index.html'));
 });
 
 // ==============================================

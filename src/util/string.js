@@ -21,10 +21,22 @@ function truncateStringFront({ str, len = 6 }) {
 // ==============================================
 
 function zeroPad(n, width = 2) {
-  // padZero(7)    =>   "07"
-  // padZero(7, 2) =>   "07"
-  // padZero(7, 3) =>  "007
+  // zeroPad(7)    =>   "07"
+  // zeroPad(7, 2) =>   "07"
+  // zeroPad(7, 3) =>  "007
   return String(n).padStart(width, '0');
+}
+
+// ==============================================
+
+function removeWhitespaceAndMakeLowercase(inputString) {
+  // Remove whitespace using a regular expression
+  const stringWithoutWhitespace = inputString.replace(/\s/g, '');
+
+  // Convert the string to lowercase
+  const lowercaseString = stringWithoutWhitespace.toLowerCase();
+
+  return lowercaseString;
 }
 
 // ==============================================
