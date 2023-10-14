@@ -1,4 +1,4 @@
-function truncateStringFront({ str, len=6 }) {
+function truncateFront({ str, len=6 }) {
   if (str.length > len) {
     return "..." + str.substring(str.length - len, str.length);
   } else {
@@ -167,7 +167,7 @@ function truncateStringFront({ str, len=6 }) {
   
       const createTD = (name) => {
         const td = document.createElement('td');
-        if (name === 'password') td.innerText = truncateStringFront({ str: data[name] });
+        if (name === 'password') td.innerText = truncateFront({ str: data[name] });
         else td.innerText = data[name];
         if (name === 'id' || name === 'password') td.classList.add('j-hide-up-to-md');
         table_row.appendChild(td);

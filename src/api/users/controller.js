@@ -1,7 +1,7 @@
 const Model = require('./model');
 const { hash } = required('util/hash');
 const { asynch } = required('util/async');
-const { truncateStringFront } = required('util/string');
+const { truncateFront } = required('util/string');
 const { HttpError, DatabaseError } = required('util/error');
 
 // 422: Unprocessable Entity
@@ -19,7 +19,7 @@ exports.get = async (req, res) => {
 
   const users = data.map((user) => ({
     ...user,
-    password: truncateStringFront({ str: user.password }),
+    password: truncateFront({ str: user.password }),
   }));
 
   res.status(200).json( users )

@@ -1,7 +1,7 @@
 require('../util/path');
 const {
-  truncateString,
-  truncateStringFront,
+  truncate,
+  truncateFront,
   zeroPad,
   removeWhitespace,
   lowercase,

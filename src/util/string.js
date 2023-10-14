@@ -1,4 +1,4 @@
-exports.truncateString = ({ str, len = 6 }) => {
+exports.truncate = ({ str, len = 6 }) => {
   if (str.length > len)
     return str.substring(0, len) + "...";
   else
@@ -7,7 +7,7 @@ exports.truncateString = ({ str, len = 6 }) => {
 
 // ==============================================
 
-exports.truncateStringFront = ({ str, len = 6 }) => {
+exports.truncateFront = ({ str, len = 6 }) => {
   if (str.length > len)
     return "..." + str.substring(str.length - len, str.length);
   else
