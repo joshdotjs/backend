@@ -44,13 +44,12 @@ exports.login = async (req, res, next) => {
 
   // TODO: validate input
 
-  user.email = removeWhitespace( lowercase( user.email ) );
-
   console.log('[POST] /api/auth/login');
   console.log('email: ', email, '\tpassword: ', password);
 
   try {
-    const user_array = await UsersModel.getByEmail(email);
+    const stripped_email = removeWhitespace( lowercase( email ) );
+    const user_array = await UsersModel.getByEmail( stripped_email );
 
     const user = user_array[0];
     console.log('user: ', user);
