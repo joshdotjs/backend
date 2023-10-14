@@ -62,12 +62,16 @@ describe('util/string.js', () => {
   it('removeWhitespace()', async () => {
     // 'a b c d'    =>   "abcd"
     expect(removeWhitespace('a b c d') ).toBe("abcd");
-    expect(removeWhitespace('a b c d') ).not.toBe("a b c d");
 
     // ' ab cd '    =>   "abcd"
     expect(removeWhitespace(' ab cd ') ).toBe("abcd");
-    expect(removeWhitespace(' ab cd ') ).not.toBe(" ab cd ");
-    expect(removeWhitespace(' ab cd ') ).not.toBe(" abcd ");
+  });
+
+  // ==============================================
+
+  it('lowercase()', async () => {
+    // 'A b C d'    =>   "a b c d"
+    expect(lowercase('A b C d') ).toBe("a b c d");
   });
 
   // ==============================================

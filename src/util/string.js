@@ -25,17 +25,17 @@ exports.zeroPad = (n, width = 2) => {
 
 // ==============================================
 
-exports.removeWhitespace = (inputString) => {
+exports.removeWhitespace = (str) => {
   // Remove whitespace using a regular expression
-  const no_whitespace = inputString.replace(/\s/g, '');
+  const no_whitespace = str.replace(/\s/g, '');
   return no_whitespace
 }
 
 // ==============================================
 
-exports.lowercase = (inputString) => {
+exports.lowercase = (str) => {
   // Convert the string to lowercase
-  const lowercase = stringWithoutWhitespace.toLowerCase();
+  const lowercase = str.toLowerCase();
   return lowercase;
 }
 
