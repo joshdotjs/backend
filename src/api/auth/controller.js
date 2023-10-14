@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const { hash } = required('util/hash');
+const { removeWhitespace, lowercase } = required('util/string');
 
 const jwt = require('jsonwebtoken');
 
@@ -15,8 +16,12 @@ exports.register = async (req, res, next) => {
   let user = { ...req.body };
   console.log('[POST] /api/auth/register, user: ', user);
 
+  // TODO: validate input
+  // -return error is email or password don't meet requirements
+
   // never save the plain text password in the db
   user.password = hash(user.password);
+  user.email = removeWhitespace( lowercase( user.email ) );
 
   try {
     const new_user = await UsersModel.insertUser(user);
@@ -36,6 +41,10 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
 
   const { email, password } = req.body;
+
+  // TODO: validate input
+
+  user.email = removeWhitespace( lowercase( user.email ) );
 
   console.log('[POST] /api/auth/login');
   console.log('email: ', email, '\tpassword: ', password);
