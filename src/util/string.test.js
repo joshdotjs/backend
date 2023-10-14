@@ -42,16 +42,35 @@ describe('util/string.js', () => {
 
   // ==============================================
 
+  it('truncate()', async () => {
+    // ('123456789')    =>   "123456..."
+    expect( truncate({ str: '123456789' }) ).toBe("123456...");
+
+    // ('123456789', 1)    =>   "1..."
+    expect( truncate({ str: '123456789', len: 1 }) ).toBe("1...");
+
+    // ('123456789', 2)    =>   "12..."
+    expect( truncate({ str: '123456789', len: 2 }) ).toBe("12...");
+
+    // ('123456789', 3)    =>   "123..."
+    expect( truncate({ str: '123456789', len: 3 }) ).toBe("123...");
+
+    // ('123456789', 8)    =>   "12345678..."
+    expect( truncate({ str: '123456789', len: 8 }) ).toBe("12345678...");
+  });
+
+  // ==============================================
+
   it('zeroPad()', async () => {
-    // padZero(7)    =>   "07"
+    // (7)    =>   "07"
     expect( zeroPad(7) ).toBe("07");
     expect( zeroPad(7) ).not.toBe("7");
 
-    // padZero(7, 2) =>   "07"
+    // (7, 2) =>   "07"
     expect( zeroPad(7, 2) ).toBe("07");
     expect( zeroPad(7, 2) ).not.toBe("7");
 
-    // padZero(7, 3) =>  "007
+    // (7, 3) =>  "007
     expect( zeroPad(7, 3) ).toBe("007");
     expect( zeroPad(7, 3) ).not.toBe("07");
     expect( zeroPad(7, 3) ).not.toBe("7");
