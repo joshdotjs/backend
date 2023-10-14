@@ -2,7 +2,9 @@ require('../util/path');
 const {
   truncateString,
   truncateStringFront,
-  zeroPad
+  zeroPad,
+  removeWhitespace,
+  lowercase,
 } = required('util/string');
 // const request = require('supertest');
 // const server = require('../server');
@@ -53,6 +55,19 @@ describe('util/string.js', () => {
     expect( zeroPad(7, 3) ).toBe("007");
     expect( zeroPad(7, 3) ).not.toBe("07");
     expect( zeroPad(7, 3) ).not.toBe("7");
+  });
+
+  // ==============================================
+
+  it('removeWhitespace()', async () => {
+    // 'a b c d'    =>   "abcd"
+    expect(removeWhitespace('a b c d') ).toBe("abcd");
+    expect(removeWhitespace('a b c d') ).not.toBe("a b c d");
+
+    // ' ab cd '    =>   "abcd"
+    expect(removeWhitespace(' ab cd ') ).toBe("abcd");
+    expect(removeWhitespace(' ab cd ') ).not.toBe(" ab cd ");
+    expect(removeWhitespace(' ab cd ') ).not.toBe(" abcd ");
   });
 
   // ==============================================

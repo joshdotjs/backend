@@ -1,26 +1,22 @@
-function truncateString({ str, len = 6 }) {
-  if (str.length > len) {
+exports.truncateString = ({ str, len = 6 }) => {
+  if (str.length > len)
     return str.substring(0, len) + "...";
-  }
-  else {
+  else
     return str;
-  }
 }
 
 // ==============================================
 
-function truncateStringFront({ str, len = 6 }) {
-  if (str.length > len) {
+exports.truncateStringFront = ({ str, len = 6 }) => {
+  if (str.length > len)
     return "..." + str.substring(str.length - len, str.length);
-  }
-  else {
+  else
     return str;
-  }
 }
 
 // ==============================================
 
-function zeroPad(n, width = 2) {
+exports.zeroPad = (n, width = 2) => {
   // zeroPad(7)    =>   "07"
   // zeroPad(7, 2) =>   "07"
   // zeroPad(7, 3) =>  "007
@@ -29,20 +25,18 @@ function zeroPad(n, width = 2) {
 
 // ==============================================
 
-function removeWhitespaceAndMakeLowercase(inputString) {
+exports.removeWhitespace = (inputString) => {
   // Remove whitespace using a regular expression
-  const stringWithoutWhitespace = inputString.replace(/\s/g, '');
-
-  // Convert the string to lowercase
-  const lowercaseString = stringWithoutWhitespace.toLowerCase();
-
-  return lowercaseString;
+  const no_whitespace = inputString.replace(/\s/g, '');
+  return no_whitespace
 }
 
 // ==============================================
 
-module.exports = {
-  truncateString,
-  truncateStringFront,
-  zeroPad
-};
+exports.lowercase = (inputString) => {
+  // Convert the string to lowercase
+  const lowercase = stringWithoutWhitespace.toLowerCase();
+  return lowercase;
+}
+
+// ==============================================
