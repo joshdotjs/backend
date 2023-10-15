@@ -81,11 +81,10 @@ exports.login = async (req, res, next) => {
         //    --{ id: 1, email: 'email' [string], password: 'password' [string], is_admin: false [boolean] }
         //  -Fail:
         //    --undefined
-        // console.log('user: ', user);
+        console.log('user: ', user);
         // console.log('typeof user.created_at: ', typeof user?.created_at);
         // TESTS:
         //  -UsersModel.getByEmail() with email that is not in DB
-        //  -UsersModel.getByEmail() with wrong password
         //  -AuthController.login() with email that is not in DB
         //  -AuthController.login() with wrong password
         if (user && bcrypt.compareSync(password, user.password)) {
