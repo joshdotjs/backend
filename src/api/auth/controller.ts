@@ -1,16 +1,16 @@
+// libs:
 import { Request, Response, NextFunction } from 'express';
 const bcrypt = require('bcryptjs');
-// const { hash } = required('util/hash');
-const { hash } = require('../../util/hash');
-// const { removeWhitespace, lowercase } = required('util/string');
-const { removeWhitespace, lowercase } = require('../../util/string');
-
 const jwt = require('jsonwebtoken');
 
+// models:
 const UsersModel = require('../users/model');
 
-// const { HttpError, DatabaseError } = required('util/error');
+// utils:
+const { hash } = require('../../util/hash');
+const { asynch } = require('../../util/async');
 const { HttpError, DatabaseError } = require('../../util/error');
+const { removeWhitespace, lowercase } = require('../../util/string');
 
 // ==============================================
 
@@ -67,8 +67,9 @@ exports.register = async (req: Request, res: Response, next: NextFunction) => {
 //          }
 //  
 //  -Fail:
-//    --1. email is not in DB
-//    --2. password is not valid for email
+//    --1: email or password is missing
+//    --2. email is not in DB
+//    --3. password is not valid for email
 
 exports.login = async (req: Request, res: Response, next: NextFunction) => {
 
@@ -80,11 +81,20 @@ exports.login = async (req: Request, res: Response, next: NextFunction) => {
   console.log('email: ', email, '\tpassword: ', password);
 
   // validate input
-  if (!email || !password)
+  if (!email || !password) // fail case: 1
     return next(new HttpError('email and password required', 401));
 
   const stripped_email = removeWhitespace( lowercase( email ) );
-  const user_array = await UsersModel.getByEmail( stripped_email ); // TODO: asynch error handling
+  // const user_array = await UsersModel.getByEmail( stripped_email ); // TODO: asynch error handling
+  const promise = UsersModel.getByEmail( stripped_email ); // TODO: asynch error handling
+  const [user_array, error] = await asynch(promise);
+  if (error) return next(new DatabaseError(error, '/src/api/auth/controller.js -- UsersModel.getByEmail()'));
+
+  // possible returned values:
+  //  -Success:
+  //    --{ id: 1, email: 'email', password: 'password', is_admin: false, last_name: 'holloway', first_name: 'josh', created_at, updated_at }
+  //  -Fail:
+  //    --undefined
   const user: 
     {
       id: number,
@@ -93,23 +103,20 @@ exports.login = async (req: Request, res: Response, next: NextFunction) => {
       is_admin: boolean,
       first_name: string,
       last_name: string,
-      created_at: object, // is this right?
-      updated_at: object, // is this right?
+      created_at: object,
+      updated_at: object,
     }
     | undefined 
     = user_array[0];
-    // possible returned values:
-    //  -Success:
-    //    --{ id: 1, email: 'email' [string], password: 'password' [string], is_admin: false [boolean] }
-    //  -Fail:
-    //    --undefined
+
   console.log('user: ', user);
+
   // console.log('typeof user.created_at: ', typeof user?.created_at);
-  if (user === undefined)
+  if (user === undefined) // fail case 2: email is not in DB
     return next(new HttpError('User does not exist', 401));
 
   const password_is_correct = bcrypt.compareSync(password, user.password);
-  if (!password_is_correct)
+  if (!password_is_correct) // fail case 3: password is not valid for email
     return next(new HttpError('Password is wrong', 401));
 
   // TESTS:
