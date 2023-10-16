@@ -48,7 +48,7 @@ exports.remove = async (id) => {
 
 exports.update = async (user, id) => {
 
-  console.log('model :: update() -- user: ', user);
+  // console.log('model :: update() -- user: ', user);
 
   const num_rows_updated = await db('users')
     .where('id', +id)
@@ -67,7 +67,7 @@ exports.update = async (user, id) => {
 // ==============================================
 
 exports.getByEmail = (email) => {
-  console.log('model  --  getUserByEmail( email ) ');
+  // console.log('model  --  getUserByEmail( email ) ');
   return db('users')
     .where('email', email);
 };

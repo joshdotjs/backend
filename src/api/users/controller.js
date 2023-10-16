@@ -28,8 +28,8 @@ exports.get = async (req, res) => {
 // ==============================================
 
 exports.create = async (req, res, next) => {
-  console.log('[POST] /api/users ');
-  console.log('req.body: ', req.body);
+  // console.log('[POST] /api/users ');
+  // console.log('req.body: ', req.body);
 
   const { email, password, is_admin } = req.body;
 
@@ -67,7 +67,7 @@ exports.getByID = async (req, res) => {
 
   const id = req.params.id;
 
-  console.log('[GET] /api/users/:id -- user_id: ', id);
+  // console.log('[GET] /api/users/:id -- user_id: ', id);
 
   // -A logged in user can get info on themselves, but no other user.
   //  => Ensure that user_id is the same ID as the user sending the request.
@@ -97,8 +97,8 @@ exports.getByID = async (req, res) => {
 exports.deleteByID = async (req, res, next) => {
   
   const id = req.params.id;
-  const str = `[DELETE] /api/users/:id -- user_id: ${id}`;
-  console.red(str);
+  // const str = `[DELETE] /api/users/:id -- user_id: ${id}`;
+  // console.red(str);
 
   const num_rows_deleted = await Model.remove(id);
   if (num_rows_deleted === 0) {
@@ -112,8 +112,8 @@ exports.deleteByID = async (req, res, next) => {
 exports.update = async (req, res, next) => {
 
   const id = req.params.id;
-  const str = `[PUT]  /api/users/:${id}`;
-  console.log(str);
+  // const str = `[PUT]  /api/users/:${id}`;
+  // console.log(str);
 
   const user = req.body;
   console.log('user: ', user);

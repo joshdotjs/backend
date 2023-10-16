@@ -64,8 +64,8 @@ exports.login = async (req, res, next) => {
     // const { email, password } = req.body;
     const email = req.body.email;
     const password = req.body.password;
-    console.log('[POST] /api/auth/login');
-    console.log('email: ', email, '\tpassword: ', password);
+    // console.log('[POST] /api/auth/login');
+    // console.log('email: ', email, '\tpassword: ', password);
     // validate input
     if (!email || !password) // fail case: 1
         return next(new HttpError('email and password required', 401));
@@ -81,27 +81,13 @@ exports.login = async (req, res, next) => {
     //  -Fail:
     //    --undefined
     const user = user_array[0];
-    console.log('user: ', user);
+    // console.log('user: ', user);
     // console.log('typeof user.created_at: ', typeof user?.created_at);
     if (user === undefined) // fail case 2: email is not in DB
         return next(new HttpError('User does not exist', 401));
     const password_is_correct = bcrypt.compareSync(password, user.password);
     if (!password_is_correct) // fail case 3: password is not valid for email
         return next(new HttpError('Password is wrong', 401));
-    // TESTS:
-    //  -UsersModel.getByEmail() with email that is not in DB
-    //  -TODO: AuthController.login() with email that is not in DB
-    //  -TODO: AuthController.login() with wrong password
-    // NOTE: Here
-    // NOTE: Here
-    // NOTE: Here
-    // NOTE: Here
-    // NOTE: Here
-    // NOTE: Here
-    // NOTE: Here
-    // NOTE: Here
-    // NOTE: Here
-    // NOTE: Here
     const payload = {
         id: user.id,
         email: user.email,
@@ -112,16 +98,6 @@ exports.login = async (req, res, next) => {
     };
     const token_secret = process.env.TOKEN_SECRET;
     const token = jwt.sign(payload, token_secret, options);
-    // TODO: Handle unsuccessful login
-    // TODO: Handle unsuccessful login
-    // TODO: Handle unsuccessful login
-    // TODO: Handle unsuccessful login
-    // TODO: Handle unsuccessful login
-    // TODO: Handle unsuccessful login
-    // TODO: Handle unsuccessful login
-    // TODO: Handle unsuccessful login
-    // TODO: Handle unsuccessful login
-    // TODO: Handle unsuccessful login
     res.status(200).json({
         status: 'success',
         user,
