@@ -76,93 +76,92 @@ exports.login = async (req: Request, res: Response, next: NextFunction) => {
   const email: string = req.body.email;
   const password: string = req.body.password;
 
-
-  console.log('typeof email: ', typeof email);
-  console.log('typeof password: ', typeof password);
-
-  // validate input
-  if (email === undefined || password === undefined) {
-    console.error('ERROR');
-    // TODO: hanlde error
-  }
-
-
   console.log('[POST] /api/auth/login');
   console.log('email: ', email, '\tpassword: ', password);
 
-  try {
-    const stripped_email = removeWhitespace( lowercase( email ) );
-    const user_array = await UsersModel.getByEmail( stripped_email );
-    const user: 
-      {
-        id: number,
-        email: string,
-        password: string,
-        is_admin: boolean,
-        first_name: string,
-        last_name: string,
-        created_at: object, // is this right?
-        updated_at: object, // is this right?
-      }
-      | undefined 
-      = user_array[0];
-      // possible returned values:
-      //  -Success:
-      //    --{ id: 1, email: 'email' [string], password: 'password' [string], is_admin: false [boolean] }
-      //  -Fail:
-      //    --undefined
-    console.log('user: ', user);
-    // console.log('typeof user.created_at: ', typeof user?.created_at);
+  // validate input
+  if (!email || !password)
+    return next(new HttpError('email and password required', 401));
 
-    // TESTS:
-    //  -UsersModel.getByEmail() with email that is not in DB
-    //  -AuthController.login() with email that is not in DB
-    //  -AuthController.login() with wrong password
-
-    
-
-
-
-    if (user && bcrypt.compareSync(password, user.password)) {
-      const payload = {
-        id: user.id,
-        email: user.email,
-        is_admin: user.is_admin,
-      };
-
-      const options = {
-        expiresIn: '1d', // '1d, 1h, 1m
-      };
-
-      const token_secret = process.env.TOKEN_SECRET;
-
-      const token = jwt.sign(payload, token_secret, options);
-
-
-      // TODO: Handle unsuccessful login
-      // TODO: Handle unsuccessful login
-      // TODO: Handle unsuccessful login
-      // TODO: Handle unsuccessful login
-      // TODO: Handle unsuccessful login
-      // TODO: Handle unsuccessful login
-      // TODO: Handle unsuccessful login
-      // TODO: Handle unsuccessful login
-      // TODO: Handle unsuccessful login
-      // TODO: Handle unsuccessful login
-
-      res.status(200).json({
-        status: 'success',
-        user,
-        token,
-      });
-    } else {
-      return next(new HttpError('Invalid Credentials', 401));
-      //res.status(401).json({ message: 'ERROR 401: Unauthorized'});
+  const stripped_email = removeWhitespace( lowercase( email ) );
+  const user_array = await UsersModel.getByEmail( stripped_email ); // TODO: asynch error handling
+  const user: 
+    {
+      id: number,
+      email: string,
+      password: string,
+      is_admin: boolean,
+      first_name: string,
+      last_name: string,
+      created_at: object, // is this right?
+      updated_at: object, // is this right?
     }
-  } catch (err) {
-    //res.status(400).json({ message: 'ERROR 400: Bad request'});
-    return next(new HttpError('Bad request', 400));
-  }
+    | undefined 
+    = user_array[0];
+    // possible returned values:
+    //  -Success:
+    //    --{ id: 1, email: 'email' [string], password: 'password' [string], is_admin: false [boolean] }
+    //  -Fail:
+    //    --undefined
+  console.log('user: ', user);
+  // console.log('typeof user.created_at: ', typeof user?.created_at);
+  if (user === undefined)
+    return next(new HttpError('User does not exist', 401));
+
+  const password_is_correct = bcrypt.compareSync(password, user.password);
+  if (!password_is_correct)
+    return next(new HttpError('Password is wrong', 401));
+
+  // TESTS:
+  //  -UsersModel.getByEmail() with email that is not in DB
+  //  -TODO: AuthController.login() with email that is not in DB
+  //  -TODO: AuthController.login() with wrong password
+  
+
+  // NOTE: Here
+  // NOTE: Here
+  // NOTE: Here
+  // NOTE: Here
+  // NOTE: Here
+  // NOTE: Here
+  // NOTE: Here
+  // NOTE: Here
+  // NOTE: Here
+  // NOTE: Here
+
+
+    const payload = {
+      id: user.id,
+      email: user.email,
+      is_admin: user.is_admin,
+    };
+
+    const options = {
+      expiresIn: '1d', // '1d, 1h, 1m
+    };
+
+    const token_secret = process.env.TOKEN_SECRET;
+
+    const token = jwt.sign(payload, token_secret, options);
+
+
+    // TODO: Handle unsuccessful login
+    // TODO: Handle unsuccessful login
+    // TODO: Handle unsuccessful login
+    // TODO: Handle unsuccessful login
+    // TODO: Handle unsuccessful login
+    // TODO: Handle unsuccessful login
+    // TODO: Handle unsuccessful login
+    // TODO: Handle unsuccessful login
+    // TODO: Handle unsuccessful login
+    // TODO: Handle unsuccessful login
+
+    res.status(200).json({
+      status: 'success',
+      user,
+      token,
+    });
+
 };
 
 // ==============================================
