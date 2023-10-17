@@ -65,4 +65,45 @@ describe('Routes - Orders', () => {
 
   // ============================================
 
+  // TODO: Test createOrder()
+  // TODO: Test createOrder()
+  // TODO: Test createOrder()
+  // TODO: Test createOrder()
+
+  // ============================================
+
+
+  // it('[POST]  /api/orders/get-filtered', async () => {
+  //   const resp = await request(server).post('/api/auth/login').send({ email: 'josh@josh.com', password: 'josh' });
+  //   const { status, user, token } = resp.body;
+  //   expect(resp.status).toBe(200);
+
+  //   // try to access orders withOUT token
+  //   const resp1 = await request(server).get('/api/orders')
+  //   expect(resp1.status).toBe(401); // from middleware restricted()
+
+  // NOTE: need to create an order in order to get the time rnage for filtering
+  // NOTE: need to create an order in order to get the time rnage for filtering
+  // NOTE: need to create an order in order to get the time rnage for filtering
+  // NOTE: need to create an order in order to get the time rnage for filtering
+  // NOTE: need to create an order in order to get the time rnage for filtering
+  // NOTE: need to create an order in order to get the time rnage for filtering
+  // NOTE: need to create an order in order to get the time rnage for filtering
+  // NOTE: need to create an order in order to get the time rnage for filtering
+
+  //   // try to access orders WITH valid token
+  //   const resp2 = await request(server)
+  //     .post('/api/orders')
+  //     .send({  })
+  //     .set('Authorization', token)  // Setting a custom header
+  //   expect(resp2.status).toBe(200);
+
+  //   // updating the order status changes the orders array indices (i.e., orders[0] will likely not have order.id === 1)
+  //   // -however, since we are re-seeding on every run here, the order.id === 1 should be the first order in the orders array
+  //   const orders = resp2.body;
+
+  // });
+
+  // ============================================
+
 });
