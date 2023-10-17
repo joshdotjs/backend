@@ -49,6 +49,18 @@ describe('Routes - Orders', () => {
     // try to access orders WITH valid token
     const resp2 = await request(server).get('/api/orders').set('Authorization', token)  // Setting a custom header
     expect(resp2.status).toBe(200);
+
+    // updating the order status changes the orders array indices (i.e., orders[0] will likely not have order.id === 1)
+    // -however, since we are re-seeding on every run here, the order.id === 1 should be the first order in the orders array
+    const orders = resp2.body;
+    // console.log('orders', orders);
+    expect(orders[0].id).toBe(1);
+    expect(orders[0].status).toBe(1);
+    expect(orders[0].user_id).toBe(1);
+    // expect(orders[0].total).toBe(100); // NOTE: Seeding total calculation needs to be fixed
+    expect(orders[0].uuid).toBeDefined();
+    expect(orders[0].created_at).toBeDefined();
+    expect(orders[0].updated_at).toBeDefined();
   });
 
   // ============================================
