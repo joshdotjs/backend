@@ -14,6 +14,7 @@ const { removeWhitespace, lowercase } = require('../../util/string');
 
 // ==============================================
 
+// TODO: Unit Test
 exports.register = async (req: Request, res: Response, next: NextFunction) => {
   // Get todays date and time-index:
 
@@ -23,12 +24,39 @@ exports.register = async (req: Request, res: Response, next: NextFunction) => {
   // TODO: validate input
   // -return error is email or password don't meet requirements
 
+  // TODO: Make sure email is unique
+  // const stripped_email = removeWhitespace( lowercase( email ) );
+  // const promise = UsersModel.getByEmail( stripped_email );
+  // const [user_array, error] = await asynch(promise);
+  // if (error) 
+  //   return next(new DatabaseError(error, '/src/api/auth/controller.js -- UsersModel.getByEmail()'));
+  // possible returned values:
+  //  -Success:
+  //    --{ id: 1, email: 'email', password: 'password', is_admin: false, last_name: 'holloway', first_name: 'josh', created_at, updated_at }
+  //  -Fail:
+  //    --undefined
+  // const prev_user: 
+  //   {
+  //     id: number,
+  //     email: string,
+  //     password: string,
+  //     is_admin: boolean,
+  //     first_name: string,
+  //     last_name: string,
+  //     created_at: object,
+  //     updated_at: object,
+  //   }
+  //   | undefined 
+  //   = user_array[0];
+  // if (prev_user !== undefined) // fail case: user already exists
+  //   return next(new HttpError('User already exists', 401));
+
   // never save the plain text password in the db
-  user.password = hash(user.password);
+  user.password = hash( user.password );
   user.email = removeWhitespace( lowercase( user.email ) );
 
   try {
-    const new_user = await UsersModel.insertUser(user);
+    const new_user = await UsersModel.insertUser(user); // TODO: replace try / catch with:    [data, error] = await asynch( UsersModel.insertUser( user ) )
     console.log('new_user: ', new_user);
 
     res.status(201).json({
