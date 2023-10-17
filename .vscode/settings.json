@@ -16,6 +16,8 @@
 
     // generated JS from TS:
     "src/api/auth/controller.js": true,
+
+    // "coverage": true,
   },
   "cSpell.words": [
     "asynch",

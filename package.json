@@ -3,25 +3,32 @@
     "dev": "nodemon index.js",
     "stripe": "stripe listen --forward-to localhost:9000/api/orders/webhook",
     "dev:e2e": "cross-env  NODE_ENV=testing  nodemon index.js",
+
     "ts": "tsc",
     "ts:watch": "tsc --watch",
+
     "start": "node index.js",
     "e2e": "cross-env  NODE_ENV=testing  npx cypress open --e2e --browser=chrome",
+
     "test": "cross-env NODE_ENV=testing jest --runInBand",
     "test:verbose": "cross-env NODE_ENV=testing jest --verbose --runInBand",
     "test:watch": "cross-env NODE_ENV=testing jest --watchAll --runInBand",
+
     "migrate": "knex migrate:latest",
-    "migrateh": "heroku run knex migrate:latest -a postgresql-project",
     "rollback": "knex migrate:rollback",
-    "rollbackh": "heroku run knex migrate:rollback -a postgresql-project",
     "seed": "knex seed:run",
+    "reset-db": "npm run rollback && npm run migrate && npm run seed",
+    
+    "migrateh": "heroku run knex migrate:latest -a postgresql-project",
+    "rollbackh": "heroku run knex migrate:rollback -a postgresql-project",
     "seedh": "heroku run knex seed:run -a postgresql-project",
+    "reset-dbh": "npm run rollbackh && npm run migrateh && npm run seedh",
+    "databaseh": "heroku pg:psql -a postgresql-project",
+    
     "migrate-test": "NODE_ENV=testing   knex migrate:latest",
     "rollback-test": "NODE_ENV=testing  knex migrate:rollback",
     "seed-test": "NODE_ENV=testing      knex seed:run",
-    "reset-db": "npm run rollback && npm run migrate && npm run seed",
-    "reset-dbh": "npm run rollbackh && npm run migrateh && npm run seedh",
-    "databaseh": "heroku pg:psql -a postgresql-project",
+    
     "deploy": "git add . && git commit -m 'deploy' && git push heroku main && git push"
   },
   "engines": {

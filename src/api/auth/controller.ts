@@ -85,10 +85,10 @@ exports.login = async (req: Request, res: Response, next: NextFunction) => {
     return next(new HttpError('email and password required', 401));
 
   const stripped_email = removeWhitespace( lowercase( email ) );
-  // const user_array = await UsersModel.getByEmail( stripped_email ); // TODO: asynch error handling
-  const promise = UsersModel.getByEmail( stripped_email ); // TODO: asynch error handling
+  const promise = UsersModel.getByEmail( stripped_email );
   const [user_array, error] = await asynch(promise);
-  if (error) return next(new DatabaseError(error, '/src/api/auth/controller.js -- UsersModel.getByEmail()'));
+  if (error) 
+    return next(new DatabaseError(error, '/src/api/auth/controller.js -- UsersModel.getByEmail()'));
 
   // possible returned values:
   //  -Success:

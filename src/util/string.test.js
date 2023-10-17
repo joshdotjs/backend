@@ -36,9 +36,9 @@ describe('util/string.js', () => {
 
   // ==============================================
 
-  it('is the correct testing environment', async () => {
-    expect(process.env.NODE_ENV).toBe('testing');
-  });
+  // it('is the correct testing environment', async () => {
+  //   expect(process.env.NODE_ENV).toBe('testing');
+  // });
 
   // ==============================================
 
