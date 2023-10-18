@@ -54,8 +54,6 @@ exports.getFiltered = async (req, res, next) => {
     orders_line_items.push({ order, line_items });
   }
 
-  
-
   res.status(201).json(orders_line_items);
 };
 
