@@ -122,7 +122,7 @@ describe('Routes - Orders', () => {
     // updating the order status changes the orders array indices (i.e., orders[0] will likely not have order.id === 1)
     // -however, since we are re-seeding on every run here, the order.id === 1 should be the first order in the orders array
     const orders = resp2.body;
-    console.log('orders', orders);
+    // console.log('orders', orders);
     expect(orders[3].id).toBe(4); // assumes 3 orders created during seeding
     expect(orders[3].status).toBe(1); // assumes order is in 1='pending' state (i.e., credit card transaction has not been completed)
     expect(orders[3].user_id).toBe(1);
@@ -134,37 +134,64 @@ describe('Routes - Orders', () => {
 
   // ============================================
 
-  // TODO: Test getFiltered()
-  // it('[POST]  /api/orders/get-filtered', async () => {
-  //   const resp = await request(server).post('/api/auth/login').send({ email: 'josh@josh.com', password: 'josh' });
-  //   const { status, user, token } = resp.body;
-  //   expect(resp.status).toBe(200);
+  it('[POST]  /api/orders/get-filtered', async () => {
+    
+    // create order (does not require token - 'preparing' state requires order have successful credit card transaction)
+    const resp0 = await request(server)
+      .post('/api/orders')
+      .send({
+        user_id: 1, 
+        order_items: [
+          { product_id: 1, quantity: 2 },
+          { product_id: 2, quantity: 2 },
+        ] // order_items
+      });
+    expect(resp0.status).toBe(201); // 201 - Created
 
-  //   // try to access orders withOUT token
-  //   const resp1 = await request(server).get('/api/orders')
-  //   expect(resp1.status).toBe(401); // from middleware restricted()
+    const resp1 = await request(server).post('/api/auth/login').send({ email: 'josh@josh.com', password: 'josh' });
+    const { status, user, token } = resp1.body;
+    expect(resp1.status).toBe(200);
 
-  // NOTE: need to create an order in order to get the time rnage for filtering
-  // NOTE: need to create an order in order to get the time rnage for filtering
-  // NOTE: need to create an order in order to get the time rnage for filtering
-  // NOTE: need to create an order in order to get the time rnage for filtering
-  // NOTE: need to create an order in order to get the time rnage for filtering
-  // NOTE: need to create an order in order to get the time rnage for filtering
-  // NOTE: need to create an order in order to get the time rnage for filtering
-  // NOTE: need to create an order in order to get the time rnage for filtering
+    // try to access orders with token
+    const resp2 = await request(server).get('/api/orders').set('Authorization', token);  // Setting a custom header
+    expect(resp2.status).toBe(200);
 
-  //   // try to access orders WITH valid token
-  //   const resp2 = await request(server)
-  //     .post('/api/orders')
-  //     .send({  })
-  //     .set('Authorization', token)  // Setting a custom header
-  //   expect(resp2.status).toBe(200);
+    const orders = resp2.body;
+    const created_at = orders[3].created_at;
+    console.log('created_at', created_at);
+    // console.log('typeof created_at', typeof created_at);
 
-  //   // updating the order status changes the orders array indices (i.e., orders[0] will likely not have order.id === 1)
-  //   // -however, since we are re-seeding on every run here, the order.id === 1 should be the first order in the orders array
-  //   const orders = resp2.body;
+    // we now have the created_at date of the order we created above
+    // -we can use this date to hit the getFiltered() endpoint
+    // -we should get back an array with a single order object
+    // -the order object should have the same created_at date as the order we created above
+    const body = {
+      date_time_hi: created_at,
+      date_time_lo: created_at,
+      status: [0, 1, 2, 3, 4],
+    };
+    // body: {
+    //   date_time_hi: "2023-10-18 05:31:05-05:00",
+    //   date_time_lo: "2023-10-18 00:00:00-05:00",
+    //   status: [1, 2, 3, 4]
+    // }
 
-  // });
+    const resp3 = await request(server)
+      .post('/api/orders/get-filtered')
+      .send(body)
+      .set('Authorization', token);
+    
+    console.log('resp3.body', resp3.body);
+
+    // TODO: the response here does not include the newly created order
+    // TODO: the response here does not include the newly created order
+    // TODO: the response here does not include the newly created order
+    // TODO: the response here does not include the newly created order
+    // TODO: the response here does not include the newly created order
+    // TODO: the response here does not include the newly created order
+    // TODO: the response here does not include the newly created order
+
+  });
 
   // ============================================
 

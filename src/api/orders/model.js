@@ -25,7 +25,7 @@ exports.getFiltered = ({ date_time_lo, date_time_hi, status }) => {
   // => "4th of October 2023, 7:39:27.707315 PM, Central Time (with Daylight Saving Time)"
   
   return db('orders')
-    .where('created_at', '>',  date_time_lo)
+    .where('created_at', '>=',  date_time_lo)
     .where('created_at', '<=', date_time_hi)
     .whereIn('status', status)
     .orderBy('created_at', 'asc');

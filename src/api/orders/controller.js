@@ -60,8 +60,8 @@ exports.getFiltered = async (req, res, next) => {
 // ==============================================
 
 exports.create = async (req, res, next) => {
-    console.log('[POST] /api/orders ');
-    console.log('req.body: ', req.body);
+    // console.log('[POST] /api/orders ');
+    // console.log('req.body: ', req.body);
 
     // ******** expected input ********
     // req.body: { 
@@ -121,7 +121,7 @@ exports.create = async (req, res, next) => {
     if (error)
       return next(new DatabaseError(error, '/src/api/orders/controller.js -- Model.create()'));
     const [created_order] = data;
-    console.log('created_order: ', created_order);
+    // console.log('created_order: ', created_order);
 
     // place product_id's in order_2_product table
     for (let i = 0; i < order_items.length; i++) {
@@ -149,11 +149,11 @@ exports.create = async (req, res, next) => {
     const [line_items, error2] = await asynch( Model.getProductsInOrderById(created_order.id ));
     if (error2)
       return next(new DatabaseError(error2, '/src/api/orders/controller.js -- Model.getProductsInOrderById()'));  
-    console.log('line_items: ', line_items);
+    // console.log('line_items: ', line_items);
 
     // send to stripe
     const url = await doStripe(line_items, created_order.uuid, created_order.id, next);
-    console.log('url: ', url);
+    // console.log('url: ', url);
 
     // res.status(201).json({ created_order, line_items });
     res.status(201).json({ url });
@@ -230,7 +230,7 @@ const doStripe = async (line_items, order_uuid, order_id, next) => {
       order_id,
     }
   });
-  console.log('nomalized_line_items: ', normalized_line_items);
+  // console.log('nomalized_line_items: ', normalized_line_items);
 
   const [session, error] = await asynch( promise );
   if (error) {
