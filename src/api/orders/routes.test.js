@@ -134,6 +134,7 @@ describe('Routes - Orders', () => {
 
   // ============================================
 
+  // TODO:
   it('[POST]  /api/orders/get-filtered', async () => {
     
     // create order (does not require token - 'preparing' state requires order have successful credit card transaction)
@@ -204,6 +205,27 @@ describe('Routes - Orders', () => {
     expect(filtered_orders.length).toBe(4);
     expect(filtered_orders[0].order).toBeDefined(); // test the structure
     expect(filtered_orders[0].line_items).toBeDefined();
+  });
+
+  // ============================================
+
+  // TODO:
+  it('[POST]  /api/orders/update-status', () => {
+    expect(1).toBe(1);
+  });
+
+  // ============================================
+
+  // TODO: 
+  it('[GET]  /api/orders/:uuid', () => {
+    expect(1).toBe(1);
+  });
+
+  // ============================================
+
+  // TODO:
+  it('[POST]  /api/orders/webhook', () => {
+    expect(1).toBe(1);
   });
 
   // ============================================
