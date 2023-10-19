@@ -172,6 +172,7 @@ describe('Routes - Orders', () => {
     // console.log('day_num_plus_1_str', day_num_plus_1_str);
     // console.log('day_num_minus_1_str', day_num_minus_1_str);
 
+    // make the filter date span the range: [today-1, today+1]
     const joined_lo = `${split_dash[0]}-${split_dash[1]}-${day_num_minus_1_str}T${split_T[1]}`;
     const joined_hi = `${split_dash[0]}-${split_dash[1]}-${day_num_plus_1_str}T${split_T[1]}`;
     // console.log('joined_lo', joined_lo);
@@ -201,6 +202,8 @@ describe('Routes - Orders', () => {
 
     // Not a perfect test because filtering includes all of the entries in the orders table since we seed within the time range
     expect(filtered_orders.length).toBe(4);
+    expect(filtered_orders[0].order).toBeDefined(); // test the structure
+    expect(filtered_orders[0].line_items).toBeDefined();
   });
 
   // ============================================
