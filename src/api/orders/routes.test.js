@@ -157,17 +157,32 @@ describe('Routes - Orders', () => {
     expect(resp2.status).toBe(200);
 
     const orders = resp2.body;
+    // console.log('orders', orders);
+
     const created_at = orders[3].created_at;
-    console.log('created_at', created_at);
-    // console.log('typeof created_at', typeof created_at);
+
+    const split_T = created_at.split('T');
+    const split_dash = split_T[0].split('-');
+    const day = split_dash[2];
+    const day_num = parseInt(day);
+    const day_num_plus_1 = day_num + 1;
+    const day_num_plus_1_str = day_num_plus_1.toString();
+    const day_num_minus_1 = day_num - 1;
+    const day_num_minus_1_str = day_num_minus_1.toString();
+    // console.log('day_num_plus_1_str', day_num_plus_1_str);
+    // console.log('day_num_minus_1_str', day_num_minus_1_str);
+
+    const joined_lo = `${split_dash[0]}-${split_dash[1]}-${day_num_minus_1_str}T${split_T[1]}`;
+    const joined_hi = `${split_dash[0]}-${split_dash[1]}-${day_num_plus_1_str}T${split_T[1]}`;
+    // console.log('joined_lo', joined_lo);
 
     // we now have the created_at date of the order we created above
     // -we can use this date to hit the getFiltered() endpoint
     // -we should get back an array with a single order object
     // -the order object should have the same created_at date as the order we created above
     const body = {
-      date_time_hi: created_at,
-      date_time_lo: created_at,
+      date_time_hi: joined_hi,
+      date_time_lo: joined_lo,
       status: [0, 1, 2, 3, 4],
     };
     // body: {
@@ -181,16 +196,11 @@ describe('Routes - Orders', () => {
       .send(body)
       .set('Authorization', token);
     
-    console.log('resp3.body', resp3.body);
+    const filtered_orders = resp3.body;
+    // console.log('filtered_orders', filtered_orders);
 
-    // TODO: the response here does not include the newly created order
-    // TODO: the response here does not include the newly created order
-    // TODO: the response here does not include the newly created order
-    // TODO: the response here does not include the newly created order
-    // TODO: the response here does not include the newly created order
-    // TODO: the response here does not include the newly created order
-    // TODO: the response here does not include the newly created order
-
+    // Not a perfect test because filtering includes all of the entries in the orders table since we seed within the time range
+    expect(filtered_orders.length).toBe(4);
   });
 
   // ============================================
