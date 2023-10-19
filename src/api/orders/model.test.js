@@ -88,9 +88,17 @@ describe('Model - Orders', () => {
 
   // ============================================
 
-  // TODO: 
   it('createOrder2Product', async () => {
-    expect(1).toBe(1);
+    const order_2_product = await OrdersModel.createOrder2Product({
+      order_id: 1,
+      product_id: 1,
+      quantity: 1
+    });
+    // console.log('order_2_product: ', order_2_product);
+    expect(typeof order_2_product[0].id).toBe('number');
+    expect(typeof order_2_product[0].order_id).toBe('number');
+    expect(typeof order_2_product[0].product_id).toBe('number');
+    expect(typeof order_2_product[0].quantity).toBe('number');
   });
 
   // ============================================
