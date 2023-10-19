@@ -103,9 +103,17 @@ describe('Model - Orders', () => {
 
   // ============================================
 
-  // TODO: 
   it('getProductsInOrderById', async () => {
-    expect(1).toBe(1);
+    const products_in_order = await OrdersModel.getProductsInOrderById(1);
+    console.log('products_in_order: ', products_in_order);
+
+    expect(products_in_order.length).toBe(2);
+    expect(products_in_order[0].order_id).toBe(1);
+    expect(products_in_order[0].product_id).toBe(1);
+    expect(typeof products_in_order[0].product_name).toBe('string');
+    expect(typeof products_in_order[0].product_price).toBe('number');
+    expect(typeof products_in_order[0].category).toBe('string');
+    expect(products_in_order[0].quantity).toBe(1);
   });
 
   // ============================================
