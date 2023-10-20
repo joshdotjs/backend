@@ -1,35 +1,41 @@
 /// <reference types="Cypress" />
 
 // ========================================================
+// ========================================================
 
 // ls: { value, expiry }
 const getLS = (x) => JSON.parse(x)?.value;
+const dataCY = (x) => `[data-cy="${x}"`;
+const get = (x) => cy.get( dataCY(x) );
 
 // ========================================================
+// ========================================================
 
-describe('Intro', () => {
+// beforeAll:
+before(() => {
+  // cy.task('resetDB').then(cy.log);
+});
 
-  // -----------------------------------------------------
+beforeEach(() => {
+  cy.visit('http://localhost:5173', // NOTE: Slash at end breaks this!
+    {
+      onBeforeLoad(win) {
+        win.localStorage.setItem('test-key', 'test-value'); // if LS is empty, then this fails: expect(result).to.have.property('http://localhost:5173');
+      },
+    }
+  ); // frontend
+});
 
-  // beforeAll:
-  before(() => {
-    // cy.task('resetDB').then(cy.log);
-  });
+// after(() => {
+//   cy.task('destroyDB').then(cy.log);
+// });
 
-  beforeEach(() => {
-    cy.visit('http://localhost:5173', // NOTE: Slash at end breaks this!
-      {
-        onBeforeLoad(win) {
-          win.localStorage.setItem('test-key', 'test-value'); // if LS is empty, then this fails: expect(result).to.have.property('http://localhost:5173');
-        },
-      }
-    ); // frontend
-  });
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
 
-  // after(() => {
-  //   cy.task('destroyDB').then(cy.log);
-  // });
-
+describe('Auth', () => {
   // -----------------------------------------------------
 
   it('should pass', () => {
@@ -39,7 +45,7 @@ describe('Intro', () => {
   // -----------------------------------------------------
 
   it('should navigate to login page and back', () => {
-    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    get('navlink-Login-desktop').click();
     cy.location('pathname').should('eq', '/auth/login');
     cy.go('back');
     cy.location('pathname').should('eq', '/');
@@ -48,28 +54,29 @@ describe('Intro', () => {
   // -----------------------------------------------------
 
   it('should navigate to login page and store page', () => {
-    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    get('navlink-Login-desktop').click();
     cy.location('pathname').should('eq', '/auth/login');
-    cy.get('[data-cy="navlink-Store-desktop"]').click();
+    get('navlink-Store-desktop').click();
     cy.location('pathname').should('eq', '/');
   });
 
   // -----------------------------------------------------
 
   it('should log in', () => {
-    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    // cy.get('[data-cy="navlink-Login-desktop"]').click();
+    get('navlink-Login-desktop').click();
     cy.location('pathname').should('eq', '/auth/login');
 
-    cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
-    cy.get('[data-cy="auth-password-text-field"]').type('josh');
-    cy.get('[data-cy="auth-login-button"]').click();
+    get('auth-email-text-field').type('josh@josh.com');
+    get('auth-password-text-field').type('josh');
+    get('auth-login-button').click();
 
     // 1. test notification is displayed
-    cy.get('[data-cy="notification"]').should('be.visible');
-    cy.get('[data-cy="notification"]').contains('successfully logged user in');
+    get('notification').should('be.visible');
+    get('notification').contains('successfully logged user in');
     
     // 2. test avatar is displayed
-    cy.get('[data-cy="navbar-avatar-button"]').should('be.visible');
+    get('navbar-avatar-button').should('be.visible');
 
     // 3. test redirected to orders page
     cy.location('pathname').should('eq', '/admin/orders');
@@ -104,22 +111,22 @@ describe('Intro', () => {
   // -----------------------------------------------------
 
   it('should log out', () => {
-    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    get('navlink-Login-desktop').click();
     cy.location('pathname').should('eq', '/auth/login');
 
-    cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
-    cy.get('[data-cy="auth-password-text-field"]').type('josh');
-    cy.get('[data-cy="auth-login-button"]').click();
+    get('auth-email-text-field').type('josh@josh.com');
+    get('auth-password-text-field').type('josh');
+    get('auth-login-button').click();
 
-    cy.get('[data-cy="navbar-avatar-button"]').click();
-    cy.get('[data-cy="navbar-logout-button"]').click();
+    get('navbar-avatar-button').click();
+    get('navbar-logout-button').click();
 
     // 1. test notification is displayed
-    cy.get('[data-cy="notification"]').should('be.visible');
-    cy.get('[data-cy="notification"]').contains('successfully logged user out');
+    get('notification').should('be.visible');
+    get('notification').contains('successfully logged user out');
 
     // 2. test avatar is NOT displayed
-    cy.get('[data-cy="navbar-avatar-button"]').should('not.exist');
+    get('navbar-avatar-button').should('not.exist');
 
     // 3. test redirected to home page
     cy.location('pathname').should('eq', '/');
@@ -138,19 +145,19 @@ describe('Intro', () => {
   // -----------------------------------------------------
 
   it('should log NOT log in with wrong email', () => {
-    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    get('navlink-Login-desktop').click();
     cy.location('pathname').should('eq', '/auth/login');
 
-    cy.get('[data-cy="auth-email-text-field"]').type('josh2@josh.com');
-    cy.get('[data-cy="auth-password-text-field"]').type('josh');
-    cy.get('[data-cy="auth-login-button"]').click();
+    get('auth-email-text-field').type('josh2@josh.com');
+    get('auth-password-text-field').type('josh');
+    get('auth-login-button').click();
 
     // 1. test notification is displayed (not sure how to!)
-    cy.get('[data-cy="notification"]').should('be.visible');
-    cy.get('[data-cy="notification"]').contains('error logging user in');
+    get('notification').should('be.visible');
+    get('notification').contains('error logging user in');
     
     // 2. test avatar is displayed
-    cy.get('[data-cy="navbar-avatar-button"]').should('not.exist');
+    get('navbar-avatar-button').should('not.exist');
 
     // 3. test should still be on /auth/login page
     cy.location('pathname').should('eq', '/auth/login');
@@ -169,16 +176,16 @@ describe('Intro', () => {
   // -----------------------------------------------------
 
   it('should log NOT log in with wrong password', () => {
-    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    get('navlink-Login-desktop').click();
     cy.location('pathname').should('eq', '/auth/login');
 
-    cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
-    cy.get('[data-cy="auth-password-text-field"]').type('josh2');
-    cy.get('[data-cy="auth-login-button"]').click();
+    get('auth-email-text-field').type('josh@josh.com');
+    get('auth-password-text-field').type('josh2');
+    get('auth-login-button').click();
 
     // 1. test notification is displayed (not sure how to!)
-    cy.get('[data-cy="notification"]').should('be.visible');
-    cy.get('[data-cy="notification"]').contains('error logging user in');
+    get('notification').should('be.visible');
+    get('notification').contains('error logging user in');
     
     // 2. test avatar is displayed
     cy.get('[data-cy="navbar-avatar-button"]').should('not.exist');
@@ -198,11 +205,6 @@ describe('Intro', () => {
   });
 
   // strategy: 
-  // -test naviating to login page
-  // -test actually logging in [DONE]
-  // -THEN:
-  //  -- test incorrect username / password
-  //  -- test local storage!
   // -MOCK:
   //  -- checkout flow should bypass Stripe
 
@@ -236,3 +238,59 @@ describe('Intro', () => {
 });
 
 // ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+
+describe('Checkout', () => {
+  // -----------------------------------------------------
+
+  it('should pass', () => {
+    assert(1 === 1);
+  });
+
+  // -----------------------------------------------------
+});
+
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+
+describe('Admin Orders', () => {
+  // -----------------------------------------------------
+
+  it('should pass', () => {
+    assert(1 === 1);
+  });
+
+  // -----------------------------------------------------
+});
+
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================
+
+describe('Cart', () => {
+  // -----------------------------------------------------
+
+  it('should pass', () => {
+    assert(1 === 1);
+  });
+
+  // -----------------------------------------------------
+  
+  // it('should add items to cart', () => {
+  
+  //   // Add items to cart
+  //   cy.get('[data-cy=product-card-1').find('button').contains('Add to Cart').click();
+  //   cy.get('[data-cy=close-cart-button').click();
+  //   cy.get('[data-cy=product-card-2').find('button').contains('Add to Cart').click();
+  //   cy.get('[data-cy=close-cart-button').click();
+  //   cy.get('[data-cy=product-card-2').find('button').contains('Add to Cart').click();
+
+  // });
+
+  // -----------------------------------------------------
+});
