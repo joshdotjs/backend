@@ -74,22 +74,31 @@ describe('Intro', () => {
     
     cy.getAllLocalStorage().then((result) => {
 
-      const get = (x) => JSON.parse(x)?.value;
+      
 
       // -local storage for our origin exists
       expect(result).to.have.property('http://localhost:5173');
       
       const LS = result['http://localhost:5173']
 
-      // -local storage for our origin has a token property of type string
-      expect(LS).to.have.property('token');
-      const token = get(LS.token);
-      expect(token).to.be.a('string');
+      // -local storage for our origin has a user property
+      expect(LS).to.have.property('user');
+      const getLS = (x) => JSON.parse(x)?.value;
+      const user = getLS(LS.user);
+      console.log('user: ', user);
 
-      // -local storage for our origin has a is_admin property of type string
-      expect(LS).to.have.property('is_admin');
-      const is_admin = get(LS.is_admin);
+      // -user property has desired structure
+      const { id, email, password, first_name, last_name, logged_in, is_admin, token }  = user;
+
+      // // -local storage for our origin has a is_admin property of type string
+      expect(id).to.be.equal(1);
+      expect(email).to.be.equal('josh@josh.com');
+      expect(password).to.be.a('string');
+      expect(logged_in).to.be.equal(true);
       expect(is_admin).to.be.equal(true);
+      expect(token).to.be.a('string');
+      expect(first_name).to.be.equal('josh');
+      expect(last_name).to.be.equal('holloway');
     })
   });
 
