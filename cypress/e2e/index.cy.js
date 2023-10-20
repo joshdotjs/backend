@@ -316,7 +316,7 @@ describe('Cart', () => {
 
   // -----------------------------------------------------
 
-  it('should have correct total with multiple items added', () => {
+  it('should have correct total with multiple items added & test local storage', () => {
   
     // Add items to cart and check quantity and total after each is added
     get('product-card-1-add-button').click();
@@ -373,13 +373,70 @@ describe('Cart', () => {
     // get('cart-drawer').find('.MuiBackdrop-root').click(10, 10); // click backdrop (at top left to make sure click outside on mobile)
 
 
-    // TODO: Check Local Storage:
-    // TODO: Check Local Storage:
-    // TODO: Check Local Storage:
-    // TODO: Check Local Storage:
-    // TODO: Check Local Storage:
-    // TODO: Check Local Storage:
+    // Check Local Storage:
+    cy.getAllLocalStorage().then((result) => {
+      // -local storage for our origin exists
+      expect(result).to.have.property('http://localhost:5173');
+      
+      const LS = result['http://localhost:5173'];
 
+      // -local storage for our origin has a user property
+      expect(LS).to.have.property('cart');
+      const cart = getLS(LS.cart);
+      console.log('cart: ', cart);
+
+      // -user property has desired structure
+      
+
+      // // -local storage for our origin has a is_admin property of type string
+      expect(cart[0].product.id).to.be.equal(1);
+      expect(cart[0].product.category).to.be.equal('food');
+      expect(cart[0].product.title).to.be.equal('Hamburger');
+      expect(cart[0].product.price).to.be.equal(100);
+      expect(cart[0].product.units_in_stock).to.be.equal(100);
+      expect(cart[0].product.published).to.be.equal(true);
+      expect(cart[0].product.status).to.be.equal('available');
+      expect(cart[0].product.details_route).to.be.equal('/products/hamburger');
+      expect(cart[0].product.description).to.be.a('string');
+      expect(cart[0].product.image_url).to.be.a('string');
+      expect(cart[0].product.uuid).to.be.a('string');
+
+      expect(cart[1].product.id).to.be.equal(2);
+      expect(cart[1].product.category).to.be.equal('food');
+      expect(cart[1].product.title).to.be.equal('Pizza');
+      expect(cart[1].product.price).to.be.equal(200);
+      expect(cart[1].product.units_in_stock).to.be.equal(100);
+      expect(cart[1].product.published).to.be.equal(true);
+      expect(cart[1].product.status).to.be.equal('available');
+      expect(cart[1].product.details_route).to.be.equal('/products/pizza');
+      expect(cart[1].product.description).to.be.a('string');
+      expect(cart[1].product.image_url).to.be.a('string');
+      expect(cart[1].product.uuid).to.be.a('string');
+
+      expect(cart[2].product.id).to.be.equal(3);
+      expect(cart[2].product.category).to.be.equal('food');
+      expect(cart[2].product.title).to.be.equal('Hot Dog');
+      expect(cart[2].product.price).to.be.equal(300);
+      expect(cart[2].product.units_in_stock).to.be.equal(100);
+      expect(cart[2].product.published).to.be.equal(true);
+      expect(cart[2].product.status).to.be.equal('available');
+      expect(cart[2].product.details_route).to.be.equal('/products/hot-dog');
+      expect(cart[2].product.description).to.be.a('string');
+      expect(cart[2].product.image_url).to.be.a('string');
+      expect(cart[2].product.uuid).to.be.a('string');
+
+      expect(cart[3].product.id).to.be.equal(4);
+      expect(cart[3].product.category).to.be.equal('food');
+      expect(cart[3].product.title).to.be.equal('Taco');
+      expect(cart[3].product.price).to.be.equal(400);
+      expect(cart[3].product.units_in_stock).to.be.equal(100);
+      expect(cart[3].product.published).to.be.equal(true);
+      expect(cart[3].product.status).to.be.equal('available');
+      expect(cart[3].product.details_route).to.be.equal('/products/taco');
+      expect(cart[3].product.description).to.be.a('string');
+      // expect(cart[3].product.image_url).to.be.a('string'); // this image_url is empty (it uses the fallback image in the UI)
+      expect(cart[3].product.uuid).to.be.a('string');
+    }); // cy.getAllLocalStorage().then((result) => { ... });
   });
 
   // -----------------------------------------------------
