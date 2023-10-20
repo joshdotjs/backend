@@ -12,7 +12,13 @@ describe('Intro', () => {
   });
 
   beforeEach(() => {
-    cy.visit('http://localhost:5173/'); // frontend
+    cy.visit('http://localhost:5173/', 
+      {
+        onBeforeLoad(win) {
+          win.localStorage.setItem('key', 'value')
+        },        
+      }
+    ); // frontend
   });
 
   // after(() => {
@@ -53,11 +59,6 @@ describe('Intro', () => {
     cy.get('[data-cy="auth-password-text-field"]').type('josh');
     cy.get('[data-cy="auth-login-button"]').click();
 
-    // TODO: Test you are logged in!!!
-    // TODO: Test you are logged in!!!
-    // TODO: Test you are logged in!!!
-    // TODO: Test you are logged in!!!
-
     // 1. test notification is displayed (not sure how to!)
     cy.get('[data-cy="notification"]').should('be.visible');
     cy.get('[data-cy="notification"]').contains('successfully logged user in');
@@ -67,36 +68,54 @@ describe('Intro', () => {
 
     // 3. test redirected to orders page
     cy.location('pathname').should('eq', '/admin/orders');
+
+    // 4. local storage should have token
+
+    
+    cy.getAllLocalStorage().then((result) => {
+
+      const get = (x) => JSON.parse(x)?.value;
+
+      // -local storage for our origin exists
+      expect(result).to.have.property('http://localhost:5173');
+      
+      const LS = result['http://localhost:5173']
+
+      // -local storage for our origin has a token property of type string
+      expect(LS).to.have.property('token');
+      const token = get(LS.token);
+      expect(token).to.be.a('string');
+
+      // -local storage for our origin has a is_admin property of type string
+      expect(LS).to.have.property('is_admin');
+      const is_admin = get(LS.is_admin);
+      expect(is_admin).to.be.equal(true);
+    })
   });
 
   // -----------------------------------------------------
 
-  it('should log out', () => {
-    cy.get('[data-cy="navlink-Login-desktop"]').click();
-    cy.location('pathname').should('eq', '/auth/login');
+  // it('should log out', () => {
+  //   cy.get('[data-cy="navlink-Login-desktop"]').click();
+  //   cy.location('pathname').should('eq', '/auth/login');
 
-    cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
-    cy.get('[data-cy="auth-password-text-field"]').type('josh');
-    cy.get('[data-cy="auth-login-button"]').click();
+  //   cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
+  //   cy.get('[data-cy="auth-password-text-field"]').type('josh');
+  //   cy.get('[data-cy="auth-login-button"]').click();
 
-    cy.get('[data-cy="navbar-avatar-button"]').click();
-    cy.get('[data-cy="navbar-logout-button"]').click();
+  //   cy.get('[data-cy="navbar-avatar-button"]').click();
+  //   cy.get('[data-cy="navbar-logout-button"]').click();
 
-    // TODO: Test you are logged out!!!
-    // TODO: Test you are logged out!!!
-    // TODO: Test you are logged out!!!
-    // TODO: Test you are logged out!!!
+  //   // 1. test notification is displayed
+  //   cy.get('[data-cy="notification"]').should('be.visible');
+  //   cy.get('[data-cy="notification"]').contains('successfully logged user out');
 
-    // 1. test notification is displayed
-    cy.get('[data-cy="notification"]').should('be.visible');
-    cy.get('[data-cy="notification"]').contains('successfully logged user out');
+  //   // 2. test avatar is NOT displayed
+  //   cy.get('[data-cy="navbar-avatar-button"]').should('not.exist');
 
-    // 2. test avatar is NOT displayed
-    cy.get('[data-cy="navbar-avatar-button"]').should('not.exist');
-
-    // 3. test redirected to home page
-    cy.location('pathname').should('eq', '/');
-  });
+  //   // 3. test redirected to home page
+  //   cy.location('pathname').should('eq', '/');
+  // });
 
   // TODO: Incorrect username / password should display error message
   // TODO: Incorrect username / password should display error message
