@@ -43,6 +43,34 @@ describe('Intro', () => {
     cy.location('pathname').should('eq', '/');
   });
 
+  // -----------------------------------------------------
+
+  it('should log in', () => {
+    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    cy.location('pathname').should('eq', '/auth/login');
+
+    cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
+    cy.get('[data-cy="auth-password-text-field"]').type('josh');
+    cy.get('[data-cy="auth-login-button"]').click();
+  });
+
+  // -----------------------------------------------------
+
+  // it('should log out', () => {
+  //   cy.get('[data-cy="navlink-Login-desktop"]').click();
+  //   cy.location('pathname').should('eq', '/auth/login');
+
+  //   cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
+  //   cy.get('[data-cy="auth-password-text-field"]').type('josh');
+  //   cy.get('[data-cy="auth-login-button"]').click();
+  // });
+
+  // TODO: Incorrect username / password should display error message
+  // TODO: Incorrect username / password should display error message
+  // TODO: Incorrect username / password should display error message
+  // TODO: Incorrect username / password should display error message
+  // TODO: Incorrect username / password should display error message
+  
   // strategy: 
   // -test naviating to login page
   // -test actually logging in
