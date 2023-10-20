@@ -304,7 +304,83 @@ describe('Cart', () => {
 
   // -----------------------------------------------------
 
-  // TEST: Multiple items added to cart correctly
+  // TEST: Clicking the close button closes the cart correctly
+
+  // -----------------------------------------------------
+
+  // TEST: Clicking outside the cart clses the cart correctly
+
+  // -----------------------------------------------------
+
+  // TEST: Clicking the open cart button opens it correctly
+
+  // -----------------------------------------------------
+
+  it('should have correct total with multiple items added', () => {
+  
+    // Add items to cart and check quantity and total after each is added
+    get('product-card-1-add-button').click();
+    get('cart-item-1-quantity').contains('1');
+    get('cart-item-1-title').contains('Hamburger');
+    get('cart-item-1-quantity-trash').should('exist');
+    get('cart-item-1-quantity-minus').should('not.exist');
+    get('cart-total').contains('$1.00');
+    get('cart-drawer').find('.MuiBackdrop-root').click(10, 10); // click backdrop (at top left to make sure click outside on mobile)
+
+    get('product-card-2-add-button').click();
+    get('cart-item-2-quantity').contains('1');
+    get('cart-item-2-title').contains('Pizza');
+    get('cart-item-2-quantity-trash').should('exist');
+    get('cart-item-2-quantity-minus').should('not.exist');
+    get('cart-total').contains('$3.00');
+    get('cart-drawer').find('.MuiBackdrop-root').click(10, 10);
+
+    get('product-card-3-add-button').click();
+    get('cart-item-3-quantity').contains('1');
+    get('cart-item-3-title').contains('Hot Dog');
+    get('cart-item-3-quantity-trash').should('exist');
+    get('cart-item-3-quantity-minus').should('not.exist');
+    get('cart-total').contains('$6.00');
+    get('cart-drawer').find('.MuiBackdrop-root').click(10, 10);
+
+    get('product-card-4-add-button').click();
+    get('cart-item-4-quantity').contains('1');
+    get('cart-item-4-title').contains('Taco');
+    get('cart-item-4-quantity-trash').should('exist');
+    get('cart-item-4-quantity-minus').should('not.exist');
+    get('cart-total').contains('$10.00');
+    get('cart-drawer').find('.MuiBackdrop-root').click(10, 10);
+
+    // Add items to cart after items are already in cart to ensure new total and quantity is correct
+    get('product-card-1-add-button').click();
+    get('cart-item-1-quantity').contains('2');
+    get('cart-total').contains('$11.00');
+    get('cart-drawer').find('.MuiBackdrop-root').click(10, 10); // click backdrop (at top left to make sure click outside on mobile)
+
+    get('product-card-2-add-button').click();
+    get('cart-item-2-quantity').contains('2');
+    get('cart-total').contains('$13.00');
+    get('cart-drawer').find('.MuiBackdrop-root').click(10, 10); // click backdrop (at top left to make sure click outside on mobile)
+
+    get('product-card-3-add-button').click();
+    get('cart-item-3-quantity').contains('2');
+    get('cart-total').contains('$16.00');
+    get('cart-drawer').find('.MuiBackdrop-root').click(10, 10); // click backdrop (at top left to make sure click outside on mobile)
+
+    get('product-card-4-add-button').click();
+    get('cart-item-4-quantity').contains('2');
+    get('cart-total').contains('$20.00');
+    // get('cart-drawer').find('.MuiBackdrop-root').click(10, 10); // click backdrop (at top left to make sure click outside on mobile)
+
+
+    // TODO: Check Local Storage:
+    // TODO: Check Local Storage:
+    // TODO: Check Local Storage:
+    // TODO: Check Local Storage:
+    // TODO: Check Local Storage:
+    // TODO: Check Local Storage:
+
+  });
 
   // -----------------------------------------------------
 
