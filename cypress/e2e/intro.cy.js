@@ -6,11 +6,39 @@ describe('Intro', () => {
 
   // -----------------------------------------------------
 
-  // it('should render the list of users', () => {
-  //   // cy.visit('https://example.cypress.io');
-  //   cy.visit('http://localhost:9000/');
-  //   cy.get('.list-group-item').should('have.length', 2);
+  // beforeAll:
+  before(() => {
+    // cy.task('resetDB').then(cy.log);
+  });
+
+  beforeEach(() => {
+    cy.visit('http://localhost:5173/'); // frontend
+  });
+
+  // after(() => {
+  //   cy.task('destroyDB').then(cy.log);
   // });
+
+  // -----------------------------------------------------
+
+  it('should pass', () => {
+    assert(1 === 1);
+  });
+
+  // -----------------------------------------------------
+
+  it('should navigate to login page', () => {
+    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    
+  });
+
+  // strategy: 
+  // -test naviating to login page
+  // -test actually logging in
+  //   --should I clear LS before doing this?
+  // -MOCK:
+  //  -- checkout flow should bypass Stripe
+
 
   // -----------------------------------------------------
 

@@ -14,6 +14,7 @@ const db = required('db/db');
 
 module.exports = defineConfig({
   e2e: {
+    // baseUrl: 'http://localhost:5173', // allows you to do: cy.visit('/');
     setupNodeEvents(on, config) {
       // implement node event listeners here
       on("task", {
@@ -31,7 +32,7 @@ module.exports = defineConfig({
           // const res = await client.query('SELECT NOW()')
           const res = await client.query(query);
           await client.end();
-          return res.rows;
+          return res.rows; // must return (can return null)
         },
         // ======================================
         async resetDB() {
@@ -46,7 +47,7 @@ module.exports = defineConfig({
 
           console.green('DB has been reset! 😊');
 
-          return 'resetDB() complete';
+          return 'resetDB() complete'; // must return (can return null)
         },
         // ======================================
         async destroyDB() {
@@ -54,7 +55,7 @@ module.exports = defineConfig({
           await db.destroy();
           console.green('DB has been destroyed! 😊');
 
-          return 'destroyDB() complete';
+          return 'destroyDB() complete'; // must return (can return null)
         }
         // ======================================
       });
