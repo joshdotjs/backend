@@ -52,18 +52,45 @@ describe('Intro', () => {
     cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
     cy.get('[data-cy="auth-password-text-field"]').type('josh');
     cy.get('[data-cy="auth-login-button"]').click();
+
+    // TODO: Test you are logged in!!!
+    // TODO: Test you are logged in!!!
+    // TODO: Test you are logged in!!!
+    // TODO: Test you are logged in!!!
+
+    // 1. test notification is displayed (not sure how to!)
+    cy.get('[data-cy="notification"]').should('be.visible');
+    cy.get('[data-cy="notification"]').contains('successfully logged user in');
+    
+    // 2. test avatar is displayed
+    cy.get('[data-cy="navbar-avatar-button"]').should('be.visible');
+
+    // 3. test redirected to orders page
+    cy.location('pathname').should('eq', '/admin/orders');
   });
 
   // -----------------------------------------------------
 
-  // it('should log out', () => {
-  //   cy.get('[data-cy="navlink-Login-desktop"]').click();
-  //   cy.location('pathname').should('eq', '/auth/login');
+  it('should log out', () => {
+    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    cy.location('pathname').should('eq', '/auth/login');
 
-  //   cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
-  //   cy.get('[data-cy="auth-password-text-field"]').type('josh');
-  //   cy.get('[data-cy="auth-login-button"]').click();
-  // });
+    cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
+    cy.get('[data-cy="auth-password-text-field"]').type('josh');
+    cy.get('[data-cy="auth-login-button"]').click();
+
+    cy.get('[data-cy="navbar-avatar-button"]').click();
+    cy.get('[data-cy="navbar-logout-button"]').click();
+
+    // TODO: Test you are logged out!!!
+    // TODO: Test you are logged out!!!
+    // TODO: Test you are logged out!!!
+    // TODO: Test you are logged out!!!
+
+    // 1. test notification is displayed
+    // 2. test avatar is NOT displayed
+    // 3. test redirected to home page
+  });
 
   // TODO: Incorrect username / password should display error message
   // TODO: Incorrect username / password should display error message
