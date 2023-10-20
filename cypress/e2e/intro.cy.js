@@ -2,6 +2,11 @@
 
 // ========================================================
 
+// ls: { value, expiry }
+const getLS = (x) => JSON.parse(x)?.value;
+
+// ========================================================
+
 describe('Intro', () => {
 
   // -----------------------------------------------------
@@ -12,11 +17,11 @@ describe('Intro', () => {
   });
 
   beforeEach(() => {
-    cy.visit('http://localhost:5173/', 
+    cy.visit('http://localhost:5173', // NOTE: Slash at end breaks this!
       {
         onBeforeLoad(win) {
-          win.localStorage.setItem('key', 'value')
-        },        
+          win.localStorage.setItem('test-key', 'test-value'); // if LS is empty, then this fails: expect(result).to.have.property('http://localhost:5173');
+        },
       }
     ); // frontend
   });
@@ -69,21 +74,15 @@ describe('Intro', () => {
     // 3. test redirected to orders page
     cy.location('pathname').should('eq', '/admin/orders');
 
-    // 4. local storage should have token
-
-    
+    // 4. local storage should have user 
     cy.getAllLocalStorage().then((result) => {
-
-      
-
       // -local storage for our origin exists
       expect(result).to.have.property('http://localhost:5173');
       
-      const LS = result['http://localhost:5173']
+      const LS = result['http://localhost:5173'];
 
       // -local storage for our origin has a user property
       expect(LS).to.have.property('user');
-      const getLS = (x) => JSON.parse(x)?.value;
       const user = getLS(LS.user);
       console.log('user: ', user);
 
@@ -99,32 +98,42 @@ describe('Intro', () => {
       expect(token).to.be.a('string');
       expect(first_name).to.be.equal('josh');
       expect(last_name).to.be.equal('holloway');
-    })
+    }); // cy.getAllLocalStorage().then((result) => { ... });
   });
 
   // -----------------------------------------------------
 
-  // it('should log out', () => {
-  //   cy.get('[data-cy="navlink-Login-desktop"]').click();
-  //   cy.location('pathname').should('eq', '/auth/login');
+  it('should log out', () => {
+    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    cy.location('pathname').should('eq', '/auth/login');
 
-  //   cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
-  //   cy.get('[data-cy="auth-password-text-field"]').type('josh');
-  //   cy.get('[data-cy="auth-login-button"]').click();
+    cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
+    cy.get('[data-cy="auth-password-text-field"]').type('josh');
+    cy.get('[data-cy="auth-login-button"]').click();
 
-  //   cy.get('[data-cy="navbar-avatar-button"]').click();
-  //   cy.get('[data-cy="navbar-logout-button"]').click();
+    cy.get('[data-cy="navbar-avatar-button"]').click();
+    cy.get('[data-cy="navbar-logout-button"]').click();
 
-  //   // 1. test notification is displayed
-  //   cy.get('[data-cy="notification"]').should('be.visible');
-  //   cy.get('[data-cy="notification"]').contains('successfully logged user out');
+    // 1. test notification is displayed
+    cy.get('[data-cy="notification"]').should('be.visible');
+    cy.get('[data-cy="notification"]').contains('successfully logged user out');
 
-  //   // 2. test avatar is NOT displayed
-  //   cy.get('[data-cy="navbar-avatar-button"]').should('not.exist');
+    // 2. test avatar is NOT displayed
+    cy.get('[data-cy="navbar-avatar-button"]').should('not.exist');
 
-  //   // 3. test redirected to home page
-  //   cy.location('pathname').should('eq', '/');
-  // });
+    // 3. test redirected to home page
+    cy.location('pathname').should('eq', '/');
+
+    // 4. local storage should NOT have user
+    cy.getAllLocalStorage().then((result) => {
+      // -local storage for our origin exists
+      expect(result).to.have.property('http://localhost:5173');
+      const LS = result['http://localhost:5173'];
+
+      // -local storage for our origin should NOT have a user property
+      expect(LS).to.not.have.property('user');
+    }); // cy.getAllLocalStorage().then((result) => { ... });
+  });
 
   // TODO: Incorrect username / password should display error message
   // TODO: Incorrect username / password should display error message
