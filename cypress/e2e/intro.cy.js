@@ -166,6 +166,37 @@ describe('Intro', () => {
     }); // cy.getAllLocalStorage().then((result) => { ... });
   });
 
+  // -----------------------------------------------------
+
+  it('should log NOT log in with wrong password', () => {
+    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    cy.location('pathname').should('eq', '/auth/login');
+
+    cy.get('[data-cy="auth-email-text-field"]').type('josh@josh.com');
+    cy.get('[data-cy="auth-password-text-field"]').type('josh2');
+    cy.get('[data-cy="auth-login-button"]').click();
+
+    // 1. test notification is displayed (not sure how to!)
+    cy.get('[data-cy="notification"]').should('be.visible');
+    cy.get('[data-cy="notification"]').contains('error logging user in');
+    
+    // 2. test avatar is displayed
+    cy.get('[data-cy="navbar-avatar-button"]').should('not.exist');
+
+    // 3. test should still be on /auth/login page
+    cy.location('pathname').should('eq', '/auth/login');
+
+    // 4. local storage should NOT have user
+    cy.getAllLocalStorage().then((result) => {
+      // -local storage for our origin exists
+      expect(result).to.have.property('http://localhost:5173');
+      const LS = result['http://localhost:5173'];
+
+      // -local storage for our origin should NOT have a user property
+      expect(LS).to.not.have.property('user');
+    }); // cy.getAllLocalStorage().then((result) => { ... });
+  });
+
   // strategy: 
   // -test naviating to login page
   // -test actually logging in [DONE]
