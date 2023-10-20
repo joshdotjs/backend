@@ -88,8 +88,14 @@ describe('Intro', () => {
     // TODO: Test you are logged out!!!
 
     // 1. test notification is displayed
+    cy.get('[data-cy="notification"]').should('be.visible');
+    cy.get('[data-cy="notification"]').contains('successfully logged user out');
+
     // 2. test avatar is NOT displayed
+    cy.get('[data-cy="navbar-avatar-button"]').should('not.exist');
+
     // 3. test redirected to home page
+    cy.location('pathname').should('eq', '/');
   });
 
   // TODO: Incorrect username / password should display error message
@@ -100,8 +106,10 @@ describe('Intro', () => {
   
   // strategy: 
   // -test naviating to login page
-  // -test actually logging in
-  //   --should I clear LS before doing this?
+  // -test actually logging in [DONE]
+  // -THEN:
+  //  -- test incorrect username / password
+  //  -- test local storage!
   // -MOCK:
   //  -- checkout flow should bypass Stripe
 
