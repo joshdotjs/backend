@@ -27,9 +27,20 @@ describe('Intro', () => {
 
   // -----------------------------------------------------
 
-  it('should navigate to login page', () => {
+  it('should navigate to login page and back', () => {
     cy.get('[data-cy="navlink-Login-desktop"]').click();
-    
+    cy.location('pathname').should('eq', '/auth/login');
+    cy.go('back');
+    cy.location('pathname').should('eq', '/');
+  });
+
+  // -----------------------------------------------------
+
+  it('should navigate to login page and store page', () => {
+    cy.get('[data-cy="navlink-Login-desktop"]').click();
+    cy.location('pathname').should('eq', '/auth/login');
+    cy.get('[data-cy="navlink-Store-desktop"]').click();
+    cy.location('pathname').should('eq', '/');
   });
 
   // strategy: 
