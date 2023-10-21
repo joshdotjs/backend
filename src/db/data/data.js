@@ -185,7 +185,9 @@ const idx2id = idx => idx + 1;
 //   products[id2idx(order_2_product[1].product_id)].price * order_2_product[1].quantity;
 
 calculateTotal = ({ order, products, order_2_product, order_id }) => {
+
   const filtered = order_2_product.filter((o2p) => o2p.order_id === order_id);
+  console.log('filtered: ', filtered);
 
   let total = 0;
   filtered.forEach((o2p) => {
@@ -195,7 +197,7 @@ calculateTotal = ({ order, products, order_2_product, order_id }) => {
   order.total = total;
 };
 
-orders.forEach((order) => calculateTotal({ order, products, order_2_product, order_id: order.id }));
+orders.forEach((order, idx) => calculateTotal({ order, products, order_2_product, order_id: idx2id(idx) }));
 
 // ==============================================
 // ==============================================
