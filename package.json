@@ -1,8 +1,8 @@
 {
   "scripts": {
     "dev": "nodemon index.js",
+    "dev:test": "cross-env  NODE_ENV=testing  nodemon index.js",
     "stripe": "stripe listen --forward-to localhost:9000/api/orders/webhook",
-    "dev:e2e": "cross-env  NODE_ENV=testing  nodemon index.js",
     "ts": "tsc",
     "ts:watch": "tsc --watch",
     "start": "node index.js",

@@ -29,3 +29,22 @@ How to display demo & code on portfolio with project evolution:
 =================================================
 
 Cypress PG: https://dev.to/xvier/connecting-cypress-to-a-postgresql-database-3po5
+
+=================================================
+
+TESTING / DEV SCRIPTS:
+
+  Here is how to make sure the e2e tests use the testing DB:
+    -step 1: npm run dev:test
+    -step 2: npm run e2e
+
+  Run dev DB when NOT doing e2e tests:
+    -npm run dev
+
+  Currently, Unit tests and e2e tests interfere with eachother
+    -Run unit tests while building out the backend
+      --npm run dev
+      --npm run test:watch
+    -Run e2e tests not while building out the backend
+      --npm run dev:test
+      --npm run e2e

@@ -90,7 +90,9 @@ exports.create = async (req, res, next) => {
 
     const { user_id, order_items } = req.body;
 
-    if (!user_id) return next(new HttpError('user_id required', 400, '/src/api/orders/controller.js -- create()'));
+    if (!user_id) 
+      return next(new HttpError('user_id required', 400, '/src/api/orders/controller.js -- create()'));
+    
     if (!order_items || order_items.length === 0) {
       // !undefined  || undefined.length === 0   =>   true  || undefined.length  =>  true   =>  order_items === undefined  throws error
       // ![]         || [].length === 0          =>   false || true              =>  true   =>  empty array                throws error
@@ -165,12 +167,17 @@ exports.getByUuid = async (req, res, next) => {
   const { uuid } = req.params;
   console.log('[GET] /api/orders/:uuid, uuid: ', uuid);
 
+  if (!uuid)
+    return next(new HttpError('UUID query param required', 400, '/src/api/orders/controller.js -- getByUuid()'));
+
   // step 1: Get order by uuid
   const [ orders_products, error1 ] = await asynch( Model.getByUuid(uuid) );
-  const order = orders_products[0];
   if (error1)
     return next(new DatabaseError(error1, '/src/api/orders/controller.js -- Model.getByUuid()'));
-  // console.log('order: ', order);
+ 
+  const order = orders_products[0];
+  if (!order)
+    return next(new HttpError('No order with UUID found', 400, '/src/api/orders/controller.js -- getByUuid()'));
 
   // step 2: Get products in order by order_id
   const [line_items, error2] = await asynch( Model.getProductsInOrderById( order.id ));

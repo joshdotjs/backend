@@ -93,7 +93,7 @@ describe('Routes - Orders', () => {
 
   // ============================================
 
-  it('[POST]  /api/orders/create', async () => {
+  it('[POST]  /api/orders', async () => {
     
     // create order (does not require token - 'preparing' state requires order have successful credit card transaction)
     const resp0 = await request(server)
