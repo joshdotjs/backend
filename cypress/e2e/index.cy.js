@@ -455,57 +455,57 @@ describe('Cart', () => {
   // -first look up the UUID corresponding to the first seeded order in the orders table
   // -then, use this UUID in the url of the response in the interceptor below
   // -then, simply navigate to the order-success route with the UUID in the query parameter
-  it('order summary page should work [using seeded order]', async () => {
-    // -Don't use the endpoint, because it requires an admin JWT token.
-    // const resp = await fetch('http://localhost:9000/api/orders');
-    // const data = await resp.json();
-    // console.log('data: ', data);
+  // it('order summary page should work [using seeded order]', async () => {
+  //   // -Don't use the endpoint, because it requires an admin JWT token.
+  //   // const resp = await fetch('http://localhost:9000/api/orders');
+  //   // const data = await resp.json();
+  //   // console.log('data: ', data);
 
-    // -Instead, access the DB directly
-    cy.task('connectDB', 'SELECT * FROM orders').then((rows) => {
-      rows.forEach(row => {
-        console.log('row: ', row); // dev console
-        cy.log(row.id);         // cypress console
-      });
+  //   // -Instead, access the DB directly
+  //   cy.task('connectDB', 'SELECT * FROM orders').then((rows) => {
+  //     rows.forEach(row => {
+  //       console.log('row: ', row); // dev console
+  //       cy.log(row.id);         // cypress console
+  //     });
 
-      // grab the UUID of the first order in the DB
-      // -use this in the query parameter of the URL for the order summary page
-      const row = rows[0];
-      console.log('row: ', row);
-      const uuid = row.uuid;
+  //     // grab the UUID of the first order in the DB
+  //     // -use this in the query parameter of the URL for the order summary page
+  //     const row = rows[0];
+  //     console.log('row: ', row);
+  //     const uuid = row.uuid;
 
-      cy.intercept('POST', '/api/orders', { 
-        status: 201,
-        body: {
-          // Bypass Stripe Checkout for testing (data.url is empty, and data_test_url is set)
-          // test_url: 'http://localhost:5173/checkout-success?order_uuid=624a9409d284',
-          test_url: `/checkout-success?order_uuid=${uuid}`,
-        }
-      }).as('subscribe'); // intercept any HTTP request localhost:3000/newsletter?anything      
+  //     cy.intercept('POST', '/api/orders', { 
+  //       status: 201,
+  //       body: {
+  //         // Bypass Stripe Checkout for testing (data.url is empty, and data_test_url is set)
+  //         // test_url: 'http://localhost:5173/checkout-success?order_uuid=624a9409d284',
+  //         test_url: `/checkout-success?order_uuid=${uuid}`,
+  //       }
+  //     }).as('subscribe'); // intercept any HTTP request localhost:3000/newsletter?anything      
 
 
-      // Add items to cart to click checkout (to utilize the interceptor above)
-      get('product-card-1-add-button').click();
+  //     // Add items to cart to click checkout (to utilize the interceptor above)
+  //     get('product-card-1-add-button').click();
 
-      // Click checkout button
-      get('cart-checkout-button').click();
+  //     // Click checkout button
+  //     get('cart-checkout-button').click();
 
-      // NOTE: Order is in status: 1 (pending) in the DB at this point
+  //     // NOTE: Order is in status: 1 (pending) in the DB at this point
 
-      // Test that 1 hamburger and 1 pizza are in the order
-      get('order-summary-line-item-1').should('exist');
-      get('order-summary-line-item-2').should('exist');
-      get('order-summary-line-item-3').should('not.exist');
+  //     // Test that 1 hamburger and 1 pizza are in the order
+  //     get('order-summary-line-item-1').should('exist');
+  //     get('order-summary-line-item-2').should('exist');
+  //     get('order-summary-line-item-3').should('not.exist');
 
-      get('order-summary-line-item-1-title').contains('Hamburger');
-      get('order-summary-line-item-1-title').contains('1 × $1.00 each');
+  //     get('order-summary-line-item-1-title').contains('Hamburger');
+  //     get('order-summary-line-item-1-title').contains('1 × $1.00 each');
 
-      get('order-summary-line-item-2-title').contains('Pizza');
-      get('order-summary-line-item-2-title').contains('1 × $2.00 each');
+  //     get('order-summary-line-item-2-title').contains('Pizza');
+  //     get('order-summary-line-item-2-title').contains('1 × $2.00 each');
 
-      get('order-summary-total').contains('$3.00');
-    });
-  });
+  //     get('order-summary-total').contains('$3.00');
+  //   });
+  // });
 
   // -----------------------------------------------------
   
@@ -516,80 +516,56 @@ describe('Cart', () => {
   // -we can just ignore that the order is in the 'pending' state for now
   // -we can pass in a paramter in the request object to tell the backend to 
   //  send the user directly to the successful order page with the UUID of the order in the query parameter
-  // it('should send cart to checkout', async () => {
+  it('should add order to DB when cart checkout button is clicked [using cart data from UI]', async () => {
 
-  //   // -How to test this:/
-  //   //  --look up UUID corresponding to first seeded order in Orders table
-  //   //  --use this UUID in the url of the response in the interceptor below
-  //   //  --create the equivalent order
+    // don't redirect the user (to the stripe checkout)
+    cy.visit('http://localhost:5173').then((win) => { // cy.visit()  yields the window object / just like cy.get() yields the element
+      cy.stub(win.location, 'href').as('redirect'); 
+    });
+    // NOTE: This stub does not work - the user is still redirected!!!
+    // NOTE: This stub does not work - the user is still redirected!!!
+    // NOTE: This stub does not work - the user is still redirected!!!
+    // NOTE: This stub does not work - the user is still redirected!!!
+    // NOTE: This stub does not work - the user is still redirected!!!
+    
 
+    // Add items to cart
+    get('product-card-1-add-button').click();
+    get('cart-drawer').find('.MuiBackdrop-root').click(10, 10); // click backdrop (at top left to make sure click outside on mobile)
+    get('product-card-2-add-button').click();
+    get('cart-drawer').find('.MuiBackdrop-root').click(10, 10);
+    get('product-card-2-add-button').click();
+    get('cart-drawer').find('.MuiBackdrop-root').click(10, 10);
+    get('product-card-2-add-button').click();
 
-  //   const resp = await fetch('http://localhost:9000/api/orders', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     }, // headers:
-  //     body: JSON.stringify({
-  //       user_id: 1, 
-  //       order_items: [
-  //         { product_id: 1, quantity: 2 },
-  //         { product_id: 2, quantity: 2 },
-  //       ] // order_items:
-  //     }), // body:
-  //   }); // fetch()
-  //   const data = await resp.json();
-  //   console.log('data: ', data);
-  //   debugger;
+    // Click checkout button
+    get('cart-checkout-button').click();
 
-  //   // NOTE: Can return the UUID of the order here and use it in the URL below
+    // 1. test cart total is correct
+    get('cart-drawer').should('be.visible');
+    get('cart-total').contains('$7.00');
 
+    // we simply need to check that the order is in the DB in the pending state
+    // -we can ignore the whole redirect to teh stripe checkout for now
+    // -I can stub the window.location.href = stripe_url with cy.stub() to avoid from being redirected to the stripe checkout
 
-  //   cy.intercept('POST', '/api/orders', { 
-  //     status: 201,
-  //     body: {
-  //       // url: 'http://localhost:5173/checkout-success?order_uuid=624a9409d284',
-  //       url: '/checkout-success?order_uuid=624a9409d284',
-  //     }
-  //   }).as('subscribe'); // intercept any HTTP request localhost:3000/newsletter?anything
-
-  //   // Add items to cart
-  //   get('product-card-1-add-button').click();
-
-  //   // 1. test cart opens
-  //   get('cart-drawer').should('be.visible');
-
-  //   // 2. test item is added to cart with correct quantity
-  //   get('cart-item-1').should('exist');
-  //   get('cart-item-1').should('be.visible');
-
-  //   // 3. test cart total is correct
-  //   get('cart-total').contains('$1.00');
-
-  //   // 4. test checkout button is visible
-  //   get('cart-checkout-button').click();
-
-  //   // clicking checkout does this:
-  //   //  --1.  notification is displayed
-  //   //  --2.  cart is mapped into the correct form to be sent to the backend:
-  //   // const order_items = cart.map(({ product, qty }) => {
-  //   //   return { product_id: product.id, quantity: qty };
-  //   // });
-
-  //   //  --3.  [POST] request to /api/orders   (where the order is created in the DB in the pending state)
-  //   //  --4.  Stripe URL is returned
-  //   //  --5.  User is redirected to Stripe checkout (via window.location.href = stripe_url)
-  //   //  --6.  Upon successful credit card transaction, the order is updated in the DB to the 'preparing' state and the user is redirected to the order summary page with the UUID from the order in the DB placed into the URL query parameter
-  //   //  --7.  On the order summary page, the order is fetched from the DB via the UUID and displayed to the user
+    // 5. Test that the order was added to the DB:
+    cy.task('connectDB', 'SELECT * FROM orders').then((rows) => {
+      // rows.forEach(row => {
+      //   console.log('row: ', row); // dev console
+      //   cy.log(row.id);         // cypress console
+      // });
+      const row = rows[3];
+      console.log('row: ', row);
 
 
-  // });
+      expect(row.id).to.be.equal(4);
+      expect(row.uuid).to.be.a('string');
+      expect(row.user_id).to.a('number');
+      expect(row.status).to.be.equal(1);
+      expect(row.total).to.be.equal(700);
+    });
+  });
 
   // -----------------------------------------------------
 });
-
-// Strategy:
-// -Figure out the testing DB
-//  --Make sure that the testing DB is used for both the unit tests and the e2e tests
-// -Fix the error when the UUID in the query parameter does not exist for order details page
-
-
