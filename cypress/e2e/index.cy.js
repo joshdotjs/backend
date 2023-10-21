@@ -493,20 +493,17 @@ describe('Cart', () => {
       // NOTE: Order is in status: 1 (pending) in the DB at this point
 
       // Test that 1 hamburger and 1 pizza are in the order
-      get('line-item-1').should('exist');
-      get('line-item-2').should('exist');
-      get('line-item-3').should('not.exist');
+      get('order-summary-line-item-1').should('exist');
+      get('order-summary-line-item-2').should('exist');
+      get('order-summary-line-item-3').should('not.exist');
 
-      get('line-item-1').contains('Hamburger');
-      get('line-item-1').contains('1 × $1.00 each');
+      get('order-summary-line-item-1-title').contains('Hamburger');
+      get('order-summary-line-item-1-title').contains('1 × $1.00 each');
 
-      get('line-item-2').contains('Pizza');
-      get('line-item-2').contains('1 × $2.00 each');
+      get('order-summary-line-item-2-title').contains('Pizza');
+      get('order-summary-line-item-2-title').contains('1 × $2.00 each');
 
-
-      
-
-
+      get('order-summary-total').contains('$3.00');
     });
   });
 
