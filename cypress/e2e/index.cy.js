@@ -233,16 +233,18 @@ describe('Admin Orders', () => {
   get('auth-password-text-field').type('josh');
   get('auth-login-button').click();
 
-  // Test that admin can view admin dashboard
+  // Test that admin can view admin dashboard [/admin/orders]
   cy.location('pathname').should('eq', '/admin/orders'); // redirected here after login
   get('navlink-Store-desktop').click();
   get('navlink-Orders-desktop').click();
   cy.location('pathname').should('eq', '/admin/orders');
-
+  
+  // Test that admin can view admin dashboard [/admin/users]
   get('navlink-Store-desktop').click();
   get('navlink-Users-desktop').click();
   cy.location('pathname').should('eq', '/admin/users');
 
+  // Test that the user can log out [this is tested in the Auth section]
 });
 
 // TEST: non-admin logged in user can NOT see the admin dashboard
@@ -275,12 +277,6 @@ it('NON admin should NON be able to view protected pages [orders / users]', () =
     win.location.href = 'http://localhost:5173/josh/login';
     cy.location('pathname').should('eq', '/josh/login'); // redirected here after login
   });
-
-  // NOTE: The avatar is not displaying for non-admin users
-  // NOTE: The avatar is not displaying for non-admin users
-  // NOTE: The avatar is not displaying for non-admin users
-  // NOTE: The avatar is not displaying for non-admin users
-
 
   // get('navlink-Orders-desktop').click();
   // cy.location('pathname').should('eq', '/admin/orders');

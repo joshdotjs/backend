@@ -35,7 +35,7 @@ Cypress PG: https://dev.to/xvier/connecting-cypress-to-a-postgresql-database-3po
 TESTING / DEV SCRIPTS:
 
   Here is how to make sure the e2e tests use the testing DB:
-    -step 1: npm run dev:test
+    -step 1: npm run dev:e2e
     -step 2: npm run e2e
 
   Run dev DB when NOT doing e2e tests:
@@ -46,5 +46,5 @@ TESTING / DEV SCRIPTS:
       --npm run dev
       --npm run test:watch
     -Run e2e tests not while building out the backend
-      --npm run dev:test
+      --npm run dev:e2e
       --npm run e2e
