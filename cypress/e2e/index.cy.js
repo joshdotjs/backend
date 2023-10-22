@@ -337,20 +337,35 @@ describe('Admin Orders', () => {
   get('admin-order-3--line-item-1').should('exist');
   get('admin-order-3--line-item-2').should('exist');
 
-  // test that the line items contain the expected order data
-  get('admin-order-1--line-item-1-product-name').contains('Hamburger');
-  get('admin-order-1--line-item-1-product-price').contains(/\$\d+\.\d{2}/);
+  // test that the line items contain the expected order data [order 1 - test general structure]
+  get('admin-order-1--line-item-1-product-name').contains(/.*/); // any string
+  get('admin-order-1--line-item-2-product-name').contains(/.*/); // any string
+  get('admin-order-1--line-item-1-product-price').contains(/\$\d+\.\d{2}/); // $1.00
+  get('admin-order-1--line-item-2-product-price').contains(/\$\d+\.\d{2}/); // $2.00
+  get('admin-order-1--line-item-1-quantity').contains(/\d+(\.\d+)?/); // non-negative number
+  get('admin-order-1--line-item-2-quantity').contains(/\d+(\.\d+)?/); // non-negative number
+  get('admin-order-1--line-item-1-cost').contains(/\$\d+\.\d{2}/); // $1.00
+  get('admin-order-1--line-item-2-cost').contains(/\$\d+\.\d{2}/); // $2.00
 
-  get('admin-order-1--line-item-2-product-name').contains('Pizza');
-  get('admin-order-1--line-item-2-product-price').contains(/\$\d+\.\d{2}/);
-  
+  // test that the line items contain the expected order data [order 2 - test specific data]
+  get('admin-order-2--line-item-1-product-name').contains('Hamburger');
+  get('admin-order-2--line-item-2-product-name').contains('Pizza');
+  get('admin-order-2--line-item-1-product-price').contains('$1.00');
+  get('admin-order-2--line-item-2-product-price').contains('$2.00');
+  get('admin-order-2--line-item-1-quantity').contains('2');
+  get('admin-order-2--line-item-2-quantity').contains('2');
+  get('admin-order-2--line-item-1-cost').contains('$2.00');
+  get('admin-order-2--line-item-2-cost').contains('$4.00');
 
 
-
+  // test that the order total is correct
+  get('admin-order-1-total').contains('$3.00');
+  get('admin-order-2-total').contains('$6.00');
+  get('admin-order-3-total').contains('$9.00');
 
   // log user out
-  // get('navbar-avatar-button').click();
-  // get('navbar-logout-button').click();
+  get('navbar-avatar-button').click();
+  get('navbar-logout-button').click();
 });
 
   // -----------------------------------------------------
