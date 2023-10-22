@@ -309,7 +309,20 @@ describe('Admin Orders', () => {
   get('admin-order-3').should('exist');
   get('admin-order-4').should('not.exist');
 
-  
+  // test that the order row contains the desired data
+  get('admin-order-1-status-chip').contains('Pending');
+  get('admin-order-2-status-chip').contains('Pending');
+  get('admin-order-3-status-chip').contains('Pending');
+
+  // test that the UUID displays
+  get('admin-order-1-uuid').contains(/\.{3}[0-9a-fA-F]{4}/); // ...abcd (4 hex chars)
+  get('admin-order-2-uuid').contains(/\.{3}[0-9a-fA-F]{4}/); // ...abcd (4 hex chars)
+  get('admin-order-3-uuid').contains(/\.{3}[0-9a-fA-F]{4}/); // ...abcd (4 hex chars)
+
+  // test that the time displays
+  get('admin-order-1-time').contains(/[1-9]\d?:[0-5]\d:[0-5]\d [aApP][mM]/); // 5:30:45 pm
+  get('admin-order-2-time').contains(/[1-9]\d?:[0-5]\d:[0-5]\d [aApP][mM]/); // 5:30:45 pm
+  get('admin-order-3-time').contains(/[1-9]\d?:[0-5]\d:[0-5]\d [aApP][mM]/); // 5:30:45 pm
 
 
   // log user out
