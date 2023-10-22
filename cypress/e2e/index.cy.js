@@ -325,7 +325,9 @@ describe('Admin Orders', () => {
   get('admin-order-3-time').contains(/[1-9]\d?:[0-5]\d:[0-5]\d [aApP][mM]/); // 5:30:45 pm
   
   // test that the count-up timer displays
-  get('admin-order-1-timer').contains(/\d+:[0-5]\d min/); // 5:30:45 pm
+  get('admin-order-1-timer').contains(/\d+:[0-5]\d/); // 0:16  for the timer
+  get('admin-order-2-timer').contains(/\d+:[0-5]\d/); // 0:16  for the timer
+  get('admin-order-3-timer').contains(/\d+:[0-5]\d/); // 0:16  for the timer
 
   // log user out
   // get('navbar-avatar-button').click();
