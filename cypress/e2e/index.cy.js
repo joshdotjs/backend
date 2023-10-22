@@ -223,79 +223,115 @@ describe('Admin Orders', () => {
 
   // -----------------------------------------------------
 
- // TEST: admin logged in user can see the admin dashboard
- it('admin should be able to view protected pages [orders / users]', () => {
-  // cy.get('[data-cy="navlink-Login-desktop"]').click();
-  get('navlink-Login-desktop').click();
-  cy.location('pathname').should('eq', '/auth/login');
+  // TEST: admin logged in user can see the admin dashboard
+//   it('admin should be able to view protected pages [orders / users]', () => {
+//   // cy.get('[data-cy="navlink-Login-desktop"]').click();
+//   get('navlink-Login-desktop').click();
+//   cy.location('pathname').should('eq', '/auth/login');
 
+//   get('auth-email-text-field').type('josh@josh.com');
+//   get('auth-password-text-field').type('josh');
+//   get('auth-login-button').click();
+
+//   // Test that admin can view admin dashboard [/admin/orders]
+//   cy.location('pathname').should('eq', '/admin/orders'); // redirected here after login
+//   get('navlink-Store-desktop').click();
+//   get('navlink-Orders-desktop').click();
+//   cy.location('pathname').should('eq', '/admin/orders');
+  
+//   // Test that admin can view admin dashboard [/admin/users]
+//   get('navlink-Store-desktop').click();
+//   get('navlink-Users-desktop').click();
+//   cy.location('pathname').should('eq', '/admin/users');
+
+//   // Test that the user can log out [this is tested in the Auth section]
+//   get('navbar-avatar-button').click();
+//   get('navbar-logout-button').click();
+// });
+
+  // -----------------------------------------------------
+
+// TEST: non-admin logged in user can NOT see the admin dashboard
+// it('NON admin should NON be able to view protected pages [orders / users]', () => {
+//   // cy.get('[data-cy="navlink-Login-desktop"]').click();
+//   get('navlink-Login-desktop').click();
+//   cy.location('pathname').should('eq', '/auth/login');
+
+//   get('auth-email-text-field').type('steve@apple.com');
+//   get('auth-password-text-field').type('steve');
+//   get('auth-login-button').click();
+
+//   // Test user cannot view the protected pages
+//   // cy.location('pathname').should('eq', '/'); // redirected here after login
+//   // get('navlink-Users-desktop').should('not.exist');  // protected page navlink should not show
+//   // get('navlink-Orders-desktop').should('not.exist'); // protected page navlink should not show
+
+//   // Trying to navigate to the protected pages should redirect to home page
+//   // cy.visit('http://localhost:5173/auth/login', (win) => {
+//   //   // win.location.href = '/admin/orders';
+//   //   // win.location.href = 'http://localhost:5173/login';
+//   // });
+//   // cy.url().then(urlValue => {
+//   //   console.log('urlValue: ', urlValue);
+//   //   // cy.visit(urlValue + '/auth/login');
+
+//   // });
+//   cy.window().then((win) => {
+//     // win is the remote window
+//     win.location.href = 'http://localhost:5173/josh/login';
+//     cy.location('pathname').should('eq', '/josh/login'); // redirected here after login
+//   });
+
+//   // get('navlink-Orders-desktop').click();
+//   // cy.location('pathname').should('eq', '/admin/orders');
+
+//   // get('navlink-Store-desktop').click();
+//   // get('navlink-Users-desktop').click();
+//   // cy.location('pathname').should('eq', '/admin/users');
+
+// });
+
+  // -----------------------------------------------------
+
+  // TEST: all seeded orders display in the admin dashboard with all desired parts
+  it('admin should be able to view protected pages [orders / users]', () => {
+  
+  // log user in
+  get('navlink-Login-desktop').click();
   get('auth-email-text-field').type('josh@josh.com');
   get('auth-password-text-field').type('josh');
   get('auth-login-button').click();
 
-  // Test that admin can view admin dashboard [/admin/orders]
-  cy.location('pathname').should('eq', '/admin/orders'); // redirected here after login
-  get('navlink-Store-desktop').click();
-  get('navlink-Orders-desktop').click();
-  cy.location('pathname').should('eq', '/admin/orders');
   
-  // Test that admin can view admin dashboard [/admin/users]
-  get('navlink-Store-desktop').click();
-  get('navlink-Users-desktop').click();
-  cy.location('pathname').should('eq', '/admin/users');
+  // make sure order rows exist in table
+  get('admin-order-1').should('exist');
+  get('admin-order-2').should('exist');
+  get('admin-order-3').should('exist');
+  get('admin-order-4').should('not.exist');
 
-  // Test that the user can log out [this is tested in the Auth section]
+  
+
+
+  // log user out
+  // get('navbar-avatar-button').click();
+  // get('navbar-logout-button').click();
 });
 
-// TEST: non-admin logged in user can NOT see the admin dashboard
-it('NON admin should NON be able to view protected pages [orders / users]', () => {
-  // cy.get('[data-cy="navlink-Login-desktop"]').click();
-  get('navlink-Login-desktop').click();
-  cy.location('pathname').should('eq', '/auth/login');
+  // -----------------------------------------------------
 
-  get('auth-email-text-field').type('steve@apple.com');
-  get('auth-password-text-field').type('steve');
-  get('auth-login-button').click();
+  // TEST: click different states changes states correctly
 
-  // Test user cannot view the protected pages
-  // cy.location('pathname').should('eq', '/'); // redirected here after login
-  // get('navlink-Users-desktop').should('not.exist');  // protected page navlink should not show
-  // get('navlink-Orders-desktop').should('not.exist'); // protected page navlink should not show
+  // -----------------------------------------------------
 
-  // Trying to navigate to the protected pages should redirect to home page
-  // cy.visit('http://localhost:5173/auth/login', (win) => {
-  //   // win.location.href = '/admin/orders';
-  //   // win.location.href = 'http://localhost:5173/login';
-  // });
-  // cy.url().then(urlValue => {
-  //   console.log('urlValue: ', urlValue);
-  //   // cy.visit(urlValue + '/auth/login');
+  // TEST: filtering
 
-  // });
-  cy.window().then((win) => {
-    // win is the remote window
-    win.location.href = 'http://localhost:5173/josh/login';
-    cy.location('pathname').should('eq', '/josh/login'); // redirected here after login
-  });
+  // -----------------------------------------------------
 
-  // get('navlink-Orders-desktop').click();
-  // cy.location('pathname').should('eq', '/admin/orders');
+  // TEST: placing a new order works correctly
 
-  // get('navlink-Store-desktop').click();
-  // get('navlink-Users-desktop').click();
-  // cy.location('pathname').should('eq', '/admin/users');
+  // -----------------------------------------------------
 
-});
-
-//  // TEST: all seeded orders display in the admin dashboard with all desired parts
-
-//  // TEST: click different states changes states correctly
-
-//  // TEST: filtering
-
-//  // TEST: placing a new order works correctly
-
-//   // -----------------------------------------------------
+  // -----------------------------------------------------
 });
 
 // ========================================================
