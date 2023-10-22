@@ -329,6 +329,22 @@ describe('Admin Orders', () => {
   get('admin-order-2-timer').contains(/\d+:[0-5]\d/); // 0:16  for the timer
   get('admin-order-3-timer').contains(/\d+:[0-5]\d/); // 0:16  for the timer
 
+  // test the expected line items exist in each order
+  get('admin-order-1--line-item-1').should('exist');
+  get('admin-order-1--line-item-2').should('exist');
+  get('admin-order-2--line-item-1').should('exist');
+  get('admin-order-2--line-item-2').should('exist');
+  get('admin-order-3--line-item-1').should('exist');
+  get('admin-order-3--line-item-2').should('exist');
+
+  // test that the line items contain the expected order data
+  get('admin-order-1--line-item-1-product-name').contains('Hamburger');
+  get('admin-order-1--line-item-2-product-name').contains('Pizza');
+  
+
+
+
+
   // log user out
   // get('navbar-avatar-button').click();
   // get('navbar-logout-button').click();
