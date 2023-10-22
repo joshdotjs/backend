@@ -339,7 +339,10 @@ describe('Admin Orders', () => {
 
   // test that the line items contain the expected order data
   get('admin-order-1--line-item-1-product-name').contains('Hamburger');
+  get('admin-order-1--line-item-1-product-price').contains(/\$\d+\.\d{2}/);
+
   get('admin-order-1--line-item-2-product-name').contains('Pizza');
+  get('admin-order-1--line-item-2-product-price').contains(/\$\d+\.\d{2}/);
   
 
 
