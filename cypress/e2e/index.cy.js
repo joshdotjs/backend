@@ -63,17 +63,39 @@ describe('Admin Orders', () => {
     // get('admin-order-1-status-chip').contains('Peparing'); // test that the order row contains the desired data
 
 
-    
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
+    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
 
 
     // log user out
     // get('navbar-avatar-button').click();
     // get('navbar-logout-button').click();
   });
-
-  // -----------------------------------------------------
-
-  // TEST: click different states changes states correctly
 
   // -----------------------------------------------------
 
