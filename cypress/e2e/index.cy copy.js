@@ -449,7 +449,7 @@ describe('Cart / Checkout', () => {
 
   // -----------------------------------------------------
 
-  it('should have correct total with multiple items added & test local storage', () => {
+  it('should have correct total with multiple items added & test Local Storage', () => {
   
     // Add items to cart and check quantity and total after each is added
     get('product-card-1-add-button').click();
