@@ -46,7 +46,7 @@ describe('Cart / Checkout', () => {
 
   // -----------------------------------------------------
 
-  // TEST: Clicking the oclose button closes the cart correctly as well as clicking outside cart closes it
+  // TEST: Removing items from cart works correctly
   it('should have correct total with multiple items added & test local storage', () => {
   
     // Add items to cart and check quantity and total after each is added

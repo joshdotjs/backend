@@ -422,15 +422,30 @@ describe('Cart / Checkout', () => {
 
   // -----------------------------------------------------
 
-  // TEST: Clicking the close button closes the cart correctly
+  // TEST: Clicking the close button closes the cart correctly as well as clicking outside cart closes it
+  it('should have correct total with multiple items added & test local storage', () => {
+  
+    // Add items to cart and check quantity and total after each is added
+    get('product-card-1-add-button').click();
 
-  // -----------------------------------------------------
+    // test cart opens
+    get('cart-drawer').should('be.visible');
 
-  // TEST: Clicking outside the cart clses the cart correctly
+     // click backdrop (at top left to make sure click outside on mobile)
+    get('cart-drawer').find('.MuiBackdrop-root').click(10, 10);
 
-  // -----------------------------------------------------
+    // cart should not be open
+    get('cart-drawer').should('not.exist');
 
-  // TEST: Clicking the open cart button opens it correctly
+    // open cart with the cart button in navbar
+    get('navbar-open-cart-button').click();
+
+    // close cart with the (X) close button
+    get('cart-drawer-close-button').click();
+
+    // cart should not be open
+    get('cart-drawer').should('not.exist');
+  });
 
   // -----------------------------------------------------
 
