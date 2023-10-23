@@ -328,7 +328,9 @@ it('NON admin should NON be able to view protected pages [orders / users]', () =
   get('admin-order-2-timer').contains(/\d+:[0-5]\d/); // 0:16  for the timer
   get('admin-order-3-timer').contains(/\d+:[0-5]\d/); // 0:16  for the timer
 
-  // NOTE: We don't click the carrat to open the order details here, and the below elements are still found (hence, they must not be display: none when the accorion is closed)
+  // NOTE: We don't click the carrat to open the order details here, and the below elements are still found
+  // -This is passing still because we are not clicking anything inside the closed accordion.
+  // -If you tried to click the status buttons they only pass if you first open the drawer.
 
   // test the expected line items exist in each order
   get('admin-order-1--line-item-1').should('exist');
@@ -367,7 +369,7 @@ it('NON admin should NON be able to view protected pages [orders / users]', () =
   // log user out
   get('navbar-avatar-button').click();
   get('navbar-logout-button').click();
-});
+  });
 
   // -----------------------------------------------------
 
