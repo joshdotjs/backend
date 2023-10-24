@@ -2,7 +2,7 @@
 const db = require('../../db/db');
 // const { dateTimeSQL } = required('util/time');
 // ==============================================
-exports.getAll = () => db('orders');
+exports.getAll = () => db('orders').orderBy('id');
 // ==============================================
 exports.getFiltered = ({ date_time_lo, date_time_hi, status }) => {
     // status: number[]
@@ -24,7 +24,8 @@ exports.getFiltered = ({ date_time_lo, date_time_hi, status }) => {
         .where('created_at', '>=', date_time_lo)
         .where('created_at', '<=', date_time_hi)
         .whereIn('status', status)
-        .orderBy('created_at', 'asc');
+        // .orderBy('created_at', 'asc');
+        .orderBy('id');
 };
 // ==============================================
 exports.create = async (order) => {

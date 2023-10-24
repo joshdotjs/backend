@@ -60,7 +60,7 @@ describe('Admin Orders', () => {
 
     // test change status to preparing
     get('admin-order-1--status-button--preparing').click(); // change order status
-    // get('admin-order-1-status-chip').contains('Peparing'); // test that the order row contains the desired data
+    get('admin-order-1-status-chip').contains('Peparing'); // test that the order row contains the desired data
 
 
     // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
