@@ -85,8 +85,24 @@ describe('Admin Orders', () => {
       // click the days in the calendars to filter on days
       // get('admin-orders-calendar').click(195, 20); // open calendar
       get('admin-orders-calendar').find('.MuiButtonBase-root.MuiIconButton-root').click(); // open calendar
-      //get('.MuiDayCalendar-root').should('exist'); // calendar is open
-      // TODO: target the calendar via get(parent).find( .muiDayCalendar-root ))
+      // cy.get('#root').should('exist'); // calendar is open
+      cy.get('.MuiPickersPopper-root').find('.MuiDayCalendar-root').should('exist'); // calendar is open
+      cy.get('div.MuiDayCalendar-weekContainer[role="row"][aria-rowindex="1"]');
+
+
+
+
+      // NOTE: You need to explicitly change the month to october and year to 2023!
+      // NOTE: You need to explicitly change the month to october and year to 2023!
+      // NOTE: You need to explicitly change the month to october and year to 2023!
+      // NOTE: You need to explicitly change the month to october and year to 2023!
+      // NOTE: You need to explicitly change the month to october and year to 2023!
+      // NOTE: You need to explicitly change the month to october and year to 2023!
+      // NOTE: You need to explicitly change the month to october and year to 2023!
+      // NOTE: You need to explicitly change the month to october and year to 2023!
+      
+      
+
       // TODO: then, click the day in the calendar
 
       // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
