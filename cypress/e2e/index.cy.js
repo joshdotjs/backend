@@ -53,48 +53,38 @@ describe('Admin Orders', () => {
     get('admin-order-1').should('exist'); // make sure order rows exist in table
     get('admin-order-1-status-chip').contains('Pending'); // test that the order row contains the desired data
 
-
-    // open the order details drawer
-    get('admin-order-1').click();
-
-
-    // test change status to preparing
+    // test order 1
+    get('admin-order-1').click(); // open the order details accordion
     get('admin-order-1--status-button--preparing').click(); // change order status
-    get('admin-order-1-status-chip').contains('Peparing'); // test that the order row contains the desired data
+    get('admin-order-1-status-chip').contains('Preparing'); // test that the order row contains the desired data
+    get('admin-order-1--status-button--ready').click(); // change order status
+    get('admin-order-1-status-chip').contains('Ready'); // test that the order row contains the desired data
+    get('admin-order-1--status-button--done').click(); // change order status
+    get('admin-order-1-status-chip').contains('Done'); // test that the order row contains the desired data
+    get('admin-order-1').click(); // close the order details accordion
 
+    // test order 2
+    get('admin-order-2').click(); // open the order details accordion
+    get('admin-order-2--status-button--preparing').click(); // change order status
+    get('admin-order-2-status-chip').contains('Preparing'); // test that the order row contains the desired data
+    get('admin-order-2--status-button--ready').click(); // change order status
+    get('admin-order-2-status-chip').contains('Ready'); // test that the order row contains the desired data
+    get('admin-order-2--status-button--done').click(); // change order status
+    get('admin-order-2-status-chip').contains('Done'); // test that the order row contains the desired data
+    // leave details accordion open
 
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-    // HERE: Soring it not working  =>  when you click update status button it returns the orders with the newest one at the bottom of the list
-
+    // test order 3
+    get('admin-order-3').click(); // open the order details accordion
+    get('admin-order-3--status-button--preparing').click(); // change order status
+    get('admin-order-3-status-chip').contains('Preparing'); // test that the order row contains the desired data
+    get('admin-order-3--status-button--ready').click(); // change order status
+    get('admin-order-3-status-chip').contains('Ready'); // test that the order row contains the desired data
+    get('admin-order-3--status-button--done').click(); // change order status
+    get('admin-order-3-status-chip').contains('Done'); // test that the order row contains the desired data
 
     // log user out
-    // get('navbar-avatar-button').click();
-    // get('navbar-logout-button').click();
+    get('navbar-avatar-button').click();
+    get('navbar-logout-button').click();
   });
 
   // -----------------------------------------------------
