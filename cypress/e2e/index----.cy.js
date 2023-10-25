@@ -508,13 +508,18 @@ describe('Admin Orders', () => {
 
   // -----------------------------------------------------
 
-  // TEST: filtering
+  // ...
+
+  // -----------------------------------------------------
+
+  // TEST: real time updates
+  //  -create a way to change the update time in the UI
+  //  -change the update time to a short time
+  //  -test the update with timers
 
   // -----------------------------------------------------
 
   // TEST: placing a new order works correctly
-
-  // -----------------------------------------------------
 
   // -----------------------------------------------------
 });
