@@ -371,8 +371,10 @@ describe('Admin Orders', () => {
   get('navbar-logout-button').click();
   });
 
-  // TEST: all seeded orders display in the admin dashboard with all desired parts
-  it('admin should be able to view protected pages [orders / users]', () => {
+  // -----------------------------------------------------
+
+  // TEST: change order status
+  it('admin should be able change order status', () => {
     
     // log user in
     get('navlink-Login-desktop').click();
@@ -787,3 +789,8 @@ describe('Cart / Checkout', () => {
 
   // -----------------------------------------------------
 });
+
+// ========================================================
+// ========================================================
+// ========================================================
+// ========================================================

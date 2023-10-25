@@ -46,19 +46,22 @@ describe('Admin Orders', () => {
     // -the challenge with testing this is how do I know what times / dates to click in the UI
     //  because the seeding occurs at whatever time the test starts.
     // -I can modify the created_at entry in the tables and then I'll know what days / times to click in the UI
+    // -NOTE: The timer will be incorrect here, because we are comparing the fake created time against the real current time.
 
     const query = `
       UPDATE orders
       SET created_at = CASE
-          WHEN id = 1 THEN '2023-10-1 12:34:56'
-          WHEN id = 2 THEN '2023-10-2 12:35:56'
-          WHEN id = 3 THEN '2023-10-3 12:36:56'
+          WHEN id = 1 THEN '2023-10-1 00:34:56'
+          WHEN id = 2 THEN '2023-10-2 00:35:56'
+          WHEN id = 3 THEN '2023-10-3 00:36:56'
           ELSE created_at
       END
-      WHERE id IN (1, 2, 3);
+      WHERE id IN (1, 2, 3)
+      RETURNING *;
     `;
 
     cy.task('connectDB', query).then((rows) => {
+    // cy.task('connectDB', "      UPDATE orders SET created_at = CASE WHEN id = 1 THEN '2023-10-1 12:34:56' WHEN id = 2 THEN '2023-10-2 12:35:56' WHEN id = 3 THEN '2023-10-3 12:36:56' ELSE created_at END WHERE id IN (1, 2, 3);").then((rows) => {
       rows.forEach(row => {
         console.log('row: ', row); // dev console
         cy.log(row.id);         // cypress console
@@ -89,6 +92,12 @@ describe('Admin Orders', () => {
       cy.get('.MuiPickersPopper-root').find('.MuiDayCalendar-root').should('exist'); // calendar is open
       cy.get('div.MuiDayCalendar-weekContainer[role="row"][aria-rowindex="1"]').find('[aria-colindex="1"]').click();
 
+      // test that the first fake order is displayed only
+      get('admin-orders').should('have.length', 1); // test number of orders == 1
+      get('admin-order-1--line-item-1-product-name').contains('Hamburger');
+      get('admin-order-1--line-item-2-product-name').contains('Pizza');
+      get('admin-order-1--line-item-1-quantity').contains('1');
+      get('admin-order-1--line-item-2-quantity').contains('1');
 
 
 
