@@ -78,7 +78,7 @@ describe('Admin Orders', () => {
       let order_id = 1;
       get('admin-orders-time-lo').find('.MuiButtonBase-root.MuiIconButton-root').click(); // open time picker
       cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').should('exist'); // time picker is open
-      // cy.get('div.MuiDayCalendar-weekContainer[role="row"][aria-rowindex="1"]').find('[aria-colindex="1"]').click(); // click the first day in the calendars to filter on days
+      cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="1 hours"]').click(); // click the first day in the calendars to filter on days
       // get('admin-orders').should('have.length', 1); // test number of orders == 1
       // get(`admin-order-${order_id}--line-item-1-product-name`).contains('Hamburger');
       // get(`admin-order-${order_id}--line-item-2-product-name`).contains('Pizza');
