@@ -40,20 +40,23 @@ beforeEach(() => {
 describe('Admin Orders', () => {
   // -----------------------------------------------------
 
-  // TEST: filtering (change days)
-  it('test filtering [days in one month]', () => {
+  // TEST: filtering (change days) - current month
+  it('test filtering [days in one month] - current month', () => {
 
     // -the challenge with testing this is how do I know what times / dates to click in the UI
     //  because the seeding occurs at whatever time the test starts.
     // -I can modify the created_at entry in the tables and then I'll know what days / times to click in the UI
     // -NOTE: The timer will be incorrect here, because we are comparing the fake created time against the real current time.
 
+    const date = new Date();
+    const current_month = date.getMonth() + 1; // zero based
+    const current_year = date.getFullYear();
     const query = `
       UPDATE orders
       SET created_at = CASE
-          WHEN id = 1 THEN '2023-10-1 00:34:56'
-          WHEN id = 2 THEN '2023-10-2 00:35:56'
-          WHEN id = 3 THEN '2023-10-3 00:36:56'
+          WHEN id = 1 THEN '${current_year}-${current_month}-1 00:34:56'
+          WHEN id = 2 THEN '${current_year}-${current_month}-2 00:35:56'
+          WHEN id = 3 THEN '${current_year}-${current_month}-3 00:36:56'
           ELSE created_at
       END
       WHERE id IN (1, 2, 3)
@@ -85,79 +88,30 @@ describe('Admin Orders', () => {
       get('admin-orders-real-time-checkbox').click();
       get('admin-orders-real-time-checkbox').should('not.be.checked');
 
-      // click the days in the calendars to filter on days
-      // get('admin-orders-calendar').click(195, 20); // open calendar
+      
+      // test that the 1st fake order is displayed only when the first day is clicked in the current month
+      let order_id = 1;
       get('admin-orders-calendar').find('.MuiButtonBase-root.MuiIconButton-root').click(); // open calendar
-      // cy.get('#root').should('exist'); // calendar is open
       cy.get('.MuiPickersPopper-root').find('.MuiDayCalendar-root').should('exist'); // calendar is open
-      cy.get('div.MuiDayCalendar-weekContainer[role="row"][aria-rowindex="1"]').find('[aria-colindex="1"]').click();
-
-      // test that the first fake order is displayed only
+      cy.get('div.MuiDayCalendar-weekContainer[role="row"][aria-rowindex="1"]').find('[aria-colindex="1"]').click(); // click the first day in the calendars to filter on days
       get('admin-orders').should('have.length', 1); // test number of orders == 1
-      get('admin-order-1--line-item-1-product-name').contains('Hamburger');
-      get('admin-order-1--line-item-2-product-name').contains('Pizza');
-      get('admin-order-1--line-item-1-quantity').contains('1');
-      get('admin-order-1--line-item-2-quantity').contains('1');
+      get(`admin-order-${order_id}--line-item-1-product-name`).contains('Hamburger');
+      get(`admin-order-${order_id}--line-item-2-product-name`).contains('Pizza');
+      get(`admin-order-${order_id}--line-item-1-quantity`).contains('1');
+      get(`admin-order-${order_id}--line-item-2-quantity`).contains('1');
+
+      // test that the 2nd fake order is displayed only when the first day is clicked in the current month
+      order_id = 2;
+      get('admin-orders-calendar').find('.MuiButtonBase-root.MuiIconButton-root').click(); // open calendar
+      cy.get('.MuiPickersPopper-root').find('.MuiDayCalendar-root').should('exist'); // calendar is open
+      cy.get('div.MuiDayCalendar-weekContainer[role="row"][aria-rowindex="1"]').find('[aria-colindex="2"]').click(); // click the first day in the calendars to filter on days
+      get('admin-orders').should('have.length', 1); // test number of orders == 1
+      get(`admin-order-${order_id}--line-item-1-product-name`).contains('Hamburger');
+      get(`admin-order-${order_id}--line-item-2-product-name`).contains('Pizza');
+      get(`admin-order-${order_id}--line-item-1-quantity`).contains('2');
+      get(`admin-order-${order_id}--line-item-2-quantity`).contains('2');
 
 
-
-      // NOTE: You need to explicitly change the month to october and year to 2023!
-      // NOTE: You need to explicitly change the month to october and year to 2023!
-      // NOTE: You need to explicitly change the month to october and year to 2023!
-      // NOTE: You need to explicitly change the month to october and year to 2023!
-      // NOTE: You need to explicitly change the month to october and year to 2023!
-      // NOTE: You need to explicitly change the month to october and year to 2023!
-      // NOTE: You need to explicitly change the month to october and year to 2023!
-      // NOTE: You need to explicitly change the month to october and year to 2023!
-      
-      
-
-      // TODO: then, click the day in the calendar
-
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
-      // HERE
 
 
 
