@@ -40,8 +40,8 @@ beforeEach(() => {
 describe('Admin Orders', () => {
   // -----------------------------------------------------
 
-  // TEST: filtering (change days) - current month
-  it('test filtering [days in one month] - current month', () => {
+  // TEST: filtering (change days) - specific month
+  it('test filtering [days in one month] - specific month', () => {
 
     // -the challenge with testing this is how do I know what times / dates to click in the UI
     //  because the seeding occurs at whatever time the test starts.
@@ -121,14 +121,10 @@ describe('Admin Orders', () => {
       get(`admin-order-${order_id}--line-item-2-product-name`).contains('Pizza');
       get(`admin-order-${order_id}--line-item-1-quantity`).contains('3');
       get(`admin-order-${order_id}--line-item-2-quantity`).contains('3');
-
-
-
     }); // cy.task()
-
-
-
   }); // it()
+
+  // -----------------------------------------------------
 
   // TEST: filtering (change months)
 
