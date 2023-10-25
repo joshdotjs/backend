@@ -87,7 +87,7 @@ describe('Admin Orders', () => {
       get('admin-orders-calendar').find('.MuiButtonBase-root.MuiIconButton-root').click(); // open calendar
       // cy.get('#root').should('exist'); // calendar is open
       cy.get('.MuiPickersPopper-root').find('.MuiDayCalendar-root').should('exist'); // calendar is open
-      cy.get('div.MuiDayCalendar-weekContainer[role="row"][aria-rowindex="1"]');
+      cy.get('div.MuiDayCalendar-weekContainer[role="row"][aria-rowindex="1"]').find('[aria-colindex="1"]').click();
 
 
 
