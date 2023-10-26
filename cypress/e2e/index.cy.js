@@ -49,7 +49,6 @@ describe('Admin Orders', () => {
     get('auth-password-text-field').type('josh');
     get('auth-login-button').click();
 
-    
     // unsellect all status options
     get('admin-orders-status-dropdown').click(); // open status dropdown
     get('status-dropdown-option-Pending').click();
@@ -95,6 +94,34 @@ describe('Admin Orders', () => {
     get('status-dropdown-option-Done').click();
     get('admin-order-1').should('exist');
     get('admin-order-2').should('not.exist');
+    get('admin-order-3').should('not.exist');
+    cy.get('body').click(); // close status dropdown
+
+    // select only the ready status
+    get('admin-orders-status-dropdown').click(); // open status dropdown
+    get('status-dropdown-option-Preparing').click();
+    get('status-dropdown-option-Ready').click();
+    get('admin-order-1').should('not.exist');
+    get('admin-order-2').should('exist');
+    get('admin-order-3').should('not.exist');
+    cy.get('body').click(); // close status dropdown
+
+    // select only the done status
+    get('admin-orders-status-dropdown').click(); // open status dropdown
+    get('status-dropdown-option-Ready').click();
+    get('status-dropdown-option-Done').click();
+    get('admin-order-1').should('not.exist');
+    get('admin-order-2').should('not.exist');
+    get('admin-order-3').should('exist');
+    cy.get('body').click(); // close status dropdown
+
+    // select both preparing and ready statuses
+    get('admin-orders-status-dropdown').click(); // open status dropdown
+    get('status-dropdown-option-Done').click();
+    get('status-dropdown-option-Preparing').click();
+    get('status-dropdown-option-Ready').click();
+    get('admin-order-1').should('exist');
+    get('admin-order-2').should('exist');
     get('admin-order-3').should('not.exist');
     cy.get('body').click(); // close status dropdown
     
