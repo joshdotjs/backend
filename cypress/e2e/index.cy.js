@@ -96,22 +96,24 @@ describe('Admin Orders', () => {
         cy.wait(500); // Wait for animation or any delay [both open clocks are found without this!]
       };
 
-
-      let order_id = 1;
+      // filter by time - should return 1st order
       setClocks({ hr_lo: 1, min_lo: 5, hr_hi: 2, min_hi: 30 });
+      get('admin-order-1').should('exist');
+      get('admin-order-2').should('not.exist');
+      get('admin-order-3').should('not.exist');
+
+      // filter by time - should return 2nd order
+      setClocks({ hr_lo: 2, min_lo: 30, hr_hi: 2, min_hi: 45 });
+      get('admin-order-1').should('not.exist');
+      get('admin-order-2').should('exist');
+      get('admin-order-3').should('not.exist');
 
 
-      // cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="6 hours"]').click();   // time-HI: click hour
-      // cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="5 minutes"]').click(); // time-HI: click minute
-
-
-
-      // get('admin-orders').should('have.length', 1); // test number of orders == 1
-      // get(`admin-order-${order_id}--line-item-1-product-name`).contains('Hamburger');
-      // get(`admin-order-${order_id}--line-item-2-product-name`).contains('Pizza');
-      // get(`admin-order-${order_id}--line-item-1-quantity`).contains('1');
-      // get(`admin-order-${order_id}--line-item-2-quantity`).contains('1');
-
+      // filter by time - should return 2nd order
+      setClocks({ hr_lo: 3, min_lo: 30, hr_hi: 3, min_hi: 45 });
+      get('admin-order-1').should('not.exist');
+      get('admin-order-2').should('not.exist');
+      get('admin-order-3').should('exist');
     }); // cy.task()
   }); // it()  
 
