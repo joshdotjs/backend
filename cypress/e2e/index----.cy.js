@@ -592,6 +592,10 @@ describe('Admin Orders', () => {
   //  -change the update time to a short time
   //  -test the update with timers
 
+  // step 1: create a way to change the update time in the UI
+  // step 2: display a notification when the real time update occurs
+  // step 3: test that the real time update is occuring
+
   // -----------------------------------------------------
 
   // TEST: placing a new order works correctly
