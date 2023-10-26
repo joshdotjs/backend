@@ -49,10 +49,10 @@ describe('Admin Orders', () => {
     const query = `
       UPDATE orders
       SET created_at = CASE
-          WHEN id = 1 THEN '${current_year}-${current_month}-1 01:34:56'
-          WHEN id = 2 THEN '${current_year}-${current_month}-2 02:35:56'
-          WHEN id = 3 THEN '${current_year}-${current_month}-3 03:36:56'
-          ELSE created_at
+        WHEN id = 1 THEN '${current_year}-${current_month}-1 01:34:56'
+        WHEN id = 2 THEN '${current_year}-${current_month}-2 02:35:56'
+        WHEN id = 3 THEN '${current_year}-${current_month}-3 03:36:56'
+        ELSE created_at
       END
       WHERE id IN (1, 2, 3)
       RETURNING *;
@@ -76,16 +76,22 @@ describe('Admin Orders', () => {
       get('admin-orders-real-time-checkbox').should('not.be.checked');
 
       let order_id = 1;
+
+      // set left clock:
       get('admin-orders-time-lo').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // time-LO: open time picker
       cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').should('exist');                          // time-LO: time-picker is open
       cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="1 hours"]').click();   // time-LO: click hour
       cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="5 minutes"]').click(); // time-LO: click minute
-      get('admin-orders-time-lo').find('.MuiButtonBase-root.MuiIconButton-root').click(10, 10);                            // close time picker
+      get('admin-orders-time-lo').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // close time picker
+      cy.wait(500); // Wait for animation or any delay [both open clocks are found without this!]
+
+      // set right clock:
       get('admin-orders-time-hi').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // time-HI: open time picker
       cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').should('exist');                          // time-HI: time-picker is open
-      cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="2 hours"]').should('exist');   // time-HI: click hour
-      cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="2 hours"]').click({ force: true });   // time-HI: click hour
+      cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="5 hours"]').click({ force: true });    // time-HI: click hour // time-HI: click hour
+      cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="30 minutes"]').click({ force: true }); // time-HI: click minute
       // must force click in case the user needs to scroll down in order to see the hour / nimute
+      get('admin-orders-time-hi').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // close time picker
 
 
       // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test

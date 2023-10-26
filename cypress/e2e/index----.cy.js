@@ -423,7 +423,7 @@ describe('Admin Orders', () => {
   // -----------------------------------------------------
 
   // TEST: filtering (change days) - current month / year
-  it('test filtering [days in one month] - current month', () => {
+  it('test filtering [date] - in current month', () => {
 
     // -the challenge with testing this is how do I know what times / dates to click in the UI
     //  because the seeding occurs at whatever time the test starts.
