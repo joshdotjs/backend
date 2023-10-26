@@ -46,12 +46,13 @@ describe('Admin Orders', () => {
     const date = new Date();
     const current_month = date.getMonth() + 1; // zero based
     const current_year = date.getFullYear();
+    const current_day = date.getDate();
     const query = `
       UPDATE orders
       SET created_at = CASE
-        WHEN id = 1 THEN '${current_year}-${current_month}-1 01:34:56'
-        WHEN id = 2 THEN '${current_year}-${current_month}-2 02:35:56'
-        WHEN id = 3 THEN '${current_year}-${current_month}-3 03:36:56'
+        WHEN id = 1 THEN '${current_year}-${current_month}-${current_day} 01:34:56'
+        WHEN id = 2 THEN '${current_year}-${current_month}-${current_day} 02:35:56'
+        WHEN id = 3 THEN '${current_year}-${current_month}-${current_day} 03:36:56'
         ELSE created_at
       END
       WHERE id IN (1, 2, 3)
@@ -97,8 +98,8 @@ describe('Admin Orders', () => {
 
 
       let order_id = 1;
-      setClocks({ hr_lo: 1, min_lo: 5, hr_hi: 5, min_hi: 30 });
-      setClocks({ hr_lo: 2, min_lo: 25, hr_hi: 3, min_hi: 25 });
+      setClocks({ hr_lo: 1, min_lo: 5, hr_hi: 2, min_hi: 30 });
+
 
       // cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="6 hours"]').click();   // time-HI: click hour
       // cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="5 minutes"]').click(); // time-HI: click minute
