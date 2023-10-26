@@ -22,7 +22,7 @@ exports.get = async (req, res) => {
 // ==============================================
 
 exports.getFiltered = async (req, res, next) => {
-  console.blue('[POST] /api/orders/get-filtered');
+  // console.blue('[POST] /api/orders/get-filtered');
 
   const { date_time_lo, date_time_hi, status } = req.body;
   // console.log(' date_time_lo: ', date_time_lo);

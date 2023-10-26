@@ -187,7 +187,7 @@ const idx2id = idx => idx + 1;
 calculateTotal = ({ order, products, order_2_product, order_id }) => {
 
   const filtered = order_2_product.filter((o2p) => o2p.order_id === order_id);
-  console.log('filtered: ', filtered);
+  // console.log('filtered: ', filtered);
 
   let total = 0;
   filtered.forEach((o2p) => {

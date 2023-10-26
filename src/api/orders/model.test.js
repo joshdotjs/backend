@@ -105,7 +105,7 @@ describe('Model - Orders', () => {
 
   it('getProductsInOrderById', async () => {
     const products_in_order = await OrdersModel.getProductsInOrderById(1);
-    console.log('products_in_order: ', products_in_order);
+    // console.log('products_in_order: ', products_in_order);
 
     expect(products_in_order.length).toBe(2);
     expect(products_in_order[0].order_id).toBe(1);
