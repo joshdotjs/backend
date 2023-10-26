@@ -80,27 +80,6 @@ server.use('*', (req, res, next) => {
 
 // ==============================================
 
-
-// const sgMail = require('@sendgrid/mail')
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-// const msg = {
-//   to: 'jhollow6@asu.edu', // Change to your recipient
-//   from: 'joshDotJS@gmail.com', // Change to your verified sender
-//   subject: 'FROM LOCAL SERVER',
-//   text: 'This is from the lcoal server',
-//   html: '<strong>this is html bitch!</strong>',
-// }
-// sgMail
-//   .send(msg)
-//   .then(() => {
-//     console.log('Email sent')
-//   })
-//   .catch((error) => {
-//     console.error(error)
-//   })
-
-// ==============================================
-
 // error-handling middleware
 server.use((err, req, res, next) => {
   // console.magenta('err (in error-handling middleware)  [server.js]');

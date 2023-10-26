@@ -1,12 +1,15 @@
-// const { v4: uuid } = require('uuid');
-const { uuid } = required('util/uuid');
+// libs:
+const sgMail = require('@sendgrid/mail');
 const stripe = require("stripe")(env('STRIPE_PRIVATE_KEY'));
 
-const Model = require('./model');
-const ProductModel = require('../products/model');
-
+// utils:
+const { uuid } = required('util/uuid');
 const { asynch } = required('util/async');
 const { HttpError, DatabaseError } = required('util/error');
+
+// models:
+const Model = require('./model');
+const ProductModel = require('../products/model');
 
 // ==============================================
 
@@ -311,6 +314,26 @@ exports.webhook = async (request, response) => {
     if (error)
       return next(new DatabaseError(error, 'stripe webhook -- type === checkout.session.completed'));
     console.log('rows_updated: ', rows_updated);
+
+    // send admin email:
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const msg = {
+      to: 'jhollow6@asu.edu', // Change to your recipient
+      from: 'joshDotJS@gmail.com', // Change to your verified sender
+      subject: `New Order!  --  Order ID: ${order_id}`,
+      text: 'This is from the lcoal server',
+      html: '<strong>new freaking order!</strong>',
+    };
+    sgMail
+      .send(msg)
+      .then(() => {
+        console.log('Email sent')
+      })
+      .catch((error) => {
+        console.error(error)
+      });
+
+
   }
 
   // Respond to Stripe:
