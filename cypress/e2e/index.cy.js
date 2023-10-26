@@ -75,84 +75,30 @@ describe('Admin Orders', () => {
       get('admin-orders-real-time-checkbox').click();
       get('admin-orders-real-time-checkbox').should('not.be.checked');
 
+      
+      const setClocks = ({ hr_lo, min_lo, hr_hi, min_hi }) => {
+        // set left clock:
+        get('admin-orders-time-lo').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // time-LO: open time picker
+        cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').should('exist');                          // time-LO: time-picker is open
+        cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find(`[aria-label="${hr_lo} hours"]`).click();   // time-LO: click hour
+        cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find(`[aria-label="${min_lo} minutes"]`).click(); // time-LO: click minute
+        get('admin-orders-time-lo').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // close time picker
+        cy.wait(500); // Wait for animation or any delay [both open clocks are found without this!]
+  
+        // set right clock:
+        get('admin-orders-time-hi').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // time-HI: open time picker
+        cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').should('exist');                          // time-HI: time-picker is open
+        cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find(`[aria-label="${hr_hi} hours"]`).click({ force: true });    // time-HI: click hour // time-HI: click hour
+        cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find(`[aria-label="${min_hi} minutes"]`).click({ force: true }); // time-HI: click minute
+        // must force click in case the user needs to scroll down in order to see the hour / nimute
+        get('admin-orders-time-hi').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // close time picker
+        cy.wait(500); // Wait for animation or any delay [both open clocks are found without this!]
+      };
+
+
       let order_id = 1;
-
-      // set left clock:
-      get('admin-orders-time-lo').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // time-LO: open time picker
-      cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').should('exist');                          // time-LO: time-picker is open
-      cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="1 hours"]').click();   // time-LO: click hour
-      cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="5 minutes"]').click(); // time-LO: click minute
-      get('admin-orders-time-lo').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // close time picker
-      cy.wait(500); // Wait for animation or any delay [both open clocks are found without this!]
-
-      // set right clock:
-      get('admin-orders-time-hi').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // time-HI: open time picker
-      cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').should('exist');                          // time-HI: time-picker is open
-      cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="5 hours"]').click({ force: true });    // time-HI: click hour // time-HI: click hour
-      cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="30 minutes"]').click({ force: true }); // time-HI: click minute
-      // must force click in case the user needs to scroll down in order to see the hour / nimute
-      get('admin-orders-time-hi').find('.MuiButtonBase-root.MuiIconButton-root').click();                                  // close time picker
-
-
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-      // HERE: need to force click the hour because it might be out of view - make sure to add this force to the previous test
-
+      setClocks({ hr_lo: 1, min_lo: 5, hr_hi: 5, min_hi: 30 });
+      setClocks({ hr_lo: 2, min_lo: 25, hr_hi: 3, min_hi: 25 });
 
       // cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="6 hours"]').click();   // time-HI: click hour
       // cy.get('.MuiPickersPopper-root').find('.MuiMultiSectionDigitalClock-root').find('[aria-label="5 minutes"]').click(); // time-HI: click minute
