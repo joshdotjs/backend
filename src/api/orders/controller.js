@@ -321,11 +321,11 @@ exports.webhook = async (request, response) => {
     // - - - - - - - - - - - - - - - - - - - - - 
 
     const msg = {
-      from: 'joshDotJS@gmail.com', // Change to your verified sender
+      from: 'theFoodTruckEmail@gmail.com', // Change to your verified sender
       subject: `Order Confirmation!  --  Order ID: ${order_id}`,
       text: 'Your order will be ready soon!',
       html: `
-        <div style="border: solid black 1px; border-radius: 3px; padding: '1rem'">
+        <div style="border: solid black 1px; border-radius: 3px; padding: '1rem';">
           <p>order details...</p>
         </div>
       `
