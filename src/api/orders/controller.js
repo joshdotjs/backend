@@ -274,7 +274,7 @@ exports.webhook = async (request, response) => {
   // }  else if (type === 'customer.created') {
   //   console.green('Stage 2');
   // } else
-   if (type === 'payment_intent.succeeded') {
+  if (type === 'payment_intent.succeeded') {
     console.log("***********************************");
     console.magenta('Stage 3');
     // console.log('payload: ', payload);
@@ -306,7 +306,10 @@ exports.webhook = async (request, response) => {
   } 
   else if (type === 'checkout.session.completed') {
     console.cyan('Stage 5');
-    // console.log('payload: ', payload);
+    console.log('payload: ', payload);
+    console.log('payload.data.object.custer_email: ', payload.data.object.customer_email);
+    console.log('payload.data.object.custer_details: ', payload.data.object.customer_details);
+    console.log('payload.data.object.custer_details.email: ', payload.data.object.customer_details.email);
     console.log('payload.data.object.metadata.order_id: ', payload.data.object.metadata.order_id);
     const { order_id } = payload.data.object.metadata;
     const promise = Model.updateStatus(order_id, 2); // 1 => pending, 2 => preparing
@@ -315,25 +318,50 @@ exports.webhook = async (request, response) => {
       return next(new DatabaseError(error, 'stripe webhook -- type === checkout.session.completed'));
     console.log('rows_updated: ', rows_updated);
 
+    // - - - - - - - - - - - - - - - - - - - - - 
+
+    const msg = {
+      from: 'joshDotJS@gmail.com', // Change to your verified sender
+      subject: `Order Confirmation!  --  Order ID: ${order_id}`,
+      text: 'Your order will be ready soon!',
+      html: `
+        <div style="border: solid black 1px; border-radius: 3px; padding: '1rem'">
+          <p>order details...</p>
+        </div>
+      `
+    };
+
+    // - - - - - - - - - - - - - - - - - - - - - 
+
     // send admin email:
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    const msg = {
-      to: 'jhollow6@asu.edu', // Change to your recipient
-      from: 'joshDotJS@gmail.com', // Change to your verified sender
-      subject: `New Order!  --  Order ID: ${order_id}`,
-      text: 'This is from the lcoal server',
-      html: '<strong>new freaking order!</strong>',
+    const msg_1 = {
+      ...msg,
+      to: 'jhollow6@asu.edu', // admin email
     };
-    sgMail
-      .send(msg)
+    sgMail.send(msg_1)
       .then(() => {
         console.log('Email sent')
       })
       .catch((error) => {
         console.error(error)
-      });
+    }); // msg_1
 
+    // - - - - - - - - - - - - - - - - - - - - - 
 
+    const msg_2 = {
+      ...msg,
+      to: payload.data.object.customer_details.email, // user email
+    };
+    sgMail.send(msg_2)
+      .then(() => {
+        console.log('Email sent')
+      })
+      .catch((error) => {
+      console.error(error)
+    }); // msg_2
+
+    // - - - - - - - - - - - - - - - - - - - - - 
   }
 
   // Respond to Stripe:

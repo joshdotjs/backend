@@ -19,7 +19,7 @@ before(() => {
 });
 
 beforeEach(() => {
-  cy.visit('http://localhost:5173', // NOTE: Slash at end breaks this!
+  cy.visit('http://localhost:5173/store', // NOTE: Slash at end breaks this!
     {
       onBeforeLoad(win) {
         win.localStorage.setItem('test-key', 'test-value'); // if LS is empty, then this fails: expect(result).to.have.property('http://localhost:5173');
@@ -50,7 +50,7 @@ describe('Auth', () => {
     get('navlink-Login-desktop').click();
     cy.location('pathname').should('eq', '/auth/login');
     cy.go('back');
-    cy.location('pathname').should('eq', '/');
+    cy.location('pathname').should('eq', '/store');
   });
 
   // -----------------------------------------------------
@@ -59,7 +59,7 @@ describe('Auth', () => {
     get('navlink-Login-desktop').click();
     cy.location('pathname').should('eq', '/auth/login');
     get('navlink-Store-desktop').click();
-    cy.location('pathname').should('eq', '/');
+    cy.location('pathname').should('eq', '/store');
   });
 
   // -----------------------------------------------------
@@ -261,34 +261,12 @@ describe('Admin Orders', () => {
     get('auth-password-text-field').type('steve');
     get('auth-login-button').click();
 
-    // Test user cannot view the protected pages
-    // cy.location('pathname').should('eq', '/'); // redirected here after login
-    // get('navlink-Users-desktop').should('not.exist');  // protected page navlink should not show
-    // get('navlink-Orders-desktop').should('not.exist'); // protected page navlink should not show
-
-    // Trying to navigate to the protected pages should redirect to home page
-    // cy.visit('http://localhost:5173/auth/login', (win) => {
-    //   // win.location.href = '/admin/orders';
-    //   // win.location.href = 'http://localhost:5173/login';
-    // });
-    // cy.url().then(urlValue => {
-    //   console.log('urlValue: ', urlValue);
-    //   // cy.visit(urlValue + '/auth/login');
-
     // });
     cy.window().then((win) => {
       // win is the remote window
       win.location.href = 'http://localhost:5173/josh/login';
       cy.location('pathname').should('eq', '/josh/login'); // redirected here after login
     });
-
-    // get('navlink-Orders-desktop').click();
-    // cy.location('pathname').should('eq', '/admin/orders');
-
-    // get('navlink-Store-desktop').click();
-    // get('navlink-Users-desktop').click();
-    // cy.location('pathname').should('eq', '/admin/users');
-
   });
 
   // -----------------------------------------------------
@@ -567,6 +545,7 @@ describe('Admin Orders', () => {
       // filter by time - should return 1st order
       setClocks({ hr_lo: 1, min_lo: 5, hr_hi: 2, min_hi: 30 });
       get('admin-order-1').should('exist');
+      debugger;
       get('admin-order-2').should('not.exist');
       get('admin-order-3').should('not.exist');
 
