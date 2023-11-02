@@ -239,6 +239,7 @@ const doStripe = async (line_items, order_uuid, order_id, next) => {
       // tokens: tokens,
       order_id,
       order_uuid,
+      line_items_string: JSON.stringify(line_items),
     }
   });
   // console.log('nomalized_line_items: ', normalized_line_items);
@@ -276,21 +277,21 @@ exports.webhook = async (request, response) => {
   //   console.green('Stage 2');
   // } else
   if (type === 'payment_intent.succeeded') {
-    console.log("***********************************");
-    console.magenta('Stage 3');
+    // console.log("***********************************");
+    // console.magenta('Stage 3');
     // console.log('payload: ', payload);
         
     // NOTE: This is only payment_intent ID for type === payment_intent.created & payment_intent.succeeded
-    const payment_intent_id = payload.data.object.id;
-    console.log('payment_intent_id: ', payment_intent_id);
+    // const payment_intent_id = payload.data.object.id;
+    // console.log('payment_intent_id: ', payment_intent_id);
    
     
-    const card = payload.data.object.charges.data[0].payment_method_details.card;
-    const { brand, exp_month, exp_year, last4 } = card;
-    console.log('brand', brand);
-    console.log('exp_month', exp_month);
-    console.log('exp_year', exp_year);
-    console.log('last4', last4);
+    // const card = payload.data.object.charges.data[0].payment_method_details.card;
+    // const { brand, exp_month, exp_year, last4 } = card;
+    // console.log('brand', brand);
+    // console.log('exp_month', exp_month);
+    // console.log('exp_year', exp_year);
+    // console.log('last4', last4);
     // updateOrderStatus({ 
     //   status: 3,
     //   payment_intent_id,
@@ -299,11 +300,11 @@ exports.webhook = async (request, response) => {
     //   card_exp_year: exp_year,
     //   card_last4: last4,
     // });
-    console.log("***********************************");
+    // console.log("***********************************");
   } 
   else if (type === 'charge.succeeded') {
-    console.yellow('Stage 4');
-    console.log('payload: ', payload);
+    // console.yellow('Stage 4');
+    // console.log('payload: ', payload);
   } 
   else if (type === 'checkout.session.completed') {
     console.cyan('Stage 5');
@@ -312,12 +313,17 @@ exports.webhook = async (request, response) => {
     console.log('payload.data.object.custer_details: ', payload.data.object.customer_details);
     console.log('payload.data.object.custer_details.email: ', payload.data.object.customer_details.email);
     console.log('payload.data.object.metadata.order_id: ', payload.data.object.metadata.order_id);
-    const { order_id, order_uuid } = payload.data.object.metadata;
+    const { order_id, order_uuid, line_items_string } = payload.data.object.metadata;
     const promise = Model.updateStatus(order_id, 2); // 1 => pending, 2 => preparing
     const [rows_updated, error] = await asynch(promise);
     if (error)
       return next(new DatabaseError(error, 'stripe webhook -- type === checkout.session.completed'));
     console.log('rows_updated: ', rows_updated);
+
+    // - - - - - - - - - - - - - - - - - - - - - 
+
+    const line_items = JSON.parse(line_items_string);
+    console.log('line_items: ', line_items);
 
     // - - - - - - - - - - - - - - - - - - - - - 
 
@@ -328,6 +334,10 @@ exports.webhook = async (request, response) => {
       html: `
         <div style="border: solid black 1px; border-radius: 3px; padding: '1rem';">
           <p>order details...</p>
+
+          <a href="${process.env.FRONTEND_URL}/checkout-success?order_uuid=${order_uuid}">LINK</a>
+
+          JOSH
         </div>
       `
     };
