@@ -327,6 +327,22 @@ exports.webhook = async (request, response) => {
 
     // - - - - - - - - - - - - - - - - - - - - - 
 
+    const lis = line_items.map(({product_name, product_price, quantity}) => {
+      return `
+        <li>
+          <p>${product_name}</p>
+          <p>Price: ${product_price}</p>
+          <p>Qty: ${quantity}</p>
+        </li>
+      `;
+    });
+
+    // - - - - - - - - - - - - - - - - - - - - - 
+    
+    const join = arr => arr.join('\r\n');
+
+    // - - - - - - - - - - - - - - - - - - - - - 
+
     const msg = {
       from: 'joshDotJS@gmail.com', // MUST BE VERIFIED SENDER
       subject: `Order Confirmation!  --  Order ID: ${order_id}  --  UUID: ${order_uuid}`,
@@ -337,7 +353,9 @@ exports.webhook = async (request, response) => {
 
           <a href="${process.env.FRONTEND_URL}/checkout-success?order_uuid=${order_uuid}">LINK</a>
 
-          JOSH
+          <ul>
+            ${join(lis)}
+          </ul>
         </div>
       `
     };
