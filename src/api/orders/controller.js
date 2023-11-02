@@ -116,6 +116,11 @@ exports.create = async (req, res, next) => {
       total += product.price * quantity;
     } // for i
 
+    // TODO: Taxes!
+    // TODO: Taxes!
+    // TODO: Taxes!
+    // TODO: Taxes!
+
     const promise = Model.create({
       uuid: uuid(),
       user_id,
@@ -157,7 +162,13 @@ exports.create = async (req, res, next) => {
     // console.log('line_items: ', line_items);
 
     // send to stripe
-    const url = await doStripe(line_items, created_order.uuid, created_order.id, next);
+    const url = await doStripe({ 
+      line_items, 
+      total, 
+      order_uuid: created_order.uuid, 
+      order_id: created_order.id, 
+      next 
+    });
     // console.log('url: ', url);
 
     // res.status(201).json({ created_order, line_items });
@@ -208,7 +219,7 @@ exports.updateStatus = async (req, res, next) => {
 
 // ==============================================
 
-const doStripe = async (line_items, order_uuid, order_id, next) => {
+const doStripe = async ({ line_items, total, order_uuid, order_id, next }) => {
   // Step 1: Normalize line_items for stripe
   const normalized_line_items = line_items.map(({product_name, product_price, quantity}) => {
     return {
@@ -237,6 +248,7 @@ const doStripe = async (line_items, order_uuid, order_id, next) => {
     metadata : {
       // user: user,
       // tokens: tokens,
+      total,
       order_id,
       order_uuid,
       line_items_string: JSON.stringify(line_items),
@@ -313,7 +325,7 @@ exports.webhook = async (request, response) => {
     console.log('payload.data.object.custer_details: ', payload.data.object.customer_details);
     console.log('payload.data.object.custer_details.email: ', payload.data.object.customer_details.email);
     console.log('payload.data.object.metadata.order_id: ', payload.data.object.metadata.order_id);
-    const { order_id, order_uuid, line_items_string } = payload.data.object.metadata;
+    const { total, order_id, order_uuid, line_items_string } = payload.data.object.metadata;
     const promise = Model.updateStatus(order_id, 2); // 1 => pending, 2 => preparing
     const [rows_updated, error] = await asynch(promise);
     if (error)
@@ -349,7 +361,7 @@ exports.webhook = async (request, response) => {
       text: 'Your order will be ready soon!',
       html: `
         <div style="border: solid black 1px; border-radius: 3px; padding: '1rem';">
-          <p>order details...</p>
+          <h5>Total: ${total}</h5>
 
           <a href="${process.env.FRONTEND_URL}/checkout-success?order_uuid=${order_uuid}">LINK</a>
 
