@@ -238,6 +238,7 @@ const doStripe = async (line_items, order_uuid, order_id, next) => {
       // user: user,
       // tokens: tokens,
       order_id,
+      order_uuid,
     }
   });
   // console.log('nomalized_line_items: ', normalized_line_items);
@@ -311,7 +312,7 @@ exports.webhook = async (request, response) => {
     console.log('payload.data.object.custer_details: ', payload.data.object.customer_details);
     console.log('payload.data.object.custer_details.email: ', payload.data.object.customer_details.email);
     console.log('payload.data.object.metadata.order_id: ', payload.data.object.metadata.order_id);
-    const { order_id } = payload.data.object.metadata;
+    const { order_id, order_uuid } = payload.data.object.metadata;
     const promise = Model.updateStatus(order_id, 2); // 1 => pending, 2 => preparing
     const [rows_updated, error] = await asynch(promise);
     if (error)
@@ -321,8 +322,8 @@ exports.webhook = async (request, response) => {
     // - - - - - - - - - - - - - - - - - - - - - 
 
     const msg = {
-      from: 'theFoodTruckEmail@gmail.com', // Change to your verified sender
-      subject: `Order Confirmation!  --  Order ID: ${order_id}`,
+      from: 'joshDotJS@gmail.com', // MUST BE VERIFIED SENDER
+      subject: `Order Confirmation!  --  Order ID: ${order_id}  --  UUID: ${order_uuid}`,
       text: 'Your order will be ready soon!',
       html: `
         <div style="border: solid black 1px; border-radius: 3px; padding: '1rem';">
