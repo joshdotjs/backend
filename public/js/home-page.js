@@ -231,3 +231,14 @@ function truncateFront({ str, len=6 }) {
 
 // Web Sockets:
 const socket = io();
+
+const form = document.getElementById('socket-form');
+const input = document.getElementById('input-socket');
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (input.value) {
+    socket.emit('chat message', input.value);
+    input.value = '';
+  }
+});
