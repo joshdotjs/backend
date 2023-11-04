@@ -11,6 +11,31 @@ const { HttpError, DatabaseError } = required('util/error');
 const Model = require('./model');
 const ProductModel = require('../products/model');
 
+const { getIO } = require('../../util/socket');
+
+// io.on('connection', (socket) => {
+//   console.log('a user connected');
+// });
+
+// io.on('connection', (socket) => {
+//   console.log('a user connected');
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected');
+//   });
+// });
+
+// io.on('connection', (socket) => {
+//   console.log('a user connected');
+  
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected');
+//   });
+
+//   socket.on('chat message', (msg) => {
+//     console.log('message: ' + msg);
+//   });
+// });
+
 // ==============================================
 
 exports.get = async (req, res) => {
@@ -213,6 +238,9 @@ exports.updateStatus = async (req, res, next) => {
   if (error)
     return next(new DatabaseError(error, '/src/api/orders/controller.js -- updateStatus() -- Model.updateStatus()'));
   console.log('rows_updated: ', rows_updated);
+
+  const io = getIO();
+  io.emit('chat message', 'MESSAGE FROM BACKEND!!!');
 
   res.status(201).json({ rows_updated });
 };
