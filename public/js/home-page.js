@@ -234,10 +234,9 @@ const socket = io();
 
 const form = document.getElementById('socket-form');
 const input = document.getElementById('input-socket');
+
 const messages = document.getElementById('socket-messages');
 console.log('messages: ', messages);
-
-// ==============================================
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -255,5 +254,3 @@ socket.on('chat message', (msg) => {
   messages.appendChild(item);
   window.scrollTo(0, document.body.scrollHeight);
 });
-
-// ==============================================
