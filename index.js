@@ -7,8 +7,10 @@ const http_server = require('http').createServer(app);
 const express_server = http_server.listen(process.env.PORT, () => {
   // const add = require('./ts');
   // console.log('add(1, 2): ', add(1, 2));
-  const str = `server.js: http://localhost:${process.env.PORT}`;
-  console.cyan(str);
+  if (process.env.NODE_ENV !== 'production') {
+    const str = `server.js: http://localhost:${process.env.PORT}`;
+    console.cyan(str);
+  }
 });
 
 // ==============================================
@@ -19,8 +21,8 @@ const { Server } = require('socket.io');
 
 const io = new Server(http_server, {
   cors: {
-    // origin: process.env.FRONTEND_URL,
-    origin:'*',
+    origin: process.env.FRONTEND_URL,
+    // origin:'*',
   },
   // transports: [
   //   // "polling", 
