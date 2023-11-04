@@ -14,7 +14,12 @@ const server = app.listen(process.env.PORT, () => {
 
 // web sockets:
 const { Server } = require('socket.io');
-const io = new Server(server);
+// const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: process.env.FRONTEND_URL,
+  }
+});
 
 // io.on('connection', (socket) => {
 //   console.log('a user connected');
@@ -48,7 +53,6 @@ io.on('connection', (socket) => {
 
   socket.on('chat message', (msg) => {
     console.log('message: ' + msg);
-
     io.emit('chat message', msg);
   });
 });
