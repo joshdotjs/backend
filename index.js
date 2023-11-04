@@ -19,7 +19,11 @@ const io = new Server(server, {
   cors: {
     // origin: process.env.FRONTEND_URL,
     origin:'*',
-  }
+  },
+  transports: [
+    // "polling", 
+    "websocket", 
+  ],
 });
 
 // io.on('connection', (socket) => {
