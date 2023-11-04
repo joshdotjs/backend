@@ -48,3 +48,19 @@ TESTING / DEV SCRIPTS:
     -Run e2e tests not while building out the backend
       --npm run dev:e2e
       --npm run e2e
+
+    
+=================================================
+
+Web Sockets Description:
+- sockets on backend are initialized in  /util/sockets.js,  which is used in the index.js file via initIO( http_server )
+- We get the io object from the getIO() function in the controller for updating order status
+- on backend, when the admin updates the order status we emmit a message with the name: `message - ${uuid}`
+- on frontend, we listen for the `message - ${uuid}` socket even inside the checkout success page and update the status state variable accordingly to display to the user the real time status
+
+
+TODO: 
+  - [X]  Describe web sockets implementation
+  - [X]  display the updated orders status on the order summary page
+  - [ ]  send email to user when order status updates
+  - [ ]  replace polling with web-sockets in admin dashboard

@@ -231,7 +231,9 @@ exports.getByUuid = async (req, res, next) => {
 
 exports.updateStatus = async (req, res, next) => {
   console.blue('[POST] /api/orders/update-status');
-  const { id, status } = req.body; // number, number
+  const { id, uuid, status } = req.body; // number, number
+  console.log('uuid: ', uuid);
+
 
   const promise = Model.updateStatus(id, status);
   const [rows_updated, error] = await asynch(promise);
@@ -240,7 +242,8 @@ exports.updateStatus = async (req, res, next) => {
   console.log('rows_updated: ', rows_updated);
 
   const io = getIO();
-  io.emit('chat message', 'MESSAGE FROM BACKEND!!!');
+  // io.emit('chat message', 'MESSAGE FROM BACKEND!!!');
+  io.emit(`message - ${uuid}`, status);
 
   res.status(201).json({ rows_updated });
 };
