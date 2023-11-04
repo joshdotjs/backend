@@ -1,9 +1,10 @@
 require('./src/util/path'); // required() and rootPath()
 const app = required('server');
-
+const http_server = require('http').createServer(app);
 // ==============================================
 
-const server = app.listen(process.env.PORT, () => {
+// const express_server = app.listen(process.env.PORT, () => {
+const express_server = http_server.listen(process.env.PORT, () => {
   // const add = require('./ts');
   // console.log('add(1, 2): ', add(1, 2));
   const str = `server.js: http://localhost:${process.env.PORT}`;
@@ -15,15 +16,16 @@ const server = app.listen(process.env.PORT, () => {
 // web sockets:
 const { Server } = require('socket.io');
 // const io = new Server(server);
-const io = new Server(server, {
+
+const io = new Server(http_server, {
   cors: {
     // origin: process.env.FRONTEND_URL,
     origin:'*',
   },
-  transports: [
-    // "polling", 
-    "websocket", 
-  ],
+  // transports: [
+  //   // "polling", 
+  //   "websocket", 
+  // ],
 });
 
 // io.on('connection', (socket) => {
