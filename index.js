@@ -16,19 +16,10 @@ const express_server = http_server.listen(process.env.PORT, () => {
 // ==============================================
 
 // web sockets:
-const { Server } = require('socket.io');
-// const io = new Server(server);
-
-const io = new Server(http_server, {
-  cors: {
-    origin: process.env.FRONTEND_URL,
-    // origin:'*',
-  },
-  // transports: [
-  //   // "polling", 
-  //   "websocket", 
-  // ],
-});
+// const io = require('./src/util/socket').init(http_server);
+const { initIO, getIO } = require('./src/util/socket');
+initIO(http_server);
+const io = getIO();
 
 // io.on('connection', (socket) => {
 //   console.log('a user connected');
