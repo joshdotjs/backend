@@ -46,7 +46,7 @@ server.use(express.static( rootPath('public') ));
 // ==============================================
 
 server.use(helmet());
-server.use(cors());
+server.use(cors()); // todo: restrict ton only the frontend URL
 
 // ==============================================
 

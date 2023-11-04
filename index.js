@@ -17,7 +17,8 @@ const { Server } = require('socket.io');
 // const io = new Server(server);
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL,
+    // origin: process.env.FRONTEND_URL,
+    origin:'*',
   }
 });
 
@@ -52,7 +53,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('chat message', (msg) => {
-    console.log('message: ' + msg);
+    console.log('message from frontend: ' + msg);
     io.emit('chat message', msg);
   });
 });
