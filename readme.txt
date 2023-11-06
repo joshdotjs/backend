@@ -62,5 +62,6 @@ Web Sockets Description:
 TODO: 
   - [X]  Describe web sockets implementation
   - [X]  display the updated orders status on the order summary page
+  - [ ]  pro react patterns (from the tutorial - copied into App.js -- https://socket.io/how-to/use-with-react)
   - [ ]  send email to user when order status updates
   - [ ]  replace polling with web-sockets in admin dashboard
