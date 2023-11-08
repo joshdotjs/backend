@@ -196,7 +196,6 @@ exports.create = async (req, res, next) => {
     });
     // console.log('url: ', url);
 
-    // res.status(201).json({ created_order, line_items });
     res.status(201).json({ url });
 };
 
@@ -242,8 +241,12 @@ exports.updateStatus = async (req, res, next) => {
   console.log('rows_updated: ', rows_updated);
 
   const io = getIO();
-  // io.emit('chat message', 'MESSAGE FROM BACKEND!!!');
-  io.emit(`message - ${uuid}`, status);
+  // update user-facing order summary  /  admin-facing orders list
+  io.emit(`message - ${uuid}`, status);                         
+  // io.emit('message - admin orders', 'please fetch orders again');
+  // HERE - this should trigger an update in frontend page admin orders
+
+
 
   res.status(201).json({ rows_updated });
 };
