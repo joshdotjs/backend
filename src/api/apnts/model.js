@@ -2,18 +2,18 @@ const db = required('db/db');
 
 // ==============================================
 
-function getAll() {
-  return db('products');
+exports.getAll = () => {
+  return db('apnts').orderBy('id');
 }
 
 // ==============================================
 
-function getById(id) {
-  return db('products').where('id', id);
+exports.create = (user) => {
+  // const [created_apnt_obj] = await db('apnts').insert(user, []);
+  return db('apnts').insert(user, [
+    'user_id',
+    'date_time',
+  ]);
 }
-// ==============================================
 
-module.exports = {
-  getAll,
-  getById,
-};
+// ==============================================
