@@ -61,6 +61,7 @@ server.use('/api/users',    required('api/users/routes'));
 server.use('/api/orders',   required('api/orders/routes'));
 server.use('/api/products', required('api/products/routes'));
 server.use('/api/auth',     required('api/auth/routes'));
+server.use('/api/apnts',    required('api/apnts/routes'));
 
 // ==============================================
 

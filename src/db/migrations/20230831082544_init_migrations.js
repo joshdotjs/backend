@@ -3,14 +3,14 @@ exports.up = async (knex) => {
   // --------------------------------------------
   
   await knex.schema.createTable('users', (tbl) => {
-      tbl.increments('id');
-      tbl.string('email', 200).notNullable();      // TODO: Handle same email / empty email
-      tbl.string('password', 200).notNullable();   // TODO: Handle empty password
-      tbl.boolean('is_admin');
-      tbl.string('first_name', 200)//.notNullable();
-      tbl.string('last_name', 200)//.notNullable();
-      tbl.timestamps(false, true);
-    });
+    tbl.increments('id');
+    tbl.string('email', 200).notNullable();      // TODO: Handle same email / empty email
+    tbl.string('password', 200).notNullable();   // TODO: Handle empty password
+    tbl.boolean('is_admin');
+    tbl.string('first_name', 200)//.notNullable();
+    tbl.string('last_name', 200)//.notNullable();
+    tbl.timestamps(false, true);
+  });
 
   // --------------------------------------------
 
@@ -53,6 +53,7 @@ exports.up = async (knex) => {
       .inTable('users')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
+
     tbl.timestamps(false, true);
   });
 
@@ -86,12 +87,30 @@ exports.up = async (knex) => {
   });
 
   // --------------------------------------------
+  
+  await knex.schema.createTable('apnts', (tbl) => {
+    tbl.increments('id');
+    tbl.dateTime('date_time', 200).notNullable();
+    tbl // -Foreign-key (Users)
+      .integer('user_id')
+      .unsigned()
+      .notNullable()
+      .references('id')
+      .inTable('users')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
+      
+    tbl.timestamps(false, true);
+  });
+
+  // --------------------------------------------
 
 };
 
 // ==============================================
 
 exports.down = async (knex) => {
+  await knex.schema.dropTableIfExists('apnts');
   await knex.schema.dropTableIfExists('order_2_product');
   await knex.schema.dropTableIfExists('orders');
   await knex.schema.dropTableIfExists('products');
