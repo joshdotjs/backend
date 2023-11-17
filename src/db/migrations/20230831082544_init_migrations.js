@@ -104,12 +104,23 @@ exports.up = async (knex) => {
   });
 
   // --------------------------------------------
+  
+  await knex.schema.createTable('apnts_possible', (tbl) => {
+    tbl.increments('id');
+    tbl.dateTime('date_time', 200).notNullable();
+    tbl.boolean('possible').notNullable();
+      
+    tbl.timestamps(false, true);
+  });
+
+  // --------------------------------------------
 
 };
 
 // ==============================================
 
 exports.down = async (knex) => {
+  await knex.schema.dropTableIfExists('apnts_possible');
   await knex.schema.dropTableIfExists('apnts');
   await knex.schema.dropTableIfExists('order_2_product');
   await knex.schema.dropTableIfExists('orders');
