@@ -3,7 +3,9 @@ const db = required('db/db');
 // ==============================================
 
 exports.getAll = () => {
-  return db('apnts_possible').orderBy('id');
+  return db('apnts_possible')
+    .select('date_time', 'possible')
+    .orderBy('date_time');
 }
 
 // ==============================================
@@ -17,7 +19,8 @@ exports.update = (date_time) => {
     .where('date_time', '=', date_time) // Specific date and time
     .update({
       possible: true
-    });
+    })
+    .orderBy('id');
 }
 
 // ==============================================

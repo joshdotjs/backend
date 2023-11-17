@@ -6,13 +6,13 @@ const Controller = require('./controller');
 // ==============================================
 
 router.get('/', Controller.get);
-router.post('/', Controller.create);
+router.post('/update', Controller.update);
 
 // ==============================================
 
 // error-handling middleware
 router.use('/', (err, req, res, next) => {
-  console.yellow('err (in error-handling middleware) [api/apnts/routes.js]');
+  console.yellow('err (in error-handling middleware) [api/apnts-possible/routes.js]');
   next(err)
 });
 

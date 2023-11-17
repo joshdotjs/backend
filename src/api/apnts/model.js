@@ -3,7 +3,9 @@ const db = required('db/db');
 // ==============================================
 
 exports.getAll = () => {
-  return db('apnts').orderBy('id');
+  return db('apnts')
+    .select('user_id', 'date_time')
+    .orderBy('id');
 }
 
 // ==============================================
