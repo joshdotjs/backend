@@ -90,7 +90,7 @@ exports.up = async (knex) => {
   
   await knex.schema.createTable('apnts', (tbl) => {
     tbl.increments('id');
-    tbl.dateTime('date_time', 200).notNullable();
+    tbl.dateTime('date_time').notNullable();
     tbl // -Foreign-key (Users)
       .integer('user_id')
       .unsigned()
@@ -107,7 +107,8 @@ exports.up = async (knex) => {
   
   await knex.schema.createTable('apnts_possible', (tbl) => {
     tbl.increments('id');
-    tbl.dateTime('date_time', 200).notNullable();
+    // tbl.dateTime('date_time').notNullable();
+    tbl.dateTime('date_time').notNullable();
     tbl.boolean('possible').notNullable();
       
     tbl.timestamps(false, true);

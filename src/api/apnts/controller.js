@@ -8,6 +8,9 @@ const { HttpError, DatabaseError } = required('util/error');
 exports.get = async (req, res, next) => {
   console.log('[GET] /api/apnts');
   const [apnts, error] = await asynch( Model.getAll() );
+
+  console.log('aptns: ', apnts);
+
   if (error)
     return next(new DatabaseError(error, '/src/api/apnts/controller.js -- Model.getAll()'));
   res.status(200).json(apnts);
