@@ -50,16 +50,14 @@ exports.getByDateTime = async (req, res) => {
 
   const { date_time } = req.body;
 
-  try {
-    const rows = await Model.getByDateTime(date_time);
-    if (rows.length > 0) {
-      res.status(200).json( rows[0] );
-    } else {
-      return next(new HttpError('apnt does not exist in database', 400));
-    }
-  } catch (err) {
-    return next(new HttpError('error looking up apnt by date_time', 400));
-  }
+  const promise = Model.getByDateTime(date_time);
+  const [rows, error] = await asynch(promise);
+  if (error) return next(new HttpError('error looking up apnt by date_time', 400));
+
+  if (rows.length > 0)
+    res.status(200).json( rows[0] );
+  else
+    next(new HttpError('apnt does not exist in database', 400));
 };
 
 // ==============================================
