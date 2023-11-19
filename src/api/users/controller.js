@@ -28,30 +28,21 @@ exports.get = async (req, res) => {
 // ==============================================
 
 exports.create = async (req, res, next) => {
-  // console.log('[POST] /api/users ');
-  // console.log('req.body: ', req.body);
+  console.log('[POST] /api/users ');
+  console.log('req.body: ', req.body);
 
-  const { email, password, is_admin } = req.body;
+  const { email, password, first_name, last_name } = req.body;
 
-  if ( !email || !password || is_admin === undefined ) {
-    const error_message = 'username, password, and is_admin are required';
+  if ( !email || !password ) {
+    const error_message = 'username and password are required';
     console.magenta(error_message);
     console.blue('throwing error...');
-    // const error = new Error(error_message);
-    // error.status = 422;
-    // next(error);
     return next(new HttpError(error_message, 422, '/src/api/users/controller.js -- create()'));
   }
 
-  // const created_user = await Model.create({
-  //   email,
-  //   is_admin,
-  //   password: hash(password),
-  // });
-  // res.status(201).json( created_user );
   const promise = Model.create({
     email,
-    is_admin,
+    is_admin: false, // don't need to create new admin accounts via API
     password: hash(password),
   });
   const [data, error] = await asynch(promise);
