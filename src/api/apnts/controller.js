@@ -42,3 +42,24 @@ exports.create = async (req, res, next) => {
 };
 
 // ==============================================
+
+exports.getByDateTime = async (req, res) => {
+
+  console.log('[POST] /api/apnts/get-by-datetime');
+  console.log('req.body: ', req.body);
+
+  const { date_time } = req.body;
+
+  try {
+    const rows = await Model.getByDateTime(date_time);
+    if (rows.length > 0) {
+      res.status(200).json( rows[0] );
+    } else {
+      return next(new HttpError('apnt does not exist in database', 400));
+    }
+  } catch (err) {
+    return next(new HttpError('error looking up apnt by date_time', 400));
+  }
+};
+
+// ==============================================

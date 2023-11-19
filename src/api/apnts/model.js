@@ -19,3 +19,11 @@ exports.create = (apnt) => {
 }
 
 // ==============================================
+
+exports.getByDateTime = (date_time) => {
+  return db('apnts')
+    .select('user_id', 'date_time')
+    .where('date_time', date_time);
+}
+
+// ==============================================
