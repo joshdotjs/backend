@@ -22,7 +22,7 @@ exports.create = async (req, res, next) => {
   console.log('[POST] /api/apnts ');
   console.log('req.body: ', req.body);
 
-  const { user_id, date_time } = req.body;
+  const { user_id, apnt_type_id, date_time } = req.body;
 
   if ( user_id === undefined || date_time === undefined ) {
     const error_message = 'user_id and date_time are required';
@@ -32,6 +32,7 @@ exports.create = async (req, res, next) => {
 
   const promise = Model.create({
     user_id,
+    apnt_type_id,
     date_time,
   });
   const [data, error] = await asynch(promise);

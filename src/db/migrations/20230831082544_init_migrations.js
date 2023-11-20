@@ -88,6 +88,15 @@ exports.up = async (knex) => {
 
   // --------------------------------------------
   
+  await knex.schema.createTable('apnt_types', (tbl) => {
+    tbl.increments('id');
+    tbl.string('name', 1024).notNullable();
+    tbl.integer('price').unsigned();
+    tbl.timestamps(false, true);
+  });
+
+  // --------------------------------------------
+  
   await knex.schema.createTable('apnts', (tbl) => {
     tbl.increments('id');
     tbl.dateTime('date_time').notNullable();
@@ -97,6 +106,14 @@ exports.up = async (knex) => {
       .notNullable()
       .references('id')
       .inTable('users')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
+    tbl // -Foreign-key (Apnt_types)
+      .integer('apnt_type_id')
+      .unsigned()
+      .notNullable()
+      .references('id')
+      .inTable('apnt_types')
       .onUpdate('CASCADE')
       .onDelete('CASCADE');
       
@@ -113,25 +130,16 @@ exports.up = async (knex) => {
     tbl.timestamps(false, true);
   });
 
-  // --------------------------------------------
-  
-  await knex.schema.createTable('apnt_types', (tbl) => {
-    tbl.increments('id');
-    tbl.string('name', 1024).notNullable();
-    tbl.integer('price').unsigned();
-    tbl.timestamps(false, true);
-  });
-
-  // --------------------------------------------
+    // --------------------------------------------
 
 };
 
 // ==============================================
 
 exports.down = async (knex) => {
-  await knex.schema.dropTableIfExists('apnt_types');
   await knex.schema.dropTableIfExists('apnts_possible');
   await knex.schema.dropTableIfExists('apnts');
+  await knex.schema.dropTableIfExists('apnt_types');
   await knex.schema.dropTableIfExists('order_2_product');
   await knex.schema.dropTableIfExists('orders');
   await knex.schema.dropTableIfExists('products');
