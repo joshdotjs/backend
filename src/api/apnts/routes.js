@@ -7,7 +7,7 @@ const Controller = require('./controller');
 
 router.get('/', Controller.get);
 router.post('/', Controller.create);
-router.get('/get-apnt-by-datetime', Controller.getByDateTime);
+router.post('/get-apnt-by-datetime', Controller.getByDateTime);
 
 // ==============================================
 
