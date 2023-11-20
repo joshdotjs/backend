@@ -5,15 +5,15 @@ const Controller = require('./controller');
 
 // ==============================================
 
-router.get('/', Controller.get);
-router.post('/', Controller.create);
-router.get('/get-apnt-by-datetime', Controller.getByDateTime);
+router.get('/',    Controller.get);
+router.post('/',   Controller.create);
+router.get('/:id', Controller.getByID);
 
 // ==============================================
 
 // error-handling middleware
 router.use('/', (err, req, res, next) => {
-  console.yellow('err (in error-handling middleware) [api/apnts/routes.js]');
+  console.yellow('err (in error-handling middleware) [api/apnt-types/routes.js]');
   next(err)
 });
 

@@ -63,6 +63,7 @@ server.use('/api/products',       required('api/products/routes'));
 server.use('/api/auth',           required('api/auth/routes'));
 server.use('/api/apnts',          required('api/apnts/routes'));
 server.use('/api/apnts-possible', required('api/apnts-possible/routes'));
+server.use('/api/apnt-types',     required('api/apnt-types/routes'));
 
 // ==============================================
 

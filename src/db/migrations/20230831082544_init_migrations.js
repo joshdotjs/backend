@@ -107,7 +107,6 @@ exports.up = async (knex) => {
   
   await knex.schema.createTable('apnts_possible', (tbl) => {
     tbl.increments('id');
-    // tbl.dateTime('date_time').notNullable();
     tbl.dateTime('date_time').notNullable();
     tbl.boolean('possible').notNullable();
       
@@ -118,11 +117,8 @@ exports.up = async (knex) => {
   
   await knex.schema.createTable('apnt_types', (tbl) => {
     tbl.increments('id');
-    // tbl.dateTime('date_time').notNullable();
-  
     tbl.string('name', 1024).notNullable();
     tbl.integer('price').unsigned();
-
     tbl.timestamps(false, true);
   });
 
