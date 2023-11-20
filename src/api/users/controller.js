@@ -42,6 +42,8 @@ exports.create = async (req, res, next) => {
 
   const promise = Model.create({
     email,
+    first_name,
+    last_name,
     is_admin: false, // don't need to create new admin accounts via API
     password: hash(password),
   });
