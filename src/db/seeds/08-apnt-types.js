@@ -6,6 +6,14 @@ const apnt_types = [
   {
     name: "Women's Haircut",
     price: 10000,
+  },
+  {
+    name: "Hair Coloring",
+    price: 15000,
+  },
+  {
+    name: "Extensions",
+    price: 20000,
   }
 ];
 

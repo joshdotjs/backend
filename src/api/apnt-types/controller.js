@@ -59,3 +59,26 @@ exports.getByID = async (req, res) => {
 };
 
 // ==============================================
+
+exports.update = async (req, res) => {
+
+  const id = req.params.id;
+  const { name, price } = req.body;
+
+  console.log('[POST] /api/apnt-types/:id -- id: ', id);
+
+  const promise_1 = Model.update(id, { name, price });
+  const [num_rows_updated, error_1] = await asynch( promise_1 );
+  if (error_1) 
+    return next(new HttpError('error updating apnt_type', 400));
+
+  if (num_rows_updated === 0)
+    return next(new HttpError('apnt_type does not exist in database', 400));
+  
+  // return all apnt_types for simplicity
+  const promise_2 = Model.getAll();
+  const [apnt_types, error_2] = await asynch( promise_2 );
+  if (error_2) 
+    return next(new HttpError('error gettign all apnt_types', 400));
+  res.status(200).json( apnt_types );
+};

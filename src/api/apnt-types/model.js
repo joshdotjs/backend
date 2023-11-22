@@ -25,3 +25,20 @@ exports.getById = (id) => {
 }
 
 // ==============================================
+
+exports.update = (id, apnt_type) => {
+  return db('apnt_types')
+    .where('id', +id)
+    .update(apnt_type);
+};
+
+// ==============================================
+
+exports.remove = async (id) => {
+  const num_rows_deleted = await db('users')
+    .where('id', +id)
+    .del();
+  return num_rows_deleted;
+}
+
+// ==============================================
