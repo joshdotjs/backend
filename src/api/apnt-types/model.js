@@ -26,7 +26,7 @@ exports.getById = (id) => {
 
 // ==============================================
 
-exports.update = (id, apnt_type) => {
+exports.update = (id, apnt_type) => { // resolves to num-rows updated
   return db('apnt_types')
     .where('id', +id)
     .update(apnt_type);
@@ -34,11 +34,10 @@ exports.update = (id, apnt_type) => {
 
 // ==============================================
 
-exports.remove = async (id) => {
-  const num_rows_deleted = await db('users')
+exports.delete = async (id) => { // resolves to num-rows deleted
+  return db('apnt_types')
     .where('id', +id)
     .del();
-  return num_rows_deleted;
 }
 
 // ==============================================

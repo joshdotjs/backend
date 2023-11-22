@@ -39,32 +39,29 @@ exports.create = async (req, res, next) => {
 
 // ==============================================
 
-exports.getByID = async (req, res) => {
+exports.getByID = async (req, res, next) => {
 
   const id = req.params.id;
-
   console.log('[GET] /api/apnt-types/:id -- id: ', id);
 
-  
   const promise = Model.getById(id);
   const [apnt_type, error] = await asynch( promise );
-  if (error) return next(new HttpError('error looking up apnt_type by id', 400));
 
-  if (apnt_type.length > 0) {
-    res.status(200).json( apnt_type[0] );
-  } else {
-    next(new HttpError('apnt_type does not exist in database', 400));
-  }
+  if (error) 
+    return next(new HttpError('error looking up apnt_type by id', 400));
 
+  if (apnt_type.length === 0)
+    return next(new HttpError('apnt_type does not exist in database', 400));
+
+  res.status(200).json( apnt_type[0] );
 };
 
 // ==============================================
 
-exports.update = async (req, res) => {
+exports.update = async (req, res, next) => {
 
   const id = req.params.id;
   const { name, price } = req.body;
-
   console.log('[POST] /api/apnt-types/:id -- id: ', id);
 
   const promise_1 = Model.update(id, { name, price });
@@ -73,6 +70,29 @@ exports.update = async (req, res) => {
     return next(new HttpError('error updating apnt_type', 400));
 
   if (num_rows_updated === 0)
+    return next(new HttpError('apnt_type does not exist in database', 400));
+  
+  // return all apnt_types for simplicity
+  const promise_2 = Model.getAll();
+  const [apnt_types, error_2] = await asynch( promise_2 );
+  if (error_2) 
+    return next(new HttpError('error gettign all apnt_types', 400));
+  res.status(200).json( apnt_types );
+};
+
+// ==============================================
+
+exports.delete = async (req, res, next) => {
+
+  const id = req.params.id;
+  console.log('[DELETE] /api/apnt-types/:id -- id: ', id);
+
+  const promise_1 = Model.delete(id);
+  const [num_rows_deleted, error_1] = await asynch( promise_1 );
+  if (error_1) 
+    return next(new HttpError('error updating apnt_type', 400));
+
+  if (num_rows_deleted === 0)
     return next(new HttpError('apnt_type does not exist in database', 400));
   
   // return all apnt_types for simplicity

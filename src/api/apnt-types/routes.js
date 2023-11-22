@@ -5,10 +5,11 @@ const Controller = require('./controller');
 
 // ==============================================
 
-router.get( '/',    Controller.get);
-router.post('/',    Controller.create);
-router.post('/:id', Controller.update);
-router.get( '/:id', Controller.getByID);
+router.get(   '/',    Controller.get);
+router.post(  '/',    Controller.create);
+router.post(  '/:id', Controller.update);
+router.get(   '/:id', Controller.getByID);
+router.delete('/:id', Controller.delete);
 
 // ==============================================
 
