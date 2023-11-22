@@ -13,6 +13,7 @@ exports.getAll = () => {
 exports.create = (apnt) => {
   // const [created_apnt_obj] = await db('apnts').insert(apnt, []);
   return db('apnt_types').insert(apnt, [
+    'id', // these are the fields that will be returned
     'name',
     'price',
   ]);
