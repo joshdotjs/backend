@@ -126,17 +126,33 @@ exports.up = async (knex) => {
     tbl.increments('id');
     tbl.dateTime('date_time').notNullable();
     tbl.boolean('possible').notNullable();
-      
     tbl.timestamps(false, true);
   });
 
-    // --------------------------------------------
+  // --------------------------------------------
+
+  await knex.schema.createTable('messages', (tbl) => {
+    tbl.increments('id');
+    tbl.string('message', 1024).notNullable();
+    tbl // -Foreign-key (Users)
+      .integer('user_id')
+      .unsigned()
+      .notNullable()
+      .references('id')
+      .inTable('users')
+      .onUpdate('CASCADE')
+      .onDelete('CASCADE');
+    tbl.timestamps(false, true);
+  });
+
+  // --------------------------------------------
 
 };
 
 // ==============================================
 
 exports.down = async (knex) => {
+  await knex.schema.dropTableIfExists('messages');
   await knex.schema.dropTableIfExists('apnts_possible');
   await knex.schema.dropTableIfExists('apnts');
   await knex.schema.dropTableIfExists('apnt_types');

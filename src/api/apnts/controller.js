@@ -44,7 +44,7 @@ exports.create = async (req, res, next) => {
 
 // ==============================================
 
-exports.getByDateTime = async (req, res) => {
+exports.getByDateTime = async (req, res, next) => {
 
   console.log('[POST] /api/apnts/get-by-datetime');
   console.log('req.body: ', req.body);
@@ -53,12 +53,29 @@ exports.getByDateTime = async (req, res) => {
 
   const promise = Model.getByDateTime(date_time);
   const [rows, error] = await asynch(promise);
-  if (error) return next(new HttpError('error looking up apnt by date_time', 400));
+  if (error) 
+    return next(new HttpError('error looking up apnt by date_time', 400));
 
-  if (rows.length > 0)
-    res.status(200).json( rows[0] );
-  else
-    next(new HttpError('apnt does not exist in database', 400));
+  if (rows.length === 0)
+    return next(new HttpError('apnt does not exist in database', 400));
+
+  res.status(200).json( rows[0] );
 };
 
 // ==============================================
+
+exports.getByUserID = async (req, res, next) => {
+  
+  const { id } = req.params;
+  console.log('[GET] /api/apnts/user/:id -- id: ', id);
+
+  const promise = Model.getByUserID(id);
+  const [rows, error] = await asynch(promise);
+  if (error) 
+    return next(new HttpError('error looking up apnt by user_id', 400));
+
+  if (rows.length === 0)
+    return next(new HttpError('apnt does not exist in database', 400));
+
+  res.status(200).json( rows );
+};

@@ -1,12 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+// const authMiddleware = required('api/auth/middleware');
+// authMiddleware.restricted, 
+// authMiddleware.admin,
 const Controller = require('./controller');
 
 // ==============================================
 
-router.get('/', Controller.get);
-router.post('/', Controller.create);
+router.get('/',                      Controller.get);
+router.get('/user/:id',              Controller.getByUserID); // TODO: authorization
+router.post('/',                     Controller.create);
 router.post('/get-apnt-by-datetime', Controller.getByDateTime);
 
 // ==============================================
