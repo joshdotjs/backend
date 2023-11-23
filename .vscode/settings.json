@@ -15,7 +15,7 @@
     "cypress/support": true,
 
     // generated JS from TS:
-    "src/api/auth/controller.js": true,
+    // "src/api/auth/controller.js": true,
 
     // "coverage": true,
   },

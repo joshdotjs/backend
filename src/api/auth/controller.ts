@@ -161,6 +161,15 @@ exports.login = async (req: Request, res: Response, next: NextFunction) => {
 
   const token = jwt.sign(payload, token_secret, options);
 
+  
+  
+  // Session
+  // Session
+  // Session
+  // Session
+  req.session.x = true;
+
+
   res.status(200).json({
     status: 'success',
     user,

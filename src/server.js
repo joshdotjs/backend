@@ -45,9 +45,60 @@ server.use(express.static( rootPath('public') ));
 
 // ==============================================
 
+const cookieParser = require('cookie-parser');
+server.use( cookieParser() );
+
+// ==============================================
+
+// session resources:
+// 1. udemy
+// 2. https://www.npmjs.com/package/connect-session-knex
+//      Column    Type                      Modifiers    Storage
+//      ------    ----                      ---------    -------
+//      sid	      character varying(255)	  not null	   extended
+//      sess	    json                      not null     extended
+//      expired   timestamp with time zone  not null     plain
+//
+//    CREATE TABLE your_table_name (
+//      sid character varying(255) NOT NULL,
+//      sess json NOT NULL,
+//      expired timestamp with time zone NOT NULL
+//    );
+//
+// 3: https://github.com/gx0r/connect-session-knex/blob/main/examples/example-postgres.js
+// 4. why are cookies not working? https://youtu.be/nfNrfi7HmLs?feature=shared
+//    -fix of problem described in (4):  cors 'origin' property set to http://localhost:3000
+const session = require('express-session');
+const KnexSessionStore = require('connect-session-knex')(session);
+const db = required('db/db');
+const session_store = new KnexSessionStore({
+  knex: db,
+  tablename: 'sessions', // optional. Defaults to 'sessions'
+});
+
+const session_config = { 
+  secret: process.env.SESSION_SECRET,
+  resave: false, // session will not be saved on every request
+  saveUninitialized: false, // session will not be saved for a request that does not have any data
+  store: session_store,
+  // cookie: {
+  //   httpOnly: true,
+  //   maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+  //   // secure: true, // only send cookie over https
+  // }
+};
+// if (process.env.NODE_ENV === 'production') {
+//   server.set('trust proxy', 1); // trust first proxy - important if sitting behind reverse proxy like NGinx (e.g. heroku)
+//   session_config.cookie.secure = true; // serve secure cookies (only allow HTTPS)
+// }
+
+
+server.use(session( session_config ));
+
+// ==============================================
+
 server.use(helmet());
-server.use(cors()); // todo: restrict ton only the frontend URL
-// server.use(cors({ origin: process.env.FRONTEND_URL }));
+server.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
 
 // ==============================================
 

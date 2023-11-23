@@ -124,10 +124,34 @@ exports.login = async (req, res, next) => {
     };
     const token_secret = process.env.TOKEN_SECRET;
     const token = jwt.sign(payload, token_secret, options);
+
+
+    console.log('cookies: ');
+    console.log( req.cookies);
+
+    // res.setHeader('Set-Cookie', 'loggedIn=true;');
+    // res.setHeader('Set-Cookie', 'cookieName=cookieValue; Path=/; HttpOnly');
+
+    // res.cookie('cookieName', 'cookieValue', { httpOnly: true, secure: false });
+    res.cookie('josh', 'fuck');
+    // -why are cookies not working? https://youtu.be/nfNrfi7HmLs?feature=shared
+    // -what fixed it was the cors 'origin' property must be set to http://localhost:3001
+
+    // Session
+    // Session
+    // Session
+    // Session -- .session object added by the session middleware (configured in server.js)
+    req.session.isLoggedIn = true;
+    console.log('req.session: ', req.session);
+
+
+    
+
+
     res.status(200).json({
-        status: 'success',
-        user,
-        token,
+      status: 'success',
+      user,
+      token,
     });
 };
 // ==============================================
