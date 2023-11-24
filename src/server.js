@@ -97,8 +97,13 @@ server.use(session( session_config ));
 
 // ==============================================
 
+console.log('process.env.FRONTEND_URL: ', );
+
 server.use(helmet());
-server.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+server.use(cors({ 
+  origin: process.env.FRONTEND_URL,
+  credentials: true 
+}));
 
 // ==============================================
 

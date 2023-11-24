@@ -147,11 +147,21 @@ exports.up = async (knex) => {
 
   // --------------------------------------------
 
+  await knex.schema.createTable('sessions', (tbl) => {
+    tbl.increments('id');
+    tbl.string('sid', 255).notNullable();
+    tbl.json('sess').notNullable();
+    tbl.timestamp('expired', { useTz: true }).notNullable();
+  });
+
+  // --------------------------------------------
+
 };
 
 // ==============================================
 
 exports.down = async (knex) => {
+  await knex.schema.dropTableIfExists('sessions');
   await knex.schema.dropTableIfExists('messages');
   await knex.schema.dropTableIfExists('apnts_possible');
   await knex.schema.dropTableIfExists('apnts');

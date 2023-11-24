@@ -127,13 +127,13 @@ exports.login = async (req, res, next) => {
 
 
     console.log('cookies: ');
-    console.log( req.cookies);
+    // console.log( req.cookies );
 
     // res.setHeader('Set-Cookie', 'loggedIn=true;');
     // res.setHeader('Set-Cookie', 'cookieName=cookieValue; Path=/; HttpOnly');
 
     // res.cookie('cookieName', 'cookieValue', { httpOnly: true, secure: false });
-    res.cookie('josh', 'fuck');
+    // res.cookie('josh', 'fuck');
     // -why are cookies not working? https://youtu.be/nfNrfi7HmLs?feature=shared
     // -what fixed it was the cors 'origin' property must be set to http://localhost:3001
 
@@ -141,8 +141,8 @@ exports.login = async (req, res, next) => {
     // Session
     // Session
     // Session -- .session object added by the session middleware (configured in server.js)
-    req.session.isLoggedIn = true;
-    console.log('req.session: ', req.session);
+    req.session.isLoggedIn = true;  // this is required to store the entry in the DB
+    // console.log('req.session: ', req.session);
 
 
     
