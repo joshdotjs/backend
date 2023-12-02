@@ -9,7 +9,9 @@ const { hash } = require('../../util/hash');
 const { asynch } = require('../../util/async');
 const { HttpError, DatabaseError } = require('../../util/error');
 const { removeWhitespace, lowercase } = require('../../util/string');
+
 // ==============================================
+
 // TODO: Unit Test
 exports.register = async (req, res, next) => {
     // Get todays date and time-index:
@@ -58,7 +60,9 @@ exports.register = async (req, res, next) => {
         res.status(400).json({ message: 'ERROR 400: Bad request' });
     }
 };
+
 // ==============================================
+
 // Possible outcomes:
 //  -Success:
 //    --1. emai & password are valid in DB
@@ -127,7 +131,7 @@ exports.login = async (req, res, next) => {
 
 
     console.log('cookies: ');
-    // console.log( req.cookies );
+    console.log( req.cookies );
 
     // res.setHeader('Set-Cookie', 'loggedIn=true;');
     // res.setHeader('Set-Cookie', 'cookieName=cookieValue; Path=/; HttpOnly');
@@ -154,4 +158,17 @@ exports.login = async (req, res, next) => {
       token,
     });
 };
+
 // ==============================================
+
+exports.logout = async (req, res, next) => {
+  console.log('[GET]  /api/auth/logout');
+
+  req.session.destroy(() => {
+    // function called after destroying session
+    console.log(
+      'destroy complete!'
+    );
+  });
+  res.status(200).json({ status: 'success' });
+};

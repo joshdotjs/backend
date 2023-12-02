@@ -8,21 +8,9 @@ const authController = require('./controller');
 
 // ==============================================
 
-// [POST] /api/auth/register
-router.post(
-  '/register',
-  // authMiddleware.checkAuthPayload,
-  authController.register
-);
-
-// ==============================================
-
-// [POST] /api/auth/login
-router.post(
-  '/login',
-  //authMiddleware.checkAuthPayload,
-  authController.login
-);
+router.post( '/register', authController.register ); // [POST] /api/auth/register
+router.post('/login',     authController.login);     // [POST] /api/auth/login
+router.get('/logout',     authController.logout);    // [GET]  /api/auth/logout
 
 // ==============================================
 
